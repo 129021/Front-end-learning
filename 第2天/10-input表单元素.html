@@ -9,13 +9,24 @@
 </head>
 
 <body>
-    <form>
+    <form action="xx.php" method="get">
         <!-- text 文本框， 用户可以输入任何文字 -->
         <!-- radio 单选按钮，可以实现多选一 -->
-        用户名：<input type="text"><br> 密码：
-        <input type="password"><br> 性别：男
-        <input type="radio">女<input type="radio"><br>
-
+        <!-- checkbox 复选框  -->
+        <!-- name是表单元素名字，这里性别按钮必须有相同的name才可以实现多选一  -->
+        <!-- 单选按钮和复选框可以设置checked属性，当用户打开的时候就可以默认选中这个按钮 -->
+        <!-- 点了提交按钮就可以吧表单域里的表单元素里面的值提交给后台服务器 ； -->
+        <!-- 普通按钮button,后期结合js搭配使用 -->
+        <input type="text" name="username" value="请输入用户名" maxlength="6"><br> 密码：
+        <input type="password" name="pwd"><br> 性别：男
+        <input type="radio" name="sex" value="男">女<input type="radio" name="sex" value="女"><br> 爱好:吃饭
+        <input type="checkbox" name="hobby" value="吃饭">睡觉
+        <input type="checkbox" name="hobby" value="睡觉">打豆豆
+        <input type="checkbox" name="hobby" value="打豆豆" checked="checked"><br>
+        <input type="submit" value="免费注册">
+        <input type="reset" value="重新填写">
+        <input type="button" value="获取短信验证码"><br> 上传头像
+        <input type="file">
     </form>
 </body>
 

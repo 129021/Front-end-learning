@@ -1,0 +1,15 @@
+select下拉列表
+语法：    
+<select>
+	<option>选项1</option>
+	<option>选项2</option>
+	……
+</select>
+
+<option>中可以设置selected=“selected”属性，当前项即为默认选中项
+
+textarea表单元素
+用户输入内容较多的情况
+<textarea rows="3" cols="20">
+	文本内容
+</textarea>
