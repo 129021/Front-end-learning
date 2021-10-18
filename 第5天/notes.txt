@@ -60,3 +60,62 @@ css盒子本质上是一个盒子，封装周围的HTML元素，包括：边框�
 
 
 2.3边框（border）
+border-weight:5px;
+border-style:solid|dashed|dotted;
+border-color:pink;
+边框简写：
+border:1px solid red; 边框简写没有顺序
+边框分开写法：
+border-top|bottom|right|left:1px solid red; 只是设定上边框，其余同理
+
+
+2.4表格的细线边框
+border-collapse属性控制浏览器绘制表格边框的方式。它控制相邻单元格的边框。
+语法：
+border-collapse:collapse; 表示相邻边框合并在一起
+
+
+2.5边框会影响盒子实际大小
+边框会额外增加盒子的实际大小，因此我们有两种解决方案
+1.测量盒子大小的时候不量边框
+2.如果测量点时候包含了边框，则需要width/height减去边框宽度
+
+
+2.6内边距(padding)
+内边距即边框与内容之间的距离
+padding-top|padding-bottom|padding-right|padding-left
+padding简写：
+padding:5px;  上下左右都有5像素内边距
+padding:5px 10px; 上下内边距5像素，左右内边距10像素
+padding:5px 10px 20px; 上边距5像素 左右内边距10像素 下内边距20像素
+padding：5px 10px 20px 30px; 上5 右10 下20 左30
+padding会影响盒子的实际大小
+如果盒子已经有了宽度和高度，此时再指定内边框，会撑大盒子
+如果保证盒子跟效果图大小保持一致，则让width/height减去多出来的内边距大小即可
+如果盒子本身没有指定width/height属性，则此时padding不会撑开盒子大小
+
+问题：在div标签直接写英文内容时内容会冲出盒子范围，但写中文就不会
+
+
+2.7外边距(margin)
+margin属性用于控制外边距，即控制盒子与盒子之间的距离
+margin-left|right|top|bottom  左|右|上|下外边距
+简写：margin的简写方式与padding完全一致
+
+外边距典型应用
+外边距可以让块级盒子水平居中，但必须满足两个条件：
+盒子必须指定了宽度
+盒子左右的外边距设置为auto
+.header{
+    widht:900px;
+    margin:0 auto;
+}
+常见的写法有三种：
+margin-left:auto;margin-right:auto;
+margin:auto;
+margin:0 auto;(最常见)
+注意：以上方法是让块级元素水平居中，行内元素或者行内块元素水平居中给其父元素添加text-align:center即可
+
+
+
+
