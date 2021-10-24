@@ -1,0 +1,17 @@
+接css3新特性
+
+4.2 2D转换
+转换(transform)是css3中具有颠覆性的特性之一，可以实现元素的位移，旋转，缩放等效果
+转换可以简单理解为变形
+功能：
+移动（transform)
+旋转(rotate)
+缩放(scale)
+
+2D转换之移动(translate)
+2D移动是2D转换里面的一种功能，可以改变元素在页面中的位置，类似定位
+语法：
+transform:translate(x,y);
+或者分开写
+transform:translateX(n);
+trnasform:translateY(n);
