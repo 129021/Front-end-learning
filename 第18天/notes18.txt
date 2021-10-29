@@ -82,5 +82,39 @@ xs-extra smll:超小;sm-small:小；md-medium:中等;lg-large:大；
 
 3.3列嵌套
 栅格系统内置的栅格系统将内容再次嵌套。简单理解就是一个列内再分成若干份小列。我们可以通过添加一个新的.row元素和一系列.col-sm-*元素到已经存在的.col-sm-*元素内
+我们列嵌套最好加一个行row这样可以取消父元素的padding值而且高度自动和父级一样高
+（图：列嵌套）
 
+
+3.3列偏移
+使用.col-md-offset-*类可以将列向右侧偏移，这些类实际上是通过使用*选择器为当前元素增加了左侧的边框
+<!--列偏移-->
+<div class="row">
+    <div class="col-lg-4">1</div>
+    <div class="col-lg-4 col-lg-offset-4">2</div>
+</div>
+
+
+3.5列排序
+通过使用.col-md-push-*和.col-md-pull-*类就可以很容易的改变列（column）的顺序
+ <div class="container">
+        <div class="row">
+            <div class="col-md-3">left</div>
+            <!-- 偏移的份数就是12-两个盒子的份数=6 -->
+            <div class="col-md-3 col-md-offset-6">right</div>
+        </div>
+        <div class="row">
+            <!-- 中间盒子 -->
+            如果只有一个盒子 那么就偏移=（12-8）/2=2份
+            <div class="col-md-8 col-md-offset-2">right</div>
+        </div>
+    </div>
+
+
+3.6响应式工具
+为了加快对移动设备友好的页面开发工作，利用媒体查询功能，并使用这些工具类可以方便的针对不同的设备展示或隐藏页面内容
+（图：响应式工具）
+与之相反的是visible-xs visible-sm visible-md visible-lg是显示某个页面内容
+
+Bootstrap其他（按钮、表单、表格）请参考Bootstrap文档
 
