@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        // js引擎运行分为两步：预解析和代码执行
+        // 预解析：js引擎会把js里面所有的var还有function提升到当前作用域最前面
+        // 代码执行：按照代码的顺序从上往下执行
+        // 预解析分为变量预解析（变量提升）和函数预解析（函数提升）
+        // 变量提升就是把所用的变量声明提升到当前的作用域最前面 只提升变量声明不提升赋值操作
+        // fun();
+        // var fun=function(){
+        //     console.log(22);
+        // }             //报错
+        // // 相当于执行了以下代码：
+        // var fun;
+        // fun();
+        // fun=funciton(){
+        //     console.log(22);
+        // }
+
+        // console.log(num);   //undefined
+        // var num=10;
+        // // 相当于执行了一下代码
+        // var num;
+        // console.log(num);
+        // num=10;
+
+        // 函数提升就是把所有的函数声明提升到当前作用域的最前面 不调用函数
+        // 函数表达式调用必须写在函数表达式的下面
+        // fn();
+        // function fn(){
+        //     console.log(11);
+        // }
+        // // 相当于一下代码：
+        // function fn(){
+        //     console.log(11);
+        // }
+        // fn();
+
+
+        // 案例：
+        f1();
+        console.log(c);
+        console.log(b);
+        console.log(a);
+        function f1(){
+            var a=b=c=9;
+            console.log(a);
+            console.log(b);
+            console.log(c);
+        }   // 9 9 9 9 9 报错
+        // // 相当于以下代码：
+        // function f1(){
+        //     var a;
+        //     a=b=c=9;
+        //     // var a=b=c=9;
+        //     //相当于 var a=9;b=9;c=9;   b 和c直接赋值没有var声明 相当于全局变量
+        //     // 集体声明： var a=9;b=9;c=9;
+        //     // 两者不同
+
+        //     console.log(a);
+        //     console.log(b);
+        //     console.log(c);
+        // }
+        // f1();
+        // console.log(c);
+        // console.log(b);
+        // console.log(a);
+        
+
+
+
+
+
+    </script>
+</head>
+<body>
+    
+</body>
+</html>
