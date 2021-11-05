@@ -1,0 +1,6 @@
+示范结果：
+loss0.181，train acc 0.932,test acc 0.917
+2569.9 examples/sec on cuda 0
+自己测试结果：
+loss 0.171, train acc 0.936, test acc 0.917
+1121.1 examples/sec on cuda:0

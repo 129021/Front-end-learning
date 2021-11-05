@@ -1,0 +1,31 @@
+git clone https://github.com/mengyilingjian/GitCracken.git
+
+cd GitCracken/GitCracken 
+
+rm yarn.lock
+
+yarn install 
+
+yarn build 
+
+# windows gitbash
+
+node dist/bin/gitcracken.js patcher --asar C:/Users/Admin/AppData/Local/gitkraken/app-6.5.0/resources/app.asar
+
+
+
+
+git clone https://github.com/PMExtra/GitCracken.git
+
+cd GitCracken/GitCracken
+
+rm yarn.lock
+
+yarn install 
+
+yarn build 
+
+
+
+node dist/bin/gitcracken.js patcher --asar C:/Users/Admin/AppData/Local/gitkraken/app-8.0.1/resources/app.asar
+

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        // (1)替换字符 replace('被替换的字符','替换为的字符')    它只会替换第一个字符
+        var str='海绵宝宝派大星';
+        console.log(str.replace('派大星','章鱼哥'));
+
+        // 有一个字符串'heigognrogirtgnhgduhgiorgyhruhnvgaofjndioghgoiahigyhohgaojjgfoi'，要求吧里面所有的g替换为*
+        var str1='heigognrogirtgnhgduhgiorgyhruhnvgaofjndioghgoiahigyhohgaojjgfoi';
+        while (str1.indexOf('g')!==-1){
+            str1=str1.replace('g','*')
+        }
+        console.log(str1);
+
+        // (2)字符替换为数组 split('分隔符')    前面我们学过join把数组转换为字符串
+        var str2='red,blue,green,yellow,pink';
+        console.log(str2.split(','));
+    </script>
+</head>
+<body>
+    
+</body>
+</html>

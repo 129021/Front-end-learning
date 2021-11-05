@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        // 1.push() 可以在我们数组的末尾添加一个或多个数组元素 push 推
+        var arr=[1,2,3];
+        arr.push(4,'海绵宝宝');
+        console.log(arr);
+        // 注意：
+        // push可以给数组追加新的元素
+        // push 小括号里参数直接写数组元素就可以了
+        // push完毕后，返回的结果是新数组的长度
+        // 原数组也会发生变化
+
+        // 2. unshift   可以在我们数组的开头 添加一个或多个数组元素
+        arr.unshift('开头','second');
+        console.log(arr);
+        // 注意：
+        // unshift可以在数组的前面追加新的元素
+        // unshift()参数直接写数组元素就可以了
+        // unshift完毕后，返回的结果是新数组的长度
+        // 原数组也会发生变化
+
+        // 3.pop()它可以删除数组的最后一个参数
+        arr.pop();
+        console.log(arr.pop());
+        console.log(arr);
+        // 注意：
+        // pop是可以删除数组的最后一个元素，记住一次只能删除一个元素
+        // pop()是没有参数的
+        // pop()完毕之后返回的是删除的那个元素
+        // 原数组也会发生变化
+
+        // 4.shift() 它可以删除数组的第一个元素
+        console.log(arr.shift());
+        console.log(arr);
+        // 注意：
+        // pop是可以删除数组的第一个元素，记住一次只能删除一个元素
+        // pop()是没有参数的
+        // pop()完毕之后返回的是删除的那个元素
+        // 原数组也会发生变化
+
+
+
+    </script>
+</head>
+<body>
+    
+</body>
+</html>
