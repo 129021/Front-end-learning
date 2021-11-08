@@ -155,6 +155,64 @@ parentNode.lastElementChild返回最后一个子元素节点，找不到则返�
 
 注意：这两个方法有兼容性问题，IE9以上才支持
 
+(3)兄弟节点
+node.nextSibling
+nextSibling返回当前元素的下一个兄弟节点，找不到则返回null。同样，也是包含所有的节点
+node.previousSibling
+previousSibling 返回当前元素的上一个兄弟节点，找不到则返回null。同样也是包含所有的节点
+
+node.nextElementSibling
+node.nextElementSibling 返回当前元素下一个兄弟元素节点，找不到则返回null
+node.previousElementSibling
+node.previousElementSibling 返回当前元素的上一个兄弟节点，找不到则返回null
+注意：这两个方法有兼容性问题，IE9以上才支持 
+
+如何解决兼容性问题？
+自己封装一个兼容性的函数
+function getNextElementSibling(element){
+    var el=element;
+    while (el=el.nextsibling){
+        if (el.nodeType===1){
+            return el;
+        }
+    }
+    return null;
+}
+
+
+8.4 创建节点
+document.createElement('tagName')
+document.createElement() 方法创建由tagName 指定的HTML元素。因为这些元素原先不存在，是根据我们的需求动态生成的，所以我们也称为动态创建元素节点。
+
+
+8.5 添加节点
+node.appendChild(child)
+node.appendChild(child) 方法将一个节点添加到父节点的子节点列表末尾。类似于css里面的after伪元素
+
+node.insertBefore(child,指定元素)
+node.insertBefore(child,指定元素) 方法将一个节点添加到父节点的指定子节点前面。类似于css里面的before伪元素
+
+    <ul>
+        <li>123</li>
+    </ul>
+    <script>
+        // (1)创建元素节点
+        var li = document.createElement('li');
+        // (2)添加节点 node.appendChild(child) node父级  child子级  后面追加元素，类似于数组中的push
+        var ul=document.querySelector('ul');
+        ul.appendChild(li);
+        // (3)添加节点 node.insertBefore(child,指定元素);
+        var lili=document.createElement('li');
+        ul.insertBefore(lili,ul.children[0]);
+
+        // (4)我们想要在页面添加一个新的元素：1.创建元素 2.添加元素
+    </script>
+
+
+
+
+
+
 
 
 
