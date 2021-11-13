@@ -1,13 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <script src=""></script>
+    <script src="jquery.mini.js"></script>
 </head>
+
 <body>
-    
+    <a href="http://www.baidu.com/">这是一个链接</a>
+    <input type="checkbox" checked>
+    <div index="1">我是div</div>
+
+    <script>
+        $(function() {
+            //element.prop('属性名')   获取属性值
+            console.log($('a').prop('href'));
+            $('a').prop('title', 'test');
+
+            $('input').change(function() {
+                console.log($(this).prop('checked'));
+            })
+
+            // 元素的自定义属性 我们通过attr()
+            console.log($("div").attr('index'));
+        })
+    </script>
 </body>
+
 </html>
