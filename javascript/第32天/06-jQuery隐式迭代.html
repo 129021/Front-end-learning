@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="jquery.mini.js"></script>
+</head>
+
+<body>
+    <div>div content</div>
+    <div>div content</div>
+    <div>div content</div>
+    <div>div content</div>
+    <div>div content</div>
+
+    <ul>
+        <li>li content</li>
+        <li>li content</li>
+        <li>li content</li>
+        <li>li content</li>
+        <li>li content</li>
+    </ul>
+    <ol>
+        <li>ol li content</li>
+        <li>ol li content</li>
+        <li>ol li content</li>
+        <li>ol li content</li>
+        <li>ol li content</li>
+        <li>ol li content</li>
+        <li>ol li content</li>
+        <li>ol li content</li>
+        <li>ol li content</li>
+        <li>ol li content</li>
+        <li>ol li content</li>
+    </ol>
+
+    <script>
+        // 获取5个div元素
+
+        $("div");
+
+        // 给5个div设置背景颜色为粉色 jQuery对象不能使用style样式
+        $('div').css('background', 'pink');
+
+        // 隐式迭代就是把匹配的所有元素内部进行遍历循环，给每一个元素添加css这个方法
+        $('ul li:first').css('background','yellow');
+        $('ul li:eq(3)').css('background','green');
+        $('ol li:odd').css('background','skyblue');
+        $('ol li:even').css('color','red');
+    </script>
+</body>
+
+</html>

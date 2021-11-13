@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script src="jquery.mini.js"></script>
+</head>
+
+<body>
+    <div class="yeye">
+        <div class="father">
+            <div class="son"></div>
+        </div>
+    </div>
+
+    <div class="nav">
+        <p>我是p</p>
+        <div>
+            <p>
+                我是div里的p
+            </p>
+        </div>
+    </div>
+
+    <ol>
+        <li>我是ol 里面的li</li>
+        <li>我是ol 里面的li</li>
+        <li class="item">我是ol 里面的li</li>
+        <li>我是ol 里面的li</li>
+        <li>我是ol 里面的li</li>
+        <li>我是ol 里面的li</li>
+        <li>我是ol 里面的li</li>
+    </ol>
+    <ul>
+        <li>我是ul里面的li</li>
+        <li>我是ul里面的li</li>
+        <li>我是ul里面的li</li>
+        <li>我是ul里面的li</li>
+        <li>我是ul里面的li</li>
+        <li>我是ul里面的li</li>
+        <li>我是ul里面的li</li>
+        <li>我是ul里面的li</li>
+        <li>我是ul里面的li</li>
+        <li>我是ul里面的li</li>
+        <li>我是ul里面的li</li>
+    </ul>
+    <div class="current">我有current</div>
+    <div>我没有current</div>
+    <script>
+        $(function () {
+            // 父亲 parent()  返回的是最近一级的父级元素 亲爸爸
+            console.log($('.son').parent());
+
+            // 儿子  
+            // 只选亲儿子  children()    相当于子代选择器 ul>li
+            $('.nav').children('p').css('color', 'red');
+            // 可以选里面所有的孩子  包括儿子和孙子  find()  类似于后代选择器
+            $('.nav').find('p').css('color', 'yellow');
+
+            // 兄弟 siblings  除了自身元素外的所有亲兄弟
+            $('ol .item').siblings('li').css('color', 'red');
+
+            // 第n个元素 
+            // 可以利用选择器的方式选择
+            $('ul li:eq(2)').css('background', 'green');
+            // 可以利用选择方法选择  更推荐
+            $('ul li').eq(4).css('background', 'skyblue');
+
+            // 判断是否有某个类名
+            console.log($('div:first').hasClass('current'));
+            console.log($('div:last').hasClass('current'));
+        })
+    </script>
+
+</body>
+
+</html>
