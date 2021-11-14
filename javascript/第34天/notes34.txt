@@ -1,0 +1,5 @@
+1. jQuery事件注册
+单个事件注册
+语法：
+element.事件(function(){});
+
