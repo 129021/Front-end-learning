@@ -33,3 +33,47 @@ html('内容')   //设置元素的内容
 
 (2)普通元素文本内容text()    (相当于原生innerText)
 
+
+
+3.jQuery元素操作
+主要是遍历、创建、添加、删除元素操作
+3.1 遍历元素
+jQuery隐式迭代是对同一类元素做了相同的操作，如果想要给同一类元素做不同操作，就需要用到遍历
+
+语法1：
+$('div').each(function (index,domEle){xxx;});
+each()方法遍历匹配的每一个元素。主要是DOM处理
+里面的回调函数有两个参数：index是每个元素的索引号；demEle是每个DOM元素对象，不是jQuery对象
+所以想要使用jQuery方法，需要给这个DOM元素转化为jQuery对象 $(domEle)
+
+语法2：
+$.each(object,function(index,element){xxx;});
+$.each()方法可以用于遍历任何对象。主要用于数据处理，比如数组，对象
+里面的函数有2个参数：index是每个元素的索引号；element遍历内容
+
+
+3.2 创建元素
+语法： 
+$("<li></li>");
+动态的创建了li标签
+
+
+3.3 添加元素
+(1)内部添加
+element.append('内容');
+把内容放入匹配元素的最后面，类似原生appendChild
+
+(2)外部添加
+element.after('内容')   //把内容放入目标元素后面
+element.before('内容')   //把内容放入目标元素前面
+
+内部添加元素，生成之后是父子关系
+外部添加元素生成之后是兄弟关系
+
+
+3.4 删除元素
+element.remove()    //删除匹配的元素（本身）
+element.empty()     //删除匹配元素集合中的所有子节点
+element.html('')    //清空匹配的元素内容
+
+

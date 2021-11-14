@@ -36,7 +36,11 @@ $(function () {
         p = p.substr(1);
         // console.log(p);
 
-        $(this).parent().parent().siblings('.p-sum').html('￥' + p * n);
+        // toFixed() 可以让我们指定保留几位小数
+        var price = (p * n).toFixed(2);
+
+        $(this).parent().parent().siblings('.p-sum').html('￥' + price);
+        getSum()
 
     })
 
@@ -55,10 +59,45 @@ $(function () {
             p = p.substr(1);
             // console.log(p);
 
-            $(this).parent().parent().siblings('.p-sum').html('￥' + p * n);
+            var price = (p * n).toFixed(2);
+
+            $(this).parent().parent().siblings('.p-sum').html('￥' + price);
+            getSum()
         }
     })
 
+    // 4.用户修改文本框的值 计算小计模块
+    $('.itxt').change(function () {
+        // 先得到文本框里面的值 乘以当前商品的单价
+        var n = $(this).val();
+
+        // 当前商品的单价
+        var p = $(this).parent().parent().siblings('.p-price').html();
+        // console.log(p);
+        p = p.substr(1);
+
+        var price = (p * n).toFixed(2);
+
+        $(this).parent().parent().siblings('.p-sum').html('￥' + price);
+        getSum();
+    })
+
+    getSum();
+
+    // 5.计算总计和总额模块
+    function getSum() {
+        var count = 0;
+        var money = 0;
+        $('.itxt').each(function (i, ele) {
+            count += parseInt($(ele).val());
+        });
+        $('.amount-sum em').text(count);
+
+        $('.p-sum').each(function (i, ele) {
+            money += parseFloat($(ele).text().substr(1));
+        });
+        $('.price-sum em').text('￥'+money.toFixed(2));
+    }
 
 
 
