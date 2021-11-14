@@ -27,12 +27,16 @@
             $('ul').prepend(li); //内部添加并且放到内容的最前面
 
             // 外部添加
-            var div=$('<idv>我是后妈生的</div>');
+            var div = $('<idv>我是后妈生的</div>');
             $('.test').after(div);
             $('.test').before(div);
 
-            $('ul').remove();
+            // 删除元素
+            // element.remove() //删除匹配的元素（本身） 自杀
+            // element.empty() //删除匹配元素集合中的所有子节点   孩子
+            // element.html('') //清空匹配的元素内容  孩子
 
+            
         });
     </script>
 </body>

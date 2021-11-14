@@ -77,3 +77,9 @@ element.empty()     //删除匹配元素集合中的所有子节点
 element.html('')    //清空匹配的元素内容
 
 
+
+4. jQuery尺寸、位置操作
+4.1 jQuery尺寸
+（图：jQuery尺寸）
+
+

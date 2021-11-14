@@ -5,6 +5,15 @@ $(function () {
     $('.checkall').change(function () {
         // console.log($(this).prop('checked'));
         $('.j-checkbox,.checkall').prop('checked', $(this).prop('checked'));
+        
+        if($(this).prop('checked')){
+            // 让所有的商品添加 check-cart-item类名
+            $('.cart-item').addClass('check-cart-item');
+        }else{
+            // check-cart-item 移除
+            $('.cart-item').removeClass('check-cart-item');
+
+        }
     })
 
     // 如果小复选框被选中的个数等于3 就应该把全选按钮选上，否则全选按钮不选
@@ -18,6 +27,16 @@ $(function () {
             $('.checkall').prop('checked', true);
         } else {
             $('.checkall').prop('checked', false);
+        }
+
+        if($(this).prop('checked')){
+            // 让当前的商品添加 check-cart-item类名
+            $(this).parents('.cart-item').addClass('check-cart-item');
+        }else{
+            // check-cart-item 移除
+            $(this).parents('.cart-item').removeClass('check-cart-item');
+
+
         }
 
     })
@@ -96,8 +115,33 @@ $(function () {
         $('.p-sum').each(function (i, ele) {
             money += parseFloat($(ele).text().substr(1));
         });
-        $('.price-sum em').text('￥'+money.toFixed(2));
+        $('.price-sum em').text('￥' + money.toFixed(2));
     }
+
+    // 6. 删除商品模块
+    // (1)商品后面的删除按钮
+    $('.p-action a').click(function () {
+        // 删除的是当前商品
+        $(this).parents('.cart-item').remove();
+        getSum();
+    });
+
+    // (2)删除选中的商品
+    $('.remove-batch').click(function () {
+        //删除的是小的复选框选中的商品
+        $('.j-checkbox:checked').parents('.cart-item').remove();
+        getSum();
+
+    });
+
+    // (3)清空购物车  删除所有的商品
+    $('.clear-all').click(function(){
+        $('.cart-item').remove();
+        getSum();
+
+    })
+
+
 
 
 
