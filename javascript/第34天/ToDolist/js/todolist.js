@@ -20,9 +20,47 @@ $(function () {
 
             // 2. todolist 本地存储的数据渲染加载到页面
             load();
+            $(this).val('');
 
 
         }
+    });
+
+    // 3. todolist删除操作
+    $('ol,ul').on('click', 'a', function () {
+        // alert(11);
+        // 先获取本地存储
+        var data = getDate();
+
+        // 修改数据
+        var index = $(this).attr('id');
+        // console.log(index);
+        data.splice(index, 1);
+
+        // 保存到本地存储
+        saveDate(data);
+
+        // 重新渲染页面
+        load();
+    });
+
+    // 4.todolist正在进行和已完成的选项操作
+    $('ol,ul').on('click', 'input', function () {
+        // alert(1111);
+        // 先获取本地存储的数据
+        var data = getDate();
+
+        // 再修改数据
+        var index = $(this).siblings('a').attr('id');
+        // console.log(index);
+        data[index].done = $(this).prop('checked');
+        // console.log(data);
+
+        // 保存到本地存储里面
+        saveDate(data);
+
+        // 重新渲染页面
+        load();
     })
 
     // 读取本地存储的数据
@@ -48,12 +86,17 @@ $(function () {
         // console.log(data);
 
         // 遍历之前先要清空ol元素里面的内容
-        $('ol').empty();
-        
+        $('ol,ul').empty();
+
         // 遍历数据
         $.each(data, function (i, n) {
             // console.log(n);
-            $('ol').prepend('<li><input type="checkbox"><p>'+n.title+'</p><a href="javascript:;"></a></li>')
+            if (n.done) {
+                $('ul').prepend('<li><input type="checkbox" checked="checked"><p>' + n.title + '</p><a href="javascript:;"id=' + i + '></a></li>');
+            } else {
+                $('ol').prepend('<li><input type="checkbox"><p>' + n.title + '</p><a href="javascript:;"id=' + i + '></a></li>');
+            }
+
         })
     }
 
