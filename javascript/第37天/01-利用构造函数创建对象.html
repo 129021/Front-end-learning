@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // 利用new Object()创建对象
+        var obj1 = new Object();
+
+        // 利用对象字面量创建对象
+        var obj2 = {};
+
+        // 利用构造函数创建对象
+        function Star(uname, age) {
+            this.uname = uname;
+            this.name = age;
+            this.sing = function () {
+                console.log('我会唱歌');
+            }
+        }
+        var ldh=new Star('刘德华',12);
+        console.log(ldh);
+        ldh.sing();
+
+        // 静态成员：在构造函数本身上添加的成员 sex就是静态成员
+        Star.sex='male';
+        // 静态成员只能通过构造函数来访问
+        console.log(Star.sex);
+    </script>
+</body>
+
+</html>
