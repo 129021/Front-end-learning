@@ -12,13 +12,18 @@
             this.uname = uname;
             this.age = age;
         }
+
+        var that;
         Star.prototype.sing = function () {
             console.log('sing a song');
+            that=this;
         }
 
         var ldh = new Star('liu', 16);
 
         // 在构造函数中，里面的this指向的是对象实例  ldh
+        ldh.sing();
+        console.log(that==ldh);
 
      
     </script>
