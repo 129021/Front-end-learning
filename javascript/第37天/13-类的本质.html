@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        class Star{
+
+        }
+        console.log(typeof Star);
+        // 类的本质其实还是一个函数，我们可以简单地认为类就是构造函数的另外一种写法
+
+        // 构造函数的特点：
+        // 构造函数有原型对象prototype
+        console.log(Star.prototype);
+
+        // 构造函数原型对象prototype里面有constructor指向构造函数本身
+        console.log(Star.prototype.constructor);
+
+        // 构造函数可以通过原型对象添加方法
+        Star.prototype.sing=function(){
+            console.log('sing a song');
+        }
+
+        // 构造函数创建的实例对象有__proto__原型指向构造函数的原型对象
+        var ldh=new Star();
+        console.dir(ldh);
+        console.log(ldh.__proto__===Star.prototype);
+    </script>
+</body>
+</html>
