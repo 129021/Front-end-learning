@@ -9,6 +9,7 @@
 </head>
 
 <body>
+    <button></button>
     <script>
         // 普通函数的this指向window
         // function fn() {
@@ -24,17 +25,21 @@
         // }
         // o.sayHi();
 
-        // // 构造函数   this 指向ldh这个实例对象
-        function Star() {};
-        var ldh=new Star();
+        // // 构造函数   this 指向ldh这个实例对象  原型对象里面的this指向的也是ldh这个实例对象
 
-        // // 绑定事件函数
-        // btn.onclick = function () {}; //点击了按钮就可以调用这个函数
+        // function Star() {};
+        // var ldh=new Star();
 
-        // // 定时器函数
+        // // 绑定事件函数   this指向的是函数的调用者
+        // var btn=document.querySelector('button');
+        // btn.onclick = function () {
+        //     console.log('绑定时间函数的this'+this);
+        // }; //点击了按钮就可以调用这个函数
+
+        // // 定时器函数   this指向的也是window
         // setInterval(function () {}, 1000); //这个函数是定时器一秒钟自动调用一次
 
-        // // 立即执行函数
+        // // 立即执行函数  this指向的也是window
         // (function () {
         //     console.log('hi');
         // })()
