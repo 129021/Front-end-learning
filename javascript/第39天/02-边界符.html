@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // var rg = /123/; //正则表达式里面不需要加引号，不管是数字型还是字符串型
+        // // /abc/  只要包含abc这个字符串返回的都是true
+        // console.log(rg.test('12345'));
+        // console.log("_______________________________________________________________________");
+        // var reg=/^abc/;
+        // console.log(reg.test('abcd'));
+        // console.log(reg.test('aabc'));
+        // console.log("_______________________________________________________________________");
+
+        // var reg1=/^abc$/;
+        // console.log(reg1.test('abc'));
+        // console.log(reg1.test('abcd'));
+        // console.log(reg1.test('aabcd'));
+        // console.log(reg1.test('abcabc'));
+
+
+        // 字符类：[]表示有一系列字符可供选择，只要匹配其中一个就可以了
+        var rg = /[abc]/; //只要包含有a或者b或者c都返回true
+        console.log(rg.test('animals'));
+        console.log(rg.test('box'));
+        console.log(rg.test('color'));
+        console.log(rg.test('dog'));
+        console.log('_________________________________________________________');
+        var rg1 = /^[abc]$/; //三选一  只有是a 或者b 或者c这三个字母才会返回true
+        console.log(rg1.test('a'));
+        console.log(rg1.test('b'));
+        console.log(rg1.test('c'));
+        console.log(rg1.test('aa'));
+        console.log(rg1.test('agghgifhgifb'));
+        console.log(rg1.test('ab'));
+        console.log(rg1.test('abc'));
+        console.log('_________________________________________________________');
+        var rg2 = /^[a-z]$/;
+        console.log(rg2.test('b'));
+        console.log(rg2.test('B'));
+        console.log(rg2.test('abc'));
+        console.log('_________________________________________________________');
+        var rg3 = /^[a-zA-Z0-9-_]$/; //26个字母和数字和短横线和下划线大小写的任何一个返回true
+        console.log(rg3.test('A'));
+        console.log(rg3.test('Z'));
+        console.log(rg3.test('a'));
+        console.log(rg3.test('9'));
+        console.log(rg3.test('_'));
+        console.log(rg3.test('-'));
+
+        console.log('_________________________________________________________');
+        var rg4 = /^[^a-zA-Z0-9-_]$/; //如果中括号里面有^，表示取反
+        console.log(rg4.test('A'));
+        console.log(rg4.test('Z'));
+        console.log(rg4.test('a'));
+        console.log(rg4.test('9'));
+        console.log(rg4.test('_'));
+        console.log(rg4.test('-'));
+        console.log(rg4.test('!'));
+
+
+
+        // 量词符  用来设定某个模式出现的次数
+        // 简单理解就是让下面的这个字符重复多少次
+        // var reg = /^a$/;
+        console.log('_________________________________________________________');
+
+        // *相当于>=0 可以出现0次或者很多次
+        console.log('_________________________________________________________');
+        // var reg = /^a*$/;
+        // console.log(reg.test(''));
+        // console.log(reg.test('a'));
+        // console.log(reg.test('aaa'));
+        console.log('_________________________________________________________');
+        // + 相当于可以出现1次或者很多次
+        // var reg = /^a+$/;
+        // console.log(reg.test(''));
+        // console.log(reg.test('a'));
+        // console.log(reg.test('aaa'));
+        console.log('_______________________________________________');
+        // ?  相当于可以出现1次或者0次
+        // var reg = /^a?  $/;
+        // console.log(reg.test(''));
+        // console.log(reg.test('a'));
+        // console.log(reg.test('aaa'));
+
+        // {3}就是重复3次
+        // var reg = /^a{3}$/;
+        // console.log(reg.test(''));
+        // console.log(reg.test('a'));
+        // console.log(reg.test('aaa'));
+
+
+        // // {3,}  大于等于3
+        // var reg = /^a{3,}$/;
+        // console.log(reg.test(''));
+        // console.log(reg.test('a'));
+        // console.log(reg.test('aaa'));
+        // console.log(reg.test('aaaa'));
+
+
+         // {3,16}  大于等于3 并且小于等于16
+        //  var reg = /^a{3,16}$/;
+        // console.log(reg.test(''));
+        // console.log(reg.test('a'));
+        // console.log(reg.test('aaa'));
+        // console.log(reg.test('aaaa'));
+        // console.log(reg.test('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'));
+
+
+        // 用户名验证
+        // var reg=/^[a-zA-Z0-9_-]{6,16}$/;   
+        // // 注意:  {6,16}中间不要有空格
+        // console.log(reg.test('hgiohgf__h1243'));
+
+
+        // 小括号表示优先级
+        var reg=/^(abc){3}$/;   //让abc重复3次
+        console.log(reg.test('abccc'));
+        console.log(reg.test('abcabcabc'));
+        console.log(reg.test('abc'));
+
+
+
+
+    </script>
+</body>
+
+</html>
