@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <button>click</button>
+    <script>
+        // var o = {
+        //     name: 'liu'
+        // };
+
+        // function fn(a, b) {
+        //     console.log(this);
+        //     console.log(a + b);
+        // };
+
+        // var f = fn.bind(o, 1, 2);
+        // // console.log(f);
+        // f();
+
+        // 不会调用原来的函数
+        // 可以改变原来函数内部的this指向
+        // 返回的是原函数改变this之后产生的新函数
+
+        // 应用：
+        // 如果有的函数我们不需要立即调用，但是又想改变这个函数内部的this指向 此时用bind方法是最合适的
+
+        // 我们有一个按钮，当我们点击了之后就禁用这个按钮，3秒钟之后再开启这个按钮
+        var btn=document.querySelector('button');
+        btn.onclick=function(){
+            this.disabled=true;
+            setTimeout(function(){
+                // 定时器里面的this指向的是window
+                this.disabled=false;
+
+            }.bind(this),3000)    //这个this指向的是btn这个对象
+        }
+    </script>
+
+</html>
