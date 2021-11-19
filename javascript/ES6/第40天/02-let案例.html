@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .item {
+            width: 100px;
+            height: 30px;
+           border: 3px solid red;
+           float:left;
+           margin:20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container"></div>
+    <h2 class="page-header">点击切换颜色</h2>
+    <div class="item"></div>
+    <div class="item"></div>
+    <div class="item"></div>
+
+    <script>
+        // 1. 获取div元素对象
+        let items = document.querySelectorAll('.item');
+
+        // 2. 遍历并绑定事件
+        for(let i=0;i<items.length;i++){
+            items[i].onclick=function(){
+                // 修改当前元素的背景颜色
+                items[i].style.background='pink';
+            }
+        }
+    </script>
+</body>
+
+</html>

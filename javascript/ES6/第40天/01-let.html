@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 声明变量
+        let a;
+        let b,c,d;
+        let e=100;
+        let f=123,g='hello,world',h=[];
+
+        // let声明变量的特性：
+        //(1) 变量不能重复声明
+        // let star='wang';
+        // let star='liu';
+
+        //(2) 块级作用域  全局  函数  eval
+        // 块级作用域:在代码块里面有效，出代码块无效
+        // if else while for
+        // {
+        //     var girl='Marry';
+        // }
+        // console.log(girl);   //可以
+
+        // {
+        //     let girl='Mary';
+        // }
+        // console.log(girl);   //不可以
+
+        // (3)不存在变量提升
+        console.log(song);
+        // let song='Hero';    //不可以
+
+        var song='Hero';    //undefined
+
+        // (4)不影响作用域链
+        {
+            let school='CUGB';
+            function fn(){
+                console.log(school);
+            };
+            fn();
+        }
+    </script>
+</body>
+</html>

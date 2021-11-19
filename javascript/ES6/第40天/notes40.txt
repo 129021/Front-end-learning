@@ -1,0 +1,132 @@
+ES介绍
+ES全称ECMAScript ，是脚本语言的规范，而平时经常编写的JavaScript是ECMAScript的一种实现，所以ES新特性其实指的是JavaScript的新特性
+
+let
+    <script>
+        // 声明变量
+        let a;
+        let b,c,d;
+        let e=100;
+        let f=123,g='hello,world',h=[];
+
+        // let声明变量的特性：
+        //(1) 变量不能重复声明
+        // let star='wang';
+        // let star='liu';
+
+        //(2) 块级作用域  全局  函数  eval
+        // 块级作用域:在代码块里面有效，出代码块无效
+        // if else while for
+        // {
+        //     var girl='Marry';
+        // }
+        // console.log(girl);   //可以
+
+        // {
+        //     let girl='Mary';
+        // }
+        // console.log(girl);   //不可以
+
+        // (3)不存在变量提升
+        console.log(song);
+        // let song='Hero';    //不可以
+
+        var song='Hero';    //undefined
+
+        // (4)不影响作用域链
+        {
+            let school='CUGB';
+            function fn(){
+                console.log(school);
+            };
+            fn();
+        }
+    </script>
+
+
+const
+
+    <script>
+        //const 关键字
+        // 声明常量
+        const SCHOOL='CUGB';
+        console.log(SCHOOL);
+
+        // 1. 一定要赋初始值
+        // const A;
+
+        // 2. 一般常量使用大写（潜规则）
+        const a=100;   //不会报错
+
+        // 3. 常量的值不能修改
+        // SCHOOL='MIT';
+
+        // 4. 块级作用域
+        {
+            const PLAYER='UZI';
+        };
+        // console.log(PLAYER);
+
+        // 5. 对于数组和对象的元素修改，不算对常量的修改 不会报错
+        // 常量指向的地址没有改变
+        const COLOR=['PINK','RED','GREEN'];
+        COLOR.push('white');
+
+    </script>
+
+
+解构赋值
+
+    <script>
+        // 遇到方法频繁被调用，可以考虑使用解构赋值
+        // ES6允许按照一定模式从数组和对象中提取值，对变量进行赋值
+        // 这被称为解构赋值
+
+        // 1. 数组的解构
+        const COLOR=['RED','PINK','GREEN','BLUE'];
+        let [r,p,g,b]=COLOR;
+        console.log(r);
+        console.log(p);
+        console.log(g);
+        console.log(b);
+
+        // 2. 对象的解构
+        const zhao={
+            name:'zhao',
+            age:18,
+            xiaopin:function(){
+                console.log('我可以演小品');
+            }
+        };
+
+        let{name,age,xiaopin}=zhao;
+        console.log(name);
+        console.log(age);
+        console.log(xiaopin);
+        xiaopin();
+    </script>
+
+
+模板字符串
+
+    <script>
+        // 模板字符串
+        // ES6引入新的声明字符串的方式
+
+        // 1.声明
+        // let str = `也是一个字符串`;
+        // console.log(str, typeof str);
+
+        // 2. 内容中可以直接出现换行符
+        let str = `<ul>
+            <li>海绵宝宝</li>
+            <li>派大星</li>
+            </ul>`;
+
+        // 3. 直接进行变量拼接
+        let lovest='海绵宝宝';
+        let out=`我最喜欢的动画人物是${lovest}`;
+        console.log(out);
+    </script>
+
+
