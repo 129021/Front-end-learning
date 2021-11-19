@@ -250,4 +250,142 @@ fn();
 打车起步价13（3公里以内），之后每多一公里增加5块钱，用户输入公里数就可以计算打车价格
 如果有拥堵情况，总价格多收10块钱拥堵费
 
+ // 闭包应用：计算打车价格
+        //         打车起步价13（3公里以内），之后每多一公里增加5块钱，用户输入公里数就可以计算打车价格
+        // 如果有拥堵情况，总价格多收10块钱拥堵费
+        var car = (function () {
+            var start = 13; //起步价
+            var total = 0; //总价
+            return {
+                price: function (n) {
+                    if (n <= 3) {
+                        total = start;
+                    } else {
+                        total = 13 + (n - 3) * 5
+                    }
+                    return total;
+                }, //正常的总价
+                yd: function (flag) {
+                    return flag ? total + 10 : total;
+                } //拥堵之后的费用
+            }
+
+        })();
+console.log(car.price(10));
+        // console.log(car.price(1));
+        console.log(car.yd(true));
+
+
+5.6 闭包总结
+闭包是什么？
+闭包是一个函数（一个作用域可以访问另外一个函数的局部变量）
+
+闭包的作用是什么？
+延伸变量的作用范围
+
+
+
+6. 递归
+6.1 什么是递归
+如果一个函数在内部可以调用其本身，那么这个函数就是递归函数
+简单理解：函数内部自己调用自己，这个函数就是递归函数
+
+递归函数的效果和循环效果一样
+由于递归很容易发生栈溢出错误（stack overflow），所以必须要加退出条件return
+
+
+6.2 利用递归求数学题
+求1*2*3....*n的阶乘
+<script>
+        // 利用递归求1~n的阶乘
+        function fn(n) {
+            if (n == 1) {
+                return 1;
+            }
+            return n * fn(n - 1);
+        };
+
+        console.log(fn(100));
+
+        // 详细思路：
+        // 假如用户输入的是3
+        //  return 3*fn(3-1)  即:3*fn(2)
+        // return 3*(2*fn(2-1))
+        // return 3*(2*1)
+</script>
+
+求斐波那契数列
+    <script>
+        // 用户输入一个数字n，就可以求出这个数字对应的兔子序列值
+
+        // 我们只需要知道用户输入的n前面的两项(n-1)、(n-2)就可以计算出n对应的序列值
+        function fb(n) {
+            if (n == 1 | n == 2) {
+                return 1;
+            }
+            return fb(n - 1) + fb(n - 2);
+
+        };
+        console.log(fb(6));
+    </script>
+
+
+6.3 利用递归求：根据id返回对应的数据对象
+    <script>
+        var data = [{
+                id: 1,
+                name: '家电',
+                goods: [{
+                    id: 11,
+                    gname: '冰箱',
+                    goods: [{
+                        id: 111,
+                        gname: 'haier'
+                    }, {
+                        id: 112,
+                        gname: 'media'
+                    }, ]
+                }, {
+                    id: 12,
+                    gname: '洗衣机'
+                }]
+            },
+            {
+                id: 2,
+                name: '服饰'
+            }
+        ];
+
+        // 我们想要输入id号，就可以返回对应的数据对象
+        // 1.利用forEach遍历每一个对象
+        function getID(json, id) {
+            var o = {};
+            json.forEach(function (item) {
+                // console.log(item);
+                if (item.id == id) {
+                    // console.log(item);
+                    o = item;
+
+                    // 我们想要得到里层的数据   11 12   可以利用递归函数
+                    // 里面应该有goods数组并且这个数组的长度不为0
+                } else if (item.goods && item.goods.length > 0) {
+                    o = getID(item.goods, id);
+                }
+            });
+            return o;
+        };
+        console.log(getID(data, 1));
+        console.log(getID(data, 2));
+        console.log(getID(data, 11));
+        console.log(getID(data, 12));
+        console.log(getID(data, 111));
+    </script>
+
+
+6.4 浅拷贝和深拷贝
+浅拷贝只是拷贝一层，更深层对象级别的只拷贝引用
+深拷贝拷贝多层，每一级别的数据都会拷贝
+Object.assign(target,...sources)   es6新增方法可以实现浅拷贝
+
+
 
