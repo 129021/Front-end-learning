@@ -25,7 +25,9 @@
         // });
 
         // 通过catch方法来指定
-        P.catch()
+        P.catch(function(reason){
+            console.warn(reason);
+        })
     </script>
 </body>
 

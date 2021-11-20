@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // set 
+        // ES6提供了新的数据结构set（集合）。它类似于数组，但成员的值都是唯一的，集合实现了iterator接口，所以可以使用扩展运算符和for ...of进行遍历，集合的属性和方法：
+        // size   返回集合的元素的个数
+        // add  增加一个新元素，返回当前元素
+        // delete   删除元素，返回boolean值
+        // has     检测集合中是否包含某个元素，返回Boolean值
+
+        // 声明一个set
+        let s = new Set();
+
+        // 自动去重
+        let s2 = new Set(['大事', '小事', '好事', '坏事', '小事']);
+        console.log(s2);
+
+        // 元素个数
+        console.log(s2.size); //4
+
+        // 向集合添加新的元素
+        s2.add('喜事');
+        console.log(s2);
+
+        // 删除元素
+        s2.delete('坏事');
+        console.log(s2);
+
+        // 检测元素
+        console.log(s2.has('好事'));
+
+        // 清空
+        // s2.clear();
+        // console.log(s2);
+
+        for (let v of s2) {
+            console.log(v);
+        };
+
+
+        // set集合实践
+        let arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 4, 6, 7, 3, 2, 6, 7];
+
+        // 1.数组去重
+        // let result = [...new Set(arr)];
+        // console.log(result);
+
+        // // 2.交集
+        let arr2 = [4, 5, 6, 5, 7, 233];
+        // let result = [...new Set(arr)].filter(item => {
+        //     let s2 = new Set(arr2); //4 5 6
+        //     if (s2.has(item)) {
+        //         return true;
+        //     } else {
+        //         return false;
+        //     }
+        // });
+        // console.log(result);
+        // 简单写法
+        let result1 = [...new Set(arr)].filter(item => new Set(arr2).has(item));
+        console.log(result1);
+
+        // 3. 并集
+        let union = [...new Set([...arr, ...arr2])];
+        console.log(union);
+
+        // 4. 差集
+        let diff=[...new Set(arr)].filter(item => !(new Set(arr2).has(item)));
+        console.log(diff);
+    </script>
+</body>
+
+</html>
