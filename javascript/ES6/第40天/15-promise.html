@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // Promise
+        // Promise是ES6引入的异步编程的新解决方法。语法上promise是一个构造函数
+        // 用来封装异步操作并可以获取其成功或失败的结果
+
+        // 实例化Promise对象
+        // const P=new Promise(function(resolve,reject){
+        //     setTimeout(function(){
+        // let data='数据库中的用户数据';
+        // resolve
+        // resolve(data);
+        // 调用完resolve函数 之后，Promise 对象P的状态就会变为成功 （三个状态：初始化 成功 失败）
+        // let err='数据读取失败';
+        // reject(err);
+        // 调用完reject函数之后，promise 对象P的状态就会变为失败 失败后会调用then 方法 的第二个函数 
+
+        //     },1000);
+        // });
+
+        // 调用promise对象中的then 方法
+        // then 有两个参数 都是函数  函数分别有一个形参，成功的形参一般叫value 失败的形参一般叫 reason
+        // P.then(function(value){
+        //     console.log(value);
+        // },function(reason){
+        //     console.log(reason);
+        // })
+
+
+
+        // Promise读取文件内容
+        // （这部分涉及到node.js，先略过）
+
+
+
+        // Promise封装AJAX
+
+        const P = new Promise((resolve, reject) => { 
+            // 1.创建对象
+            const xhr = new XMLHttpRequest();
+
+            // 2. 初始化
+            xhr.open('GET', 'https://api.apiopen.top/getJoke');
+
+            // 3.发送
+            xhr.send();
+
+            // 4. 绑定事件处理响应结果
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4) {
+                    //判断响应状态码 200~299之间
+                    if (xhr.status >= 200 && xhr.status < 300) {
+                        // 表示成功
+                        resolve(xhr.response);
+                    } else {
+                        // 如果失败
+                        reject(xhr.status);
+                    }
+
+                }
+            }
+        })
+
+        // 指定回调
+        P.then(function(value){
+            console.log(value);
+        },function(reason){
+            console.error(reason);
+        })
+    </script>
+</body>
+
+</html>

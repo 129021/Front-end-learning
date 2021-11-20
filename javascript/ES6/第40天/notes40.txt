@@ -130,3 +130,682 @@ const
     </script>
 
 
+简化对象写法
+    <script>
+        // ES6允许在大括号里面，直接写入变量和函数，作为对象的属性和方法
+        // 这样的写法更加简介
+
+        let name = 'CUGB';
+        let change = function () {
+            console.log('艰苦朴素，求真务实');
+        }
+
+        const school = {
+            name,
+            change,
+            improve (){
+                console.log('中国地质大学北京');
+            }
+        }
+
+        console.log(school);
+    </script>
+
+
+箭头函数
+
+    <script>
+        // ES 6允许使用箭头（=>）定义函数
+
+        // 声明一个函数
+        // let fn=function(){
+
+        // }
+
+        // let fn = (a, b) => {
+        //     return a + b;
+        // };
+        // let result = fn(1, 2);
+        // console.log(result);
+
+        // 箭头函数声明的特性
+
+        // 1.this 是静态的 this始终指向函数声明时所在作用域下的this值
+
+        // 普通函数
+        function getName() {
+            console.log(this.name);
+        }
+        // 箭头函数
+        let getName2 = () => {
+            console.log(this.name);
+        }
+
+        // 设置window对象的name属性
+        window.name = '王建钦';
+        const school = {
+            name: 'CUGB'
+        };
+
+        // 直接调用：
+        getName();
+        getName2();
+
+        // call()方法调用
+        getName.call(school); //改变为CUGB
+        getName2.call(school); //未改变 还是王建钦
+
+
+        // 2.不能作为构造函数实例化对象
+        // let Person = (name, age) => {
+        //     this.name = name;
+        //     this.age = age;
+        // };
+        // let me = new Person('xiao', 30);
+        // console.log(me);
+
+
+        // 3. 不能使用arguments变量
+        // let fn=()=>{
+        //     console.log(arguments);
+        // };
+        // fn(1,2,3);
+
+
+        // 4. 箭头函数的简写
+        // 1)省略小括号 ,当形参有且只有一个的时候
+        let add = n => {
+            return n + n;
+        };
+        console.log(add(3));
+
+        // 2)省略花括号  当代码体只有一条语句的时候  此时return必须省略，而且语句的执行结果就是函数的返回值
+        let pow = n => n * n;
+
+        console.log(pow(5));
+    </script>
+
+
+箭头函数案例
+
+    <style>
+        div {
+            width: 200px;
+            height: 200px;
+            background: yellow;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="ad"></div>
+    <script>
+        // 需求1：点击div 2秒后颜色变为粉色
+        // 获取元素
+        let ad = document.querySelector('.ad');
+        // 绑定事件
+        ad.addEventListener('click', function () {
+            // 定时器
+            setTimeout(() => {
+                // 修改背景颜色 this
+                this.style.background = 'pink';
+
+            }, 3000)
+        });
+
+        // 箭头函数this是静态的， 指向在声明时所在作用域下的this值 
+
+        // 需求2：从数组中返回偶数的元素
+
+        const arr = [1, 45, 8745, 77, 88, 9, 3, 45, 6, 4, 2, 7, 7888888, 5, 7, 1, 335, 6, 78875, 43, 6677788];
+        // 原先的方式
+        // const result = arr.filter(function (item) {
+        //     if (item % 2 == 0) {
+        //         return true;
+        //     } else {
+        //         return false;
+        //     };
+        // });
+        // console.log(result);
+
+        // 箭头函数 的方式
+        const result = arr.filter(item => item % 2 === 0);
+        console.log(result);
+
+
+        // 总结：
+        // 箭头函数适合与this无关的回调。 如定时器，数组的方法回调
+        // 箭头函数不适合与this有关的回调 。如事件回调 对象的方法
+
+        // {
+        //     name: '海绵宝宝',
+        //     getName: () => {
+        //         this.name;
+        //     }
+        // }
+    </script>
+
+
+参数默认值
+
+    <script>
+        // ES 6参数默认值
+        // ES6允许给函数参数赋初始值
+
+        // 1. 形参的初始值  具有默认值的参数，一般位置要靠后（潜规则）
+        function add(a, b, c = 10) {
+            return a + b + c;
+        }
+        let result = add(1, 2);
+        console.log(result);
+
+
+        // 2. 默认值可以与解构赋值结合使用
+        function connect({
+            host='127.0.0.1',
+            username,
+            password,
+            port
+        }) {
+            console.log(host);
+            console.log(username);
+            console.log(password);
+            console.log(port);
+
+        }
+        connect({
+            // host: 'localhost',
+            username: 'root',
+            password: 'password',
+            port: 8087
+        })
+    </script>
+
+
+rest 参数
+
+    <script>
+        // ES 6引入rest参数，用于获取函数的实参，用来替代arguments
+
+        // ES5获取实参的方式
+        // function date(){
+        //     console.log(arguments);
+        // };
+
+        // date('red','blue','green','yellow');
+        // 获取过来的是一个对象
+
+        // ES6的rest参数
+        function date(...args) {
+            console.log(args);
+        };
+        date('red','blue','green','yellow');
+        // 获取过来的是一个数组，可以对获取的实参使用数组的API方法 filter some every map等  ,可以提高对参数处理的灵活程度
+
+
+        // 注意：
+        // rest参数必须放到参数最后
+        function fn(a,b,...args){
+            console.log(a);
+            console.log(b);
+            console.log(args);
+        }
+        fn(1,2,3,4,5,6);
+    </script>   
+
+
+spread扩展运算符
+
+    <script>
+        // ... 扩展运算符可以将数组转换为逗号分隔的参数序列
+
+        // 声明一个数组
+        const tfboys=['a','b','c'];
+
+        // 声明一个函数
+        function chunwan(){
+            console.log(arguments);
+        }
+        chunwan(...tfboys);
+        // rest 参数放在函数声明的形参里面
+        // spread扩展运算符放在函数调用的实参里面
+    </script> 
+
+    <>
+        // ... 扩展运算符可以将数组转换为逗号分隔的参数序列
+
+        // 声明一个数组
+        const tfboys=['a','b','c'];
+
+        // 声明一个函数
+        function chunwan(){
+            console.log(arguments);
+        }
+        chunwan(...tfboys);
+        // rest 参数放在函数声明的形参里面
+        // spread扩展运算符放在函数调用的实参里面
+
+
+        // 扩展运算符的应用
+        // 1.数组的合并
+        const kuaizi =['a','b'];
+        const fenghuang=['c','d'];
+        const hebing=[...kuaizi,...fenghuang];
+        console.log(hebing);
+
+
+        // 2.数组的克隆
+        const original=['a','b','c'];
+        const copy=[...original];
+        console.log(copy);
+
+
+        // 3. 将伪数组转换为真正的数组
+        const divs=document.querySelectorAll('div');
+        console.log(divs);
+        const divArr=[...divs];
+        console.log(divArr);
+
+
+
+
+symbol
+
+    <script>
+        // ES6引入了一种新的数据类型symbol，表示独一无二的值。它是JavaScript语言的第七种数据类型，是一种类似于字符串的数据类型
+
+        // 特点：
+        // symbol的值是唯一的，用来解决命名冲突的问题
+        // Symbol值不能与其他数据进行运算
+        // Symbol定义的属性不能使用for... in循环遍历，但是可以使用Reflect.ownKeys来获取对象的说有键名
+
+        // 创建Symbol
+        let s = Symbol();
+        console.log(s, typeof s);
+
+        let s2 = Symbol('海绵宝宝');
+        let s3 = Symbol('海绵宝宝');
+        console.log(s2 == s3); // flase
+
+        // Symbol.for 创建
+        let s4 = Symbol.for('海绵宝宝');
+        let s5 = Symbol.for('海绵宝宝');
+        console.log(s4, typeof s4);
+        console.log(s4 == s5); //true
+
+
+        // 不能与其他数据进行运算
+        // let result=s+100;
+        // let result=s>100;
+        // let result=s+s;
+        // 都不行
+
+
+        // 总结
+        // 七种数据类型  USONB     you are so niubility
+        // u   undefined
+        // s   string  Symbol
+        // o   Object
+        // n   null  Number
+        // b   boolean 
+
+
+        // Symbol 的使用
+        // 向对象添加属性和方法
+        let game = {}
+
+        // 声明一个对象
+        // let methods={
+        //     up:Symbol(),
+        //     down:Symbol()
+        // };
+        // game[methods.up]=function(){
+        //     console.log('我可以改变形状');
+        // }
+
+        // game[methods.down]=function(){
+        //     console.log('我可以快速下降');
+        // }
+
+        // console.log(game);
+
+        let youxi = {
+            name: '狼人杀',
+            [Symbol('say')]: function () {
+                console.log('我可以发言');
+            },
+            [Symbol('zibao')]: function () {
+                console.log('我可以自爆');
+            }
+        }
+        console.log(youxi);
+
+
+
+        // Symbol 内置值
+
+        class Person {
+            static[Symbol.hasInstance]() {
+                console.log('我被用来检测类型了');
+                return true;
+            }
+        }
+
+        let o = {};
+        console.log(o instanceof Person);
+
+        // Symbol.isConcatSpreadable   布尔类型 用来控制数组是否可以展开
+        const arr = [1, 2, 3];
+        const arr2 = [4, 5, 7];
+        arr2[Symbol.isConcatSpreadable] = false;
+        console.log(arr.concat(arr2));
+    </script>
+
+
+
+迭代器
+    <script>
+        // 迭代器
+        // 迭代器（Iterator）是一种接口，是对象里面的一个属性，这个属性的名字叫做Symbol.iterator  为各种不同的数据结构提供统一的访问机制 
+        // 任何数据结构只要部署Iterator接口，就可以完成遍历操作
+
+        // ES6创造了一种新的遍历命令for...of循环，Iterator接口主要供for...of消费
+        // 原生具备iterator接口的数据（可用for of循环）
+        // Array
+        // Set
+        // Map
+        // String
+        // TypedArray
+        // NodeList
+
+        // 原理：
+        // 创建一个指针对象，指向当前数据结构的起始位置
+        // 第一次调用对象的next方法，指针自动指向数据结构的第一个成员
+        // 接下来不断调用next方法，指针一直往后移动，直到指向最后一个成员
+        // 每调用next方法返回一个包含value和done属性的对象
+        // 注意：需要自定义遍历数据的时候，要想到迭代器
+
+        // 声明一个数组
+        const xiyou = ['a', 'b', 'c', 'd'];
+        // 使用for ...of 遍历数组
+        for (let v of xiyou) {
+            console.log(v);
+        }
+        console.log(xiyou);
+
+        let iterator = xiyou[Symbol.iterator]();
+
+        // 调用对象的next方法
+        console.log(iterator.next());
+        console.log(iterator.next());
+        console.log(iterator.next());
+        console.log(iterator.next());
+        console.log(iterator.next());
+
+
+        // 迭代器自定义遍历对象案例
+        // 声明一个对象
+        const banji = {
+            name: '三年二班',
+            stus: [
+                'xiaoming',
+                'wang',
+                'li',
+                'liu'
+            ],
+            [Symbol.iterator]() {
+                // 索引变量
+                let index = 0;
+                let _this = this;
+                return {
+                    next: function () {
+                        if (index < _this.stus.length) {
+                            const result = {
+                                value: '_this.stus[i]',
+                                done: false
+                            };
+                            index++;
+                            return result;
+                        }else{
+                            return {value:undefined,done:true};
+                        }
+                    }
+                };
+            }
+        }
+
+        // 遍历这个对象   每次返回的结果是stus数组的一个成员
+        // banji.stus.forEach();    这样是可以的，但是不符合面向对象的思想
+        for (let v of banji) {
+            console.log(v);
+        }
+    </script>
+
+
+
+生成器
+    <script>
+        // 生成器其实就是一个特殊的函数
+        // 异步编程 纯回调函数  node fs ajax mongodb
+
+        // 声明方式
+        // function* gen() {
+        //     // console.log('hello,generator');
+        //     // yield可以算作函数代码的分隔符 把函数代码分割成几块 由next方法执行
+        //     // console.log(1);
+        //     yield '一只没有耳朵';
+        //     // console.log(2);
+
+        //     yield '一只没有尾巴';
+        //     // console.log(3);
+
+        //     yield '真奇怪';
+        //     // console.log(4);
+
+        // };
+
+        // 执行
+        // 直接调用不显示 使用next方法调用
+        // let iterator = gen();
+        // // console.log(iterator);
+        // console.log(iterator.next());
+        // console.log(iterator.next());
+        // console.log(iterator.next());
+        // console.log(iterator.next());
+        // (图：生成器输出)
+
+        // 遍历
+        // // 每一次调用的返回结果是yield后面的表达式
+        // for (let v of gen()){
+        //     console.log(v);
+        // }
+
+
+        // 生成器函数参数
+        // function* gen(arg) {
+        //     console.log(arg);
+        //     let one=yield 111;
+        //     console.log(one);
+        //     yield 222;
+        //     yield 333;
+        //     yield 444;
+        // };
+
+        // // 执行获取迭代器对象
+        // let iterator = gen('abc');
+        // console.log(iterator.next());
+        // // next 方法可以传入实参  传入的参数可以作为上一个语句的整体返回结果
+        // console.log(iterator.next('bbb'));
+        // // console.log(iterator.next());
+        // // console.log(iterator.next());
+        // // console.log(iterator.next());
+
+
+
+        // 生成器函数实例1
+        // 异步编程   如:文件操作,网络操作(ajax,request) 数据库操作
+
+        // 定时器案例
+        // 1秒后控制台输出111 2s后输出222 3s 后输出333
+
+        // 原先的做法
+        // 回调地狱
+        // setTimeout(() => {
+        //     console.log(111);
+        //     setTimeout(() => {
+        //         console.log(222);
+        //         setTimeout(() => {
+        //             console.log(333);
+        //         }, 3000);
+        //     }, 2000);
+        // }, 1000);
+
+
+        // 生成器函数做法
+        // 生成三个函数 分别完成3个异步任务
+        // function one() {
+        //     setTimeout(() => {
+        //         console.log(111);
+        //         iterator.next();
+        //     }, 1000);
+        // };
+
+        // function two() {
+        //     setTimeout(() => {
+        //         console.log(222);
+        //         iterator.next();
+        //     }, 2000);
+        // };
+
+        // function three() {
+        //     setTimeout(() => {
+        //         console.log(333);
+        //         iterator.next();
+        //     }, 3000);
+        // };
+
+        // // 生成生成器函数
+        // function* gen() {
+        //     yield one();
+        //     yield two();
+        //     yield three();
+        // };
+
+        // // 调用生成器函数
+        // let iterator = gen();
+        // iterator.next();
+
+
+
+        // 生成器案例2
+        // 模拟获取  用户数据 订单数据 商品数据
+        function getUsers() {
+            setTimeout(() => {
+                let data = '用户数据';
+                // 调用next方法，并且将数据传入
+                iterator.next(data);
+            }, 1000)
+        };
+
+        function getOrders() {
+            setTimeout(() => {
+                let data = '订单数据';
+                iterator.next(data);
+            }, 1000)
+        };
+
+        function getGoods() {
+            setTimeout(() => {
+                let data = '商品数据';
+                iterator.next(data);
+            }, 1000)
+        };
+
+        // 声明生成器函数
+        function* gen() {
+            let users = yield getUsers();
+            console.log(users);
+            let orders=yield getOrders();
+            console.log(orders);
+            let goods=yield getGoods();
+            console.log(goods);
+        };
+
+        // 调用生成器函数
+        let iterator = gen();
+        iterator.next();
+    </script>
+
+
+Promise
+
+    <script>
+        // Promise
+        // Promise是ES6引入的异步编程的新解决方法。语法上promise是一个构造函数
+        // 用来封装异步操作并可以获取其成功或失败的结果
+
+        // 实例化Promise对象
+        // const P=new Promise(function(resolve,reject){
+        //     setTimeout(function(){
+        // let data='数据库中的用户数据';
+        // resolve
+        // resolve(data);
+        // 调用完resolve函数 之后，Promise 对象P的状态就会变为成功 （三个状态：初始化 成功 失败）
+        // let err='数据读取失败';
+        // reject(err);
+        // 调用完reject函数之后，promise 对象P的状态就会变为失败 失败后会调用then 方法 的第二个函数 
+
+        //     },1000);
+        // });
+
+        // 调用promise对象中的then 方法
+        // then 有两个参数 都是函数  函数分别有一个形参，成功的形参一般叫value 失败的形参一般叫 reason
+        // P.then(function(value){
+        //     console.log(value);
+        // },function(reason){
+        //     console.log(reason);
+        // })
+
+
+
+        // Promise读取文件内容
+        // （这部分涉及到node.js，先略过）
+
+
+
+        // Promise封装AJAX
+
+        const P = new Promise((resolve, reject) => { 
+            // 1.创建对象
+            const xhr = new XMLHttpRequest();
+
+            // 2. 初始化
+            xhr.open('GET', 'https://api.apiopen.top/getJoke');
+
+            // 3.发送
+            xhr.send();
+
+            // 4. 绑定事件处理响应结果
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4) {
+                    //判断响应状态码 200~299之间
+                    if (xhr.status >= 200 && xhr.status < 300) {
+                        // 表示成功
+                        resolve(xhr.response);
+                    } else {
+                        // 如果失败
+                        reject(xhr.status);
+                    }
+
+                }
+            }
+        })
+
+        // 指定回调
+        P.then(function(value){
+            console.log(value);
+        },function(reason){
+            console.error(reason);
+        })
+    </script>
+

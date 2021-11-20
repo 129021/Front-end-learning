@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // 迭代器
+        // 迭代器（Iterator）是一种接口，是对象里面的一个属性，这个属性的名字叫做Symbol.iterator  为各种不同的数据结构提供统一的访问机制 
+        // 任何数据结构只要部署Iterator接口，就可以完成遍历操作
+
+        // ES6创造了一种新的遍历命令for...of循环，Iterator接口主要供for...of消费
+        // 原生具备iterator接口的数据（可用for of循环）
+        // Array
+        // Set
+        // Map
+        // String
+        // TypedArray
+        // NodeList
+
+        // 原理：
+        // 创建一个指针对象，指向当前数据结构的起始位置
+        // 第一次调用对象的next方法，指针自动指向数据结构的第一个成员
+        // 接下来不断调用next方法，指针一直往后移动，直到指向最后一个成员
+        // 每调用next方法返回一个包含value和done属性的对象
+        // 注意：需要自定义遍历数据的时候，要想到迭代器
+
+        // 声明一个数组
+        const xiyou = ['a', 'b', 'c', 'd'];
+        // 使用for ...of 遍历数组
+        for (let v of xiyou) {
+            console.log(v);
+        }
+        console.log(xiyou);
+
+        let iterator = xiyou[Symbol.iterator]();
+
+        // 调用对象的next方法
+        console.log(iterator.next());
+        console.log(iterator.next());
+        console.log(iterator.next());
+        console.log(iterator.next());
+        console.log(iterator.next());
+
+
+        // 迭代器自定义遍历对象案例
+        // 声明一个对象
+        const banji = {
+            name: '三年二班',
+            stus: [
+                'xiaoming',
+                'wang',
+                'li',
+                'liu'
+            ],
+            [Symbol.iterator]() {
+                // 索引变量
+                let index = 0;
+                let _this = this;
+                return {
+                    next: function () {
+                        if (index < _this.stus.length) {
+                            const result = {
+                                value: '_this.stus[i]',
+                                done: false
+                            };
+                            index++;
+                            return result;
+                        }else{
+                            return {value:undefined,done:true};
+                        }
+                    }
+                };
+            }
+        }
+
+        // 遍历这个对象   每次返回的结果是stus数组的一个成员
+        // banji.stus.forEach();    这样是可以的，但是不符合面向对象的思想
+        for (let v of banji) {
+            console.log(v);
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // ES6引入了一种新的数据类型symbol，表示独一无二的值。它是JavaScript语言的第七种数据类型，是一种类似于字符串的数据类型
+
+        // 特点：
+        // symbol的值是唯一的，用来解决命名冲突的问题
+        // Symbol值不能与其他数据进行运算
+        // Symbol定义的属性不能使用for... in循环遍历，但是可以使用Reflect.ownKeys来获取对象的说有键名
+
+        // 创建Symbol
+        let s = Symbol();
+        console.log(s, typeof s);
+
+        let s2 = Symbol('海绵宝宝');
+        let s3 = Symbol('海绵宝宝');
+        console.log(s2 == s3); // flase
+
+        // Symbol.for 创建
+        let s4 = Symbol.for('海绵宝宝');
+        let s5 = Symbol.for('海绵宝宝');
+        console.log(s4, typeof s4);
+        console.log(s4 == s5); //true
+
+
+        // 不能与其他数据进行运算
+        // let result=s+100;
+        // let result=s>100;
+        // let result=s+s;
+        // 都不行
+
+
+        // 总结
+        // 七种数据类型  USONB     you are so niubility
+        // u   undefined
+        // s   string  Symbol
+        // o   Object
+        // n   null  Number
+        // b   boolean 
+
+
+        // Symbol 的使用
+        // 向对象添加属性和方法
+        let game = {}
+
+        // 声明一个对象
+        // let methods={
+        //     up:Symbol(),
+        //     down:Symbol()
+        // };
+        // game[methods.up]=function(){
+        //     console.log('我可以改变形状');
+        // }
+
+        // game[methods.down]=function(){
+        //     console.log('我可以快速下降');
+        // }
+
+        // console.log(game);
+
+        let youxi = {
+            name: '狼人杀',
+            [Symbol('say')]: function () {
+                console.log('我可以发言');
+            },
+            [Symbol('zibao')]: function () {
+                console.log('我可以自爆');
+            }
+        }
+        console.log(youxi);
+
+
+
+        // Symbol 内置值
+
+        class Person {
+            static[Symbol.hasInstance]() {
+                console.log('我被用来检测类型了');
+                return true;
+            }
+        }
+
+        let o = {};
+        console.log(o instanceof Person);
+
+        // Symbol.isConcatSpreadable   布尔类型 用来控制数组是否可以展开
+        const arr = [1, 2, 3];
+        const arr2 = [4, 5, 7];
+        arr2[Symbol.isConcatSpreadable] = false;
+        console.log(arr.concat(arr2));
+    </script>
+</body>
+
+</html>

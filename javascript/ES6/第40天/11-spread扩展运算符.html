@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+
+    <script>
+        // ... 扩展运算符可以将数组转换为逗号分隔的参数序列
+
+        // 声明一个数组
+        const tfboys=['a','b','c'];
+
+        // 声明一个函数
+        function chunwan(){
+            console.log(arguments);
+        }
+        chunwan(...tfboys);
+        // rest 参数放在函数声明的形参里面
+        // spread扩展运算符放在函数调用的实参里面
+
+
+        // 扩展运算符的应用
+        // 1.数组的合并
+        const kuaizi =['a','b'];
+        const fenghuang=['c','d'];
+        const hebing=[...kuaizi,...fenghuang];
+        console.log(hebing);
+
+
+        // 2.数组的克隆
+        const original=['a','b','c'];
+        const copy=[...original];
+        console.log(copy);
+
+
+        // 3. 将伪数组转换为真正的数组
+        const divs=document.querySelectorAll('div');
+        console.log(divs);
+        const divArr=[...divs];
+        console.log(divArr);
+
+
+    </script>
+</body>
+</html>

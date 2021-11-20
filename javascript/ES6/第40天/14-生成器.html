@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // 生成器其实就是一个特殊的函数
+        // 异步编程 纯回调函数  node fs ajax mongodb
+
+        // 声明方式
+        // function* gen() {
+        //     // console.log('hello,generator');
+        //     // yield可以算作函数代码的分隔符 把函数代码分割成几块 由next方法执行
+        //     // console.log(1);
+        //     yield '一只没有耳朵';
+        //     // console.log(2);
+
+        //     yield '一只没有尾巴';
+        //     // console.log(3);
+
+        //     yield '真奇怪';
+        //     // console.log(4);
+
+        // };
+
+        // 执行
+        // 直接调用不显示 使用next方法调用
+        // let iterator = gen();
+        // // console.log(iterator);
+        // console.log(iterator.next());
+        // console.log(iterator.next());
+        // console.log(iterator.next());
+        // console.log(iterator.next());
+        // (图：生成器输出)
+
+        // 遍历
+        // // 每一次调用的返回结果是yield后面的表达式
+        // for (let v of gen()){
+        //     console.log(v);
+        // }
+
+
+        // 生成器函数参数
+        // function* gen(arg) {
+        //     console.log(arg);
+        //     let one=yield 111;
+        //     console.log(one);
+        //     yield 222;
+        //     yield 333;
+        //     yield 444;
+        // };
+
+        // // 执行获取迭代器对象
+        // let iterator = gen('abc');
+        // console.log(iterator.next());
+        // // next 方法可以传入实参  传入的参数可以作为上一个语句的整体返回结果
+        // console.log(iterator.next('bbb'));
+        // // console.log(iterator.next());
+        // // console.log(iterator.next());
+        // // console.log(iterator.next());
+
+
+
+        // 生成器函数实例1
+        // 异步编程   如:文件操作,网络操作(ajax,request) 数据库操作
+
+        // 定时器案例
+        // 1秒后控制台输出111 2s后输出222 3s 后输出333
+
+        // 原先的做法
+        // 回调地狱
+        // setTimeout(() => {
+        //     console.log(111);
+        //     setTimeout(() => {
+        //         console.log(222);
+        //         setTimeout(() => {
+        //             console.log(333);
+        //         }, 3000);
+        //     }, 2000);
+        // }, 1000);
+
+
+        // 生成器函数做法
+        // 生成三个函数 分别完成3个异步任务
+        // function one() {
+        //     setTimeout(() => {
+        //         console.log(111);
+        //         iterator.next();
+        //     }, 1000);
+        // };
+
+        // function two() {
+        //     setTimeout(() => {
+        //         console.log(222);
+        //         iterator.next();
+        //     }, 2000);
+        // };
+
+        // function three() {
+        //     setTimeout(() => {
+        //         console.log(333);
+        //         iterator.next();
+        //     }, 3000);
+        // };
+
+        // // 生成生成器函数
+        // function* gen() {
+        //     yield one();
+        //     yield two();
+        //     yield three();
+        // };
+
+        // // 调用生成器函数
+        // let iterator = gen();
+        // iterator.next();
+
+
+
+        // 生成器案例2
+        // 模拟获取  用户数据 订单数据 商品数据
+        function getUsers() {
+            setTimeout(() => {
+                let data = '用户数据';
+                // 调用next方法，并且将数据传入
+                iterator.next(data);
+            }, 1000)
+        };
+
+        function getOrders() {
+            setTimeout(() => {
+                let data = '订单数据';
+                iterator.next(data);
+            }, 1000)
+        };
+
+        function getGoods() {
+            setTimeout(() => {
+                let data = '商品数据';
+                iterator.next(data);
+            }, 1000)
+        };
+
+        // 声明生成器函数
+        function* gen() {
+            let users = yield getUsers();
+            console.log(users);
+            let orders=yield getOrders();
+            console.log(orders);
+            let goods=yield getGoods();
+            console.log(goods);
+        };
+
+        // 调用生成器函数
+        let iterator = gen();
+        iterator.next();
+    </script>
+</body>
+
+</html>
