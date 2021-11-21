@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 声明两个promise对象
+        const p1=new Promise((resolve,reject)=>{
+            setTimeout(()=>{
+                resolve('商品数据--1');
+            },1000)
+        });
+
+        const p2=new Promise((resolve,reject)=>{
+            setTimeout(()=>{
+                // resolve('商品数据--2');
+                reject('出错了');
+            },1000)
+        });
+
+        // 调用allsettled方法   返回的结果始终是成功的
+        // const result=Promise.allSettled([p1,p2]);
+        // console.log(result);
+
+        // 区别all 方法 都用在做一些批量异步任务的场景，但是all方法根据每个对象的状态返回结果，都成功才返回成功，有一个失败则返回的promise是失败  失败的值是数组里面那个失败的promise的值
+        const res=Promise.all([p1,p2]);
+        console.log(res);
+    </script>
+</body>
+</html>

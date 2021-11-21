@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 大整型
+        let n=123n;
+        console.log(n,typeof(n));
+
+        // 函数
+        let n1=123;
+        console.log(BigInt(n1));
+        // console.log(BigInt(1.2));  //不可以使用浮点数
+
+        // BigInt主要用于大数值运算
+        // 最大安全整数
+        let max=Number.MAX_SAFE_INTEGER;
+        console.log(max+2);  //不能正常运算
+        // BigInt不能与正常的数值做运算，必须与BigInt做运算
+        console.log(BigInt(max)+BigInt(1));
+        console.log(BigInt(max)+BigInt(2));
+    </script>
+</body>
+</html>

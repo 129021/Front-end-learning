@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // 命名捕获分组
+
+        // 声明一个字符串
+        // let str = '<a href="http://www.baidu.com/">Baidu</a>';
+
+        // 提取URL与标签文本
+        // 之前的处理
+        // const reg=/<a href="(.*)">(.*)<\/a>/;
+
+        // const result=reg.exec(str);
+        // console.log(result[1]);
+        // console.log(result[2]);
+
+        // 现在的做法
+        // const reg = /<a href="(?<url>.*)">(?<text>.*)<\/a>/;
+
+        // const result = reg.exec(str);
+        // console.log(result);
+
+
+
+        // 反向断言
+        // 正向断言 根据当前匹配的后面的内容判断前面的内容是否满足条件
+        // let str = 'abcdefg1234567测试测试789结尾';
+        // const reg = /\d+(?=结)/;
+        // const result = reg.exec(str);
+        // console.log(result);
+
+        // 反向断言 根据当前匹配的前面的内容判断后面的内容是否满足条件
+        // const reg=/(?<=测试)\d+/;
+        // const result=reg.exec(str);
+        // console.log(result);
+
+
+
+        // 正则dotAll模式
+        // dot .  元字符   除换行符以外的任意单个字符
+        // （先略过）
+    </script>
+</body>
+
+</html>
