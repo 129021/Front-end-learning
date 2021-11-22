@@ -1,0 +1,232 @@
+From f7932fb4d43de1fa3319ca64be89a5ec6c45c292 Mon Sep 17 00:00:00 2001
+From: 129021 <wangjianqin1@yahoo.com>
+Date: Mon, 22 Nov 2021 18:58:37 +0800
+Subject: [PATCH 2/3] test
+
+---
+ .../\347\254\25442\345\244\251/notes42.txt"   | 23 +++++
+ .../js/chat.js"                               | 71 ++++++++++++++
+ ...\346\234\272\345\231\250\344\272\272.html" | 95 ++++++++++---------
+ 3 files changed, 142 insertions(+), 47 deletions(-)
+
+diff --git "a/\345\211\215\345\220\216\347\253\257\344\272\244\344\272\222/\347\254\25442\345\244\251/notes42.txt" "b/\345\211\215\345\220\216\347\253\257\344\272\244\344\272\222/\347\254\25442\345\244\251/notes42.txt"
+index 34b24beb..10397835 100644
+--- "a/\345\211\215\345\220\216\347\253\257\344\272\244\344\272\222/\347\254\25442\345\244\251/notes42.txt"
++++ "b/\345\211\215\345\220\216\347\253\257\344\272\244\344\272\222/\347\254\25442\345\244\251/notes42.txt"
+@@ -287,6 +287,29 @@ vscode 插件：Bootstrap 3 Snippets
+ 
+ 
+ 9.3 将用户输入的内容渲染到聊天窗口中
++$(function () {
++    // 初始化右侧滚动条
++    // 这个方法定义在scroll.js中
++    resetui()
++})
++
++// 为发送按钮绑定鼠标的点击事件
++$('#btnSend').on('click', function () {
++    var text = $('#ipt').val().trim()
++    if (text.length <= 0) {
++        return $('#ipt').val('')
++    }
++
++    // 如果用户输入了聊天内容，则将内容追加到聊天页面上显示
++    $('#talk_list').append('<li class="right_word"><img src="img/person02.png" /> <span>' + text + '</span></li>')
++
++    // 重置滚动条的位置
++    resetui();
++
++})
++
++
++9.4 发起请求获取聊天的消息
+ 
+ 
+ 
+diff --git "a/\345\211\215\345\220\216\347\253\257\344\272\244\344\272\222/\347\254\25442\345\244\251/\350\201\212\345\244\251\346\234\272\345\231\250\344\272\272/js/chat.js" "b/\345\211\215\345\220\216\347\253\257\344\272\244\344\272\222/\347\254\25442\345\244\251/\350\201\212\345\244\251\346\234\272\345\231\250\344\272\272/js/chat.js"
+index aad96d07..be117b9b 100644
+--- "a/\345\211\215\345\220\216\347\253\257\344\272\244\344\272\222/\347\254\25442\345\244\251/\350\201\212\345\244\251\346\234\272\345\231\250\344\272\272/js/chat.js"
++++ "b/\345\211\215\345\220\216\347\253\257\344\272\244\344\272\222/\347\254\25442\345\244\251/\350\201\212\345\244\251\346\234\272\345\231\250\344\272\272/js/chat.js"
+@@ -2,4 +2,75 @@ $(function () {
+     // 初始化右侧滚动条
+     // 这个方法定义在scroll.js中
+     resetui()
++
++    // 为发送按钮绑定鼠标的点击事件
++    $('#btnSend').on('click', function () {
++        var text = $('#ipt').val().trim()
++        if (text.length <= 0) {
++            return $('#ipt').val('')
++        }
++
++        // 如果用户输入了聊天内容，则将内容追加到聊天页面上显示
++        $('#talk_list').append('<li class="right_word"><img src="img/person02.png" /> <span>' + text + '</span></li>')
++
++        // 重置滚动条的位置
++        resetui();
++
++        // 发起请求，获取聊天内容
++        getMsg(text);
++
++    })
++
++    // 获取聊天机器人发送回来的消息
++    function getMsg(text) {
++        $.ajax({
++            method: 'GET',
++            url: 'http://www.liulongbin.top:3006/api/robot',
++            data: {
++                spoken: text
++            },
++            sucess: function (res) {
++                console.log(res);
++                if (res.message === 'success') {
++                    // 接受聊天消息
++                    var msg = res.data.info.text
++                    $('#talk_list').append('<li class="left_word"><img src="img/person01.png" /> <span>' + msg + '</span></li>')
++
++                    // 重置滚动条的位置
++                    resetui();
++
++                    // 调用getVoice函数，把文本转化为语音
++                    getVoice(text);
++
++                }
++            }
++        })
++    }
++
++    // 把文字转化为语音进行播放
++    function getVoice(text) {
++        $.ajax({
++            method: 'GET',
++        url:'http://www.liulongbin.top:3006/api/synthesize',
++        data:{
++            text:text
++        },
++        success:function(res){
++            console.log(res);
++            if (res.status===200){
++                //播放语音
++                $('#voice').attr('src',res.voiceUrl)
++            }
++        }
++        })
++    }
++
++    // 为文本框绑定keycode事件
++    $('#ipt').on('keyup',function(e){
++        // console.log(e.keyCode);
++        if (e.keyCode===13){
++            // console.log('用户弹起了回车键');
++            $('#btnSend').click();
++        }
++    })
+ })
+\ No newline at end of file
+diff --git "a/\345\211\215\345\220\216\347\253\257\344\272\244\344\272\222/\347\254\25442\345\244\251/\350\201\212\345\244\251\346\234\272\345\231\250\344\272\272/\350\201\212\345\244\251\346\234\272\345\231\250\344\272\272.html" "b/\345\211\215\345\220\216\347\253\257\344\272\244\344\272\222/\347\254\25442\345\244\251/\350\201\212\345\244\251\346\234\272\345\231\250\344\272\272/\350\201\212\345\244\251\346\234\272\345\231\250\344\272\272.html"
+index 367ff978..8dbce2b8 100644
+--- "a/\345\211\215\345\220\216\347\253\257\344\272\244\344\272\222/\347\254\25442\345\244\251/\350\201\212\345\244\251\346\234\272\345\231\250\344\272\272/\350\201\212\345\244\251\346\234\272\345\231\250\344\272\272.html"
++++ "b/\345\211\215\345\220\216\347\253\257\344\272\244\344\272\222/\347\254\25442\345\244\251/\350\201\212\345\244\251\346\234\272\345\231\250\344\272\272/\350\201\212\345\244\251\346\234\272\345\231\250\344\272\272.html"
+@@ -1,49 +1,50 @@
+  <!DOCTYPE html>
+-<html lang="en">
+-  <head>
+-    <meta charset="UTF-8" />
+-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+-    <link rel="stylesheet" href="css/reset.css" />
+-    <link rel="stylesheet" href="css/main.css" />
+-    <script type="text/javascript" src="js/jquery-1.12.4.min.js"></script>
+-    <script type="text/javascript" src="js/jquery-ui.min.js"></script>
+-    <script type="text/javascript" src="js/jquery.mousewheel.js"></script>
+-    <title>聊天机器人</title>
+-  </head>
++ <html lang="en">
+ 
+-  <body>
+-    <div class="wrap">
+-      <!-- 头部 Header 区域 -->
+-      <div class="header">
+-        <h3>小思同学</h3>
+-        <img src="img/person01.png" alt="icon" />
+-      </div>
+-      <!-- 中间 聊天内容区域 -->
+-      <div class="main">
+-        <ul class="talk_list" style="top: 0px;">
+-          <li class="left_word">
+-            <img src="img/person01.png" /> <span>你好</span>
+-          </li>
+-          <li class="right_word">
+-            <img src="img/person02.png" /> <span>你好哦</span>
+-          </li>
+-        </ul>
+-        <div class="drag_bar" style="display: none;">
+-          <div
+-            class="drager ui-draggable ui-draggable-handle"
+-            style="display: none; height: 412.628px;"
+-          ></div>
+-        </div>
+-      </div>
+-      <!-- 底部 消息编辑区域 -->
+-      <div class="footer">
+-        <img src="img/person02.png" alt="icon" />
+-        <input type="text" placeholder="说的什么吧..." class="input_txt"id="ipt" />
+-        <input type="button" value="发 送" class="input_sub" />
+-      </div>
+-    </div>
+-    <script type="text/javascript" src="js/scroll.js"></script>
+-    <script src="js/chat.js"></script>
+-  </body>
+-</html>
++ <head>
++   <meta charset="UTF-8" />
++   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
++   <meta http-equiv="X-UA-Compatible" content="ie=edge" />
++   <link rel="stylesheet" href="css/reset.css" />
++   <link rel="stylesheet" href="css/main.css" />
++   <script type="text/javascript" src="js/jquery-1.12.4.min.js"></script>
++   <script type="text/javascript" src="js/jquery-ui.min.js"></script>
++   <script type="text/javascript" src="js/jquery.mousewheel.js"></script>
++   <title>聊天机器人</title>
++ </head>
++
++ <body>
++   <div class="wrap">
++     <!-- 头部 Header 区域 -->
++     <div class="header">
++       <h3>小思同学</h3>
++       <img src="img/person01.png" alt="icon" />
++     </div>
++     <!-- 中间 聊天内容区域 -->
++     <div class="main">
++       <ul class="talk_list" style="top: 0px;" id="talk_list">
++         <li class="left_word">
++           <img src="img/person01.png" /> <span>嗨，最近想我没有？</span>
++         </li>
++         <!-- <li class="right_word">
++           <img src="img/person02.png" /> <span>你好哦</span>
++         </li> -->
++       </ul>
++       <div class="drag_bar" style="display: none;">
++         <div class="drager ui-draggable ui-draggable-handle" style="display: none; height: 412.628px;"></div>
++       </div>
++     </div>
++     <!-- 底部 消息编辑区域 -->
++     <div class="footer">
++       <img src="img/person02.png" alt="icon" />
++       <input type="text" placeholder="说的什么吧..." class="input_txt" id="ipt" />
++       <input type="button" value="发 送" class="input_sub" id="btnSend" />
++     </div>
++   </div>
++<!-- 注意，只要为audio指定了新的src属性，而且指定了autoplay，语音就会自动播放 -->
++   <audio src="" id="voice" autoplay style="display: none;"></audio>
++   <script type="text/javascript" src="js/scroll.js"></script>
++   <script src="js/chat.js"></script>
++ </body>
++
++ </html>
+\ No newline at end of file
+-- 
+2.34.0.windows.1
+
