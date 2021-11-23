@@ -345,3 +345,161 @@ art-template提供了{{}}这种语法格式，在{{}}内可以进行**变量输�
 template.default.imports.filterName=function(value){/*return处理的结果*/}
 ```
 ## 5.5 案例-新闻列表
+### 1. 实现步骤
+- 获取新闻数据
+- 定义template模板
+- 编译模板
+- 定义时间过滤器
+- 定义补零函数
+  
+# 6. 模板引擎的实现原理
+## 6.1. 正则与字符串操作
+### 1. 基本语法
+exec()函数用于 **检索字符串**中的正则表达式的匹配
+如果字符串中有匹配的值，则返回该匹配值，否则返回null
+```javascript
+RegExpObject.exec(string)
+```
+示例：
+```javascript
+    <script>
+        var str='hello'
+        var pattern=/o/
+       var result=pattern.exec(str)
+       console.log(result);
+    </script>
+```
+### 2. 分组
+正则表达式中，()包起来的内容表示一个分组，可以通过分组来提取自己想要的内容
+
+示例：
+```javascript
+    <script>
+        var str='<div>我是{{name}}</div>'
+        var pattern=/{{([a-zA-Z]+)}}/
+        var result=pattern.exec(str)
+        console.log(result);
+    </script>
+```
+### 3. 字符串的replace函数
+replace()函数用于在字符串中用一些字符替换另一些字符
+```javascript
+var result='123456'.replace('123','abc')
+//得到的字符串为'abc456'
+```
+
+示例：
+```javascript
+    <script>
+        var str = '<div>我是{{name}}</div>'
+        var pattern = /{{([a-zA-Z]+)}}/
+        var result = pattern.exec(str)
+        // console.log(result);
+        newStr = str.replace(result[0], result[1])
+        console.log(newStr);
+    </script>
+```
+### 4. 多次replace
+```javascript
+    <script>
+        var str = '<div>{{name}}今年{{age}}岁了</div>'
+        var pattern = /{{\s*([a-zA-Z]+)\s*}}/
+
+        // 第一次匹配
+        var res1 = pattern.exec(str)
+        // console.log(res1);
+        str = str.replace(res1[0], res1[1])
+        console.log(str);
+
+        // 第二次匹配
+        var res2 = pattern.exec(str)
+        console.log(res2);
+        str = str.replace(res2[0], res2[1])
+        console.log(str);
+    </script>
+```
+### 5. 使用while循环replace
+```javascript
+    <script>
+        var str = '<div>{{name}}今年{{age}}岁了</div>'
+        var pattern = /{{\s*([a-zA-Z]+)\s*}}/
+
+        var patternResult=null
+        while(patternResult=pattern.exec(str)){
+            str=str.replace(patternResult[0],patternResult[1])
+        }
+
+        console.log(str);
+    </script>
+```
+### 6. replace替换为真值
+```javascript
+    <script>
+        var data={
+            name:'zhangsan',
+            age:20
+        }
+        var str = '<div>{{name}}今年{{age}}岁了</div>'
+        var pattern = /{{\s*([a-zA-Z]+)\s*}}/
+
+        var patternResult=null
+        while(patternResult=pattern.exec(str)){
+            str=str.replace(patternResult[0],data[patternResult[1]])
+        }
+
+        console.log(str);
+    </script>
+```
+
+## 6.2. 实现简易的模板引擎
+### 1. 实现步骤
+- 定义模板结构
+- 预调用模板引擎
+- 封装template函数
+- 导入并使用自定义的模板引擎
+
+#### 定义模板结构
+```javascript
+    <script type="text/html" id="tpl-user">
+        <div>姓名：{{name}}</div>
+        <div>年龄：{{ age }}</div>
+        <div>性别：{{  gender}}</div>
+        <div>住址：{{address  }}</div>
+    </script>
+```
+
+#### 预调用模板引擎
+```javascript
+    <script>
+        // 定义数据
+        var data={
+            name:'zs',
+            age:12,
+            gender:'male',
+            address:'Beijing'
+        }
+
+        // 调用模板引擎
+        var htmlStr=template('tpl-user',data)
+
+        // 渲染HTML结构
+        document.getElementById('user-box').innerHTML=htmlStr
+    </script>
+```
+#### 封装template函数
+```javascript
+function template(id,data){
+    var str=document.getElementById(id).innerHTML
+    var pattern=/{{\s*([a-zA-Z]+)\s*}}/
+
+    var patternResult=null
+    while(patternResult=pattern.exec(str)){
+        str=str.replace(patternResult[0],data[patternResult[1]])
+    }
+    return str
+}
+```
+####  导入并使用自定义的模板引擎
+```javascript
+    <script src="js/template.js"></script>
+```
