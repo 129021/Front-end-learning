@@ -81,3 +81,267 @@ $(selector).serialize()
 好处：**可以一次性获取到表单中所有的数据**
 ### 2. serialize()函数示例
 注意：在使用serialize()函数获取表单元素时，**必须为每个表单元素添加name属性**
+# 3. 案例-评论列表
+## 3.1. 渲染UI结构
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="lib/bootstrap.css">
+    <script src="lib/jquery.js"></script>
+    <script src="js/cmt.js"></script>
+</head>
+
+<body style="padding:15px">
+    <!-- 评论面板 -->
+
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">发表评论</h3>
+        </div>
+        <div class="panel-body">
+            <div>评论人</div>
+            <input type="text" class="form-control">
+            <div>评论内容</div>
+            <textarea class="form-control"></textarea>
+            <button type="submit" class="btn btn-primary">发表评论</button>
+        </div>
+    </div>
+
+    <!-- 评论列表 -->
+
+    <ul class="list-group" id="cmt-list">
+        <li class="list-group-item">
+            <span class="badge" style="background-color: #f0ad4e;">评论时间</span>
+            <span class="badge" style="background-color:#5bc0de">评论人</span>
+            Item 1
+        </li>
+    </ul>
+</body>
+
+</html>
+```
+## 3.2. 获取评论列表数据
+```javascript
+function getCommentList(){
+    $.ajax({
+        method:'get',
+        url:'http://www.liulongbin.top:3006/api/cmtlist',
+        success:function(res){
+            // console.log(res);
+            if(res.status!==200) return alert('获取评论列表失败！')
+            console.log('获取数据成功');
+
+           
+        }
+    })
+}
+
+getCommentList();
+```
+## 3.3. 渲染评论列表
+```javascript
+            var rows = []
+            $.each(res.data, function (i, item) {
+                var str = '<li class="list-group-item"><span class="badge" style="background-color: #f0ad4e;">评论时间：'+item.time+'</span><span class="badge" style="background-color:#5bc0de">评论人：'+item.username+'</span>'+item.content+'</li>'
+                rows.push(str)
+            })
+            $('#cmt-list').empty().append(rows.join(''))
+```
+## 3.4. 改造form表单
+- 将发表评论的div改为form
+- 为每一个input 和textarea添加name属性
+- 监听form表单submit事件，获取表单中填写的数据：
+```javascript
+$(function () {
+    $('#formAddCmt').submit(function (e) {
+        e.preventDefault();
+        var data=$(this).serialize()
+        console.log(data);
+    })
+})
+```
+## 3.5. 发表评论
+```javascript
+$.post('http://www.liulongbin.top:3006/api/addcmt', data, function (res) {
+            if (res.status !== 201) {
+                return alert('发表评论失败！')
+            }
+            getCommentList()
+            
+            // 把jQuery对象转换为原生DOM对象+[0]
+            $('#formAddCmt')[0].reset()
+        })
+```
+# 4. 模板引擎的基本概念
+## 4.1. 渲染UI结构时遇到的问题
+如果UI结构比较复杂，则拼接字符串的时候需要格外注意**引号之前的嵌套关系**，且一旦需求发生变化，修改起来非常麻烦
+## 4.2. 什么是模板引擎
+模板引擎，顾名思义，可以根据程序员指定的**模板结构**和**数据**，自动生成一个完整的HTML页面
+## 4.3. 模板引擎的好处
+- 减少了字符串的拼接操作
+- 使代码结构更加清晰
+- 使代码更容易阅读和后期维护
+# 5. art-template模板引擎
+## 5.1. art-template简介
+art-template是一个简约，超快的模板引擎。[官网](https://aui.github.io/art-template/zh-cn/)
+## 5.2. art-template下载
+官网下载“在浏览器中实时编译：template-web.js”
+## 5.3. art-template基本使用
+### 1. 使用传统方式渲染UI结构
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="lib/jquery.js"></script>
+</head>
+
+<body>
+    <div id="title"></div>
+    <div>姓名：<span id="name"></span></div>
+    <div>年龄：<span id="age"></span></div>
+    <div>会员：<span id="isVIP"></span></div>
+    <div>注册时间：<span id="regTime"></span></div>
+    <div>爱好：
+        <ul id="hobby">
+            <li>爱好1</li>
+            <li>爱好2</li>
+        </ul>
+    </div>
+
+    <script>
+        data = {
+            title: '<h3>用户信息</h3>',
+            name: 'zs',
+            age: 20,
+            isVIP: true,
+            regTime: new Date(),
+            hobby: ['吃饭', '睡觉', '打豆豆']
+        }
+
+        $(function () {
+            $('#name').html(data.name)
+            $('#title').html(data.title)
+            $('#age').html(data.age)
+            $('#isVIP').html(data.isVIP)
+            $('#regTime').html(data.regTime)
+
+            var rows = []
+            $.each(data.hobby, function (i,item) {
+                rows.push('<li>' + item + '</li>')
+            })
+            $('#hobby').html(rows.join(''))
+        })
+    </script>
+</body>
+
+</html>
+```
+### 2. art-template的使用步骤
+- 导入art-template
+- 定义数据
+- 定义模板调用template函数
+- 渲染HTML结构
+
+演示代码：
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- 1. 导入模板引擎 -->
+    <!-- 在window全局，多了一个函数，叫做template('模板的id',需要渲染的数据对象) -->
+    <script src="js/template-web.js"></script>
+    <script src="lib/jquery.js"></script>
+</head>
+
+<body>
+    <div id="container"></div>
+
+    <!-- 3. 定义模板 -->
+    <!-- 3.1 模板的HTML结构，必须定义到script中 -->
+    <!-- 当script标签内什么都不写时，script默认的type是text/javascript，因为定义模板需要在script内写HTML结构，所以需要修改script的type属性 -->
+    <script type="text/html" id="tpl-user">
+        <h1>{{name}}--------{{age}}</h1>
+    </script>
+
+    <script>
+        // 2. 定义需要渲染的数据
+        var data = {
+            name: 'zs',
+            age:20
+        }
+
+        // 4. 调用template函数
+        var htmlStr = template('tpl-user', data)
+        console.log(htmlStr);
+
+        // 5. 渲染HTML结构
+        $('#container').html(htmlStr)
+    </script>
+</body>
+
+</html>
+```
+## 5.4. art-template标准语法
+### 1. 什么是标准语法
+art-template提供了{{}}这种语法格式，在{{}}内可以进行**变量输出**，或**循环数组**等操作，这种{{}}语法在art-template中被称为标准语法。
+### 2. 标准语法-输出
+在标准语法中，可以进行变量的输出，对象属性的输出，三元表达式的输出，逻辑或输出，加减乘除等表达式输出。
+```javascript
+{{value}}
+{{obj.key}}
+{{obj['key']}}
+{{a?a:c}}
+{{a||b}}
+{{a+b}}
+```
+### 3. 标准语法-原文输出
+```javascript
+{{@ value}}
+```
+如果要输出的value值中，包含了HTML结构标签，需要使用原文输出语法，才能保证HTML标签被正常渲染。
+### 4. 标准语法-条件输出
+如果要实现条件输出，则可以在{{}}中使用if...else if.../if的方式，进行按需输出
+```javascript
+{{if value}} 按需输出的内容{{/if}}
+
+{{if v1}} 按需输出的内容{{else if v2}}按需输出的内容{{/if}}
+```
+### 5. 标准语法-循环输出
+如果要实现循环输出，则可以在{{}}内，通过each语法循环数组，当前循环的索引使用$index进行访问，当前的循环项使用$value进行访问
+```javascript
+{{each arr}}
+{{index}} {{value}}
+{{/each}}
+```
+### 6. 标准语法-过滤器
+![](2021-11-23-16-57-23.png)
+
+过滤器的本质就是一个function函数
+
+语法：
+```javascript
+{{value | filterName}}
+```
+过滤器的语法类似 **管道操作符**，它的上一个输出作为下一个输入
+
+定义过滤器的基本语法：
+```javascript
+template.default.imports.filterName=function(value){/*return处理的结果*/}
+```
+## 5.5 案例-新闻列表

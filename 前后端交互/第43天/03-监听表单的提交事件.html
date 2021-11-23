@@ -29,6 +29,8 @@
                     '监听到了表单的提交事件'
                 )
                 e.preventDefault()
+                var data=$(this).serialize()
+                console.log(data);
             })
         })
     </script>
