@@ -19,4 +19,10 @@
 action属性用来规定当提交表单时，向何处发送表单数据
 action的属性应该是后端提供的一个URL地址，这个URL地址专门负责接收表单提交过来的数据
 当 &lt;form&gt;表单为指定action属性值的情况下，action的默认值为当前页面的URL地址
+**注意**：当提交表单后，页面会立即跳转到action属性指定的URL页面
+### 2. target
+  
+target属性用来规定在**何处打开actionURL**
+它的可选值有5个，默认情况下，target的值是_self,表示在相同框架打开action URL
+![](2021-11-22-21-12-54.png )
   
