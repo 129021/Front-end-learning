@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>notes4.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="emmet%E8%AF%AD%E6%B3%95">Emmet语法</h1>
+<h2 id="%E5%BF%AB%E9%80%9F%E7%94%9F%E6%88%90html%E7%BB%93%E6%9E%84%E8%AF%AD%E6%B3%95">快速生成HTML结构语法：</h2>
+<ul>
+<li>生成标签直接输入标签名按tab键即可</li>
+<li>想要生成多个标签，加上<em>就可以了，比如div</em>3就可以生成3个div(打div*3时中间不能有空格)</li>
+<li>如果有父子级的标签，可以用&gt;，比如ul&gt;li</li>
+<li>如果有兄弟关系的标签，用+就可以了，比如div+p</li>
+<li>如果生成带有类名或者id名字的，直接写.demo或者#two tab键就可以了(“.”是带类的，“#”是带id的)</li>
+<li>如果生成的div类名是有顺序的，可以用自增符号$</li>
+<li>如果想要在生成的标签内部写内容可以用{}表示(内容写在大括号里面)</li>
+</ul>
+<h2 id="%E5%BF%AB%E9%80%9F%E7%94%9F%E6%88%90css%E6%A0%B7%E5%BC%8F%E8%AF%AD%E6%B3%95">快速生成css样式语法：</h2>
+<p>css基本采取简写的形式即可，例如：</p>
+<pre class="hljs"><code><div><span class="hljs-selector-tag">text-align</span><span class="hljs-selector-pseudo">:center</span>;=<span class="hljs-selector-tag">tac</span>+<span class="hljs-selector-tag">tab</span>键
+<span class="hljs-selector-tag">text-indent</span><span class="hljs-selector-pseudo">:2em</span>;=<span class="hljs-selector-tag">ti2em</span>+<span class="hljs-selector-tag">tab</span>键
+<span class="hljs-selector-tag">width</span><span class="hljs-selector-pseudo">:100px</span>;=<span class="hljs-selector-tag">w100</span>+<span class="hljs-selector-tag">tab</span>键
+<span class="hljs-selector-tag">line-height</span><span class="hljs-selector-pseudo">:26px</span>=<span class="hljs-selector-tag">lh26px</span>+<span class="hljs-selector-tag">tab</span>键(<span class="hljs-selector-tag">px</span>不能少打)
+<span class="hljs-selector-tag">text-decoration</span><span class="hljs-selector-pseudo">:none</span>;=<span class="hljs-selector-tag">tdn</span>+<span class="hljs-selector-tag">tab</span>键
+……
+</div></code></pre>
+<h2 id="%E5%BF%AB%E9%80%9F%E6%A0%BC%E5%BC%8F%E5%8C%96%E4%BB%A3%E7%A0%81">快速格式化代码</h2>
+<p>右键选择格式化代码或者shift+alt+f</p>
+<h2 id="css%E7%9A%84%E5%A4%8D%E5%90%88%E9%80%89%E6%8B%A9%E5%99%A8">css的复合选择器</h2>
+<p>复合选择器是基础选择器的组合</p>
+<h2 id="%E5%90%8E%E4%BB%A3%E9%80%89%E6%8B%A9%E5%99%A8">后代选择器</h2>
+<p>又称为包含选择器，可以选择父元素中的子元素</p>
+<ul>
+<li><strong>快速复制所在行到下一行：alt+shift+下</strong></li>
+</ul>
+<blockquote>
+<p>语法：元素1 元素2 {样式声明}
+元素1、2中间有一个空格</p>
+</blockquote>
+<ul>
+<li>最终选择的是最后一级元素</li>
+<li>可以多重嵌套：元素1 元素2 元素3{样式声明}</li>
+<li>元素1和元素2可以是任意基础选择器</li>
+</ul>
+<h2 id="%E5%AD%90%E9%80%89%E6%8B%A9%E5%99%A8">子选择器</h2>
+<p>只能选择作为某元素最近的一级子元素</p>
+<p>语法： 元素1&gt;元素2{样式声明}</p>
+<ul>
+<li>元素2必须是元素1的亲儿子</li>
+</ul>
+<h2 id="%E5%B9%B6%E9%9B%86%E9%80%89%E6%8B%A9%E5%99%A8">并集选择器</h2>
+<p>可以选择多组标签，同时为他们定义相同的样式，通常用于集体声明</p>
+<p>通过英文逗号（,)连接而成，任何形式的选择器都可以作为并集选择器的一部分</p>
+<p>语法：元素1,元素2{样式声明}
+例如：</p>
+<pre class="hljs"><code><div><span class="hljs-selector-tag">ul</span>,<span class="hljs-selector-tag">div</span>{样式声明}
+</div></code></pre>
+<p>并集选择器都喜欢竖着写，如：</p>
+<pre class="hljs"><code><div><span class="hljs-selector-tag">div</span>,
+<span class="hljs-selector-tag">p</span>,
+<span class="hljs-selector-class">.pig</span> <span class="hljs-selector-tag">li</span>{
+    <span class="hljs-attribute">color</span>:pink;
+}
+</div></code></pre>
+<h2 id="%E4%BC%AA%E7%B1%BB%E9%80%89%E6%8B%A9%E5%99%A8">伪类选择器</h2>
+<p>用于向某些选择器添加特殊的效果，比如给连接添加特殊效果，或选择第1个，第n个元素</p>
+<p>伪类选择器书写的最大特点是用冒号表示，如：</p>
+<pre class="hljs"><code><div><span class="hljs-selector-tag">hover</span>,<span class="hljs-selector-pseudo">:first-child</span>
+</div></code></pre>
+<h2 id="%E9%93%BE%E6%8E%A5%E4%BC%AA%E7%B1%BB%E9%80%89%E6%8B%A9%E5%99%A8">链接伪类选择器</h2>
+<ul>
+<li>a:link 选择所有未被访问的链接</li>
+<li>a:visited 选择所有已被访问的链接</li>
+<li>a:hover 选择鼠标指针位于其上的链接</li>
+<li>a:action 选择活动链接（指针按下未弹起的链接）</li>
+<li></li>
+</ul>
+<p>注意事项：
+为了确保生效，请按照lvha的顺序声明：<strong>link-&gt;visited-&gt;hover-&gt;active</strong></p>
+<p>a链接在浏览器中具有默认样式，所以我们实际工作中都需要给链接单独指定样式</p>
+<p>链接伪类在实际开发中的写法：</p>
+<pre class="hljs"><code><div><span class="hljs-selector-tag">a</span>{
+    color：gray
+}
+<span class="hljs-selector-tag">a</span><span class="hljs-selector-pseudo">:hover</span>{
+    <span class="hljs-attribute">color</span>:red;
+}
+</div></code></pre>
+<h2 id="focus%E4%BC%AA%E7%B1%BB%E9%80%89%E6%8B%A9%E5%99%A8">focus伪类选择器</h2>
+<p>用于获取焦点的表单元素
+焦点就是光标，一般情况&lt;input&gt;类表单元素才能获取，因此这个选择器也主要针对与表单元素来说</p>
+<p>语法:</p>
+<pre class="hljs"><code><div><span class="hljs-selector-tag">input</span><span class="hljs-selector-pseudo">:focus</span>{
+    <span class="hljs-attribute">background-color</span>:yellow; 
+}
+</div></code></pre>
+<h2 id="%E5%85%83%E7%B4%A0%E6%98%BE%E7%A4%BA%E6%A8%A1%E5%BC%8F">元素显示模式</h2>
+<p>元素显示模式就是元素（标签）以什么方式进行显示</p>
+<p>HTML元素可以分为块元素和行内元素两种</p>
+<h3 id="%E5%9D%97%E5%85%83%E7%B4%A0">块元素</h3>
+<p>&lt;div&gt;标签是最典型的块元素</p>
+<p>块级元素特点：</p>
+<ul>
+<li>自己独占一行</li>
+<li>高度，宽度，外边距，内边距都可以控制</li>
+<li>默认宽度是容器（父级宽度）的100%</li>
+<li>是一个容器及盒子，里面可以放行内或者块级元素</li>
+<li></li>
+</ul>
+<p>注意事项：</p>
+<ul>
+<li>文字类的元素内不能放块级元素</li>
+<li>&lt;p&gt;标签主要存放文字，不能放块级元素</li>
+</ul>
+<p>切记：
+<strong>&lt;p&gt;标签中不能放&lt;div&gt;标签</strong>
+<strong>&lt;h1&gt;~&lt;h6&gt;等都是文字类块级标签，里面不能放其他块级元素</strong></p>
+<h3 id="%E8%A1%8C%E5%86%85%E5%85%83%E7%B4%A0">行内元素</h3>
+<p>也叫内联元素
+&lt;span&gt;是最典型的行内元素</p>
+<p>特点：</p>
+<ul>
+<li>相邻的行内元素，在一行上可以显示多个</li>
+<li>高宽直接设置是无效的</li>
+<li>默认的宽度就是其内容本身的宽度</li>
+<li>行内元素只能容纳文本或其他行内元素</li>
+</ul>
+<p>注意事项：</p>
+<ul>
+<li>链接内不能放链接</li>
+<li>特殊情况链接&lt;a&gt;里面可以放块级元素，但是给&lt;a&gt;转换一下块级模式最安全</li>
+</ul>
+<h3 id="%E8%A1%8C%E5%86%85%E5%9D%97%E5%85%83%E7%B4%A0">行内块元素</h3>
+<p>行内元素中有几个特殊的标签&lt;img&gt;  &lt;input&gt; &lt;td&gt;,它们同时具有块元素和行内元素的特点</p>
+<p>特点：</p>
+<ul>
+<li>和相邻行内元素（行内块）在一行上，但是他们会有空白缝隙，一行可以显示多个（行内元素特点）</li>
+<li>默认宽度就是其内容本身的宽度（行内元素特点）</li>
+<li>高度，行高，外边距，内边距都可以控制（块级元素特点）</li>
+</ul>
+<h3 id="%E5%85%83%E7%B4%A0%E6%98%BE%E7%A4%BA%E6%A8%A1%E5%BC%8F%E8%BD%AC%E6%8D%A2">元素显示模式转换</h3>
+<p>特殊情况下，我们需要元素模式的转换，简单理解：一个模式的元素需要另一种模式的特性</p>
+<p>比如想要增加链接&lt;a&gt;的触发范围</p>
+<p>语法：</p>
+<pre class="hljs"><code><div>转换为块级元素：<span class="hljs-selector-tag">display</span>：<span class="hljs-selector-tag">block</span>;(最常用)
+转换为行内元素：<span class="hljs-selector-tag">display</span><span class="hljs-selector-pseudo">:inline</span>;
+转换为行内块：<span class="hljs-selector-tag">display</span><span class="hljs-selector-pseudo">:inline-block</span>;（比较常用）
+</div></code></pre>
+<h3 id="%E5%AE%9E%E7%8E%B0%E5%8D%95%E8%A1%8C%E6%96%87%E5%AD%97%E5%9E%82%E7%9B%B4%E5%B1%85%E4%B8%AD">实现单行文字垂直居中：</h3>
+<p>css并没有提供文字垂直居中的代码，这里可以用一个小技巧来实现：让文字的行高（line-height)等于盒子的高度，就可以让文字在当前盒子内垂直居中</p>
+<h1 id="css%E8%83%8C%E6%99%AF">css背景</h1>
+<h2 id="%E8%83%8C%E6%99%AF%E9%A2%9C%E8%89%B2">背景颜色</h2>
+<p>background-color
+一般情况下元素背景颜色默认值是transparent（透明），也可以手动设置背景颜色为透明色</p>
+<h2 id="%E8%83%8C%E6%99%AF%E5%9B%BE%E7%89%87">背景图片</h2>
+<p>background-image属性描述了元素的背景图像
+实际开发常见于logo或者一些装饰性的小图片或者是超大的背景图片，优点是非常便于控制位置</p>
+<pre class="hljs"><code><div><span class="hljs-selector-tag">background-image</span><span class="hljs-selector-pseudo">:none</span>|<span class="hljs-selector-tag">url</span>(<span class="hljs-selector-tag">url</span>)
+</div></code></pre>
+<h2 id="%E8%83%8C%E6%99%AF%E5%B9%B3%E9%93%BA">背景平铺</h2>
+<p>如果需要在HTML页面上对被景图像进行平铺，可以使用background-repeat属性</p>
+<pre class="hljs"><code><div><span class="hljs-selector-tag">background-repeat</span><span class="hljs-selector-pseudo">:repeat</span>|<span class="hljs-selector-tag">no_repeat</span>|<span class="hljs-selector-tag">repeat-x</span>|<span class="hljs-selector-tag">repeat-y</span>
+</div></code></pre>
+<ul>
+<li>默认为repeat</li>
+<li>页面元素既可以添加背景图片也可以添加背景颜色</li>
+</ul>
+<h2 id="%E8%83%8C%E6%99%AF%E5%9B%BE%E7%89%87%E4%BD%8D%E7%BD%AE">背景图片位置</h2>
+<p>background-position
+语法：</p>
+<pre class="hljs"><code><div><span class="hljs-selector-tag">background-positin</span><span class="hljs-selector-pseudo">:x</span> <span class="hljs-selector-tag">y</span>;
+</div></code></pre>
+<ul>
+<li><strong>1.参数是方位名词</strong>
+如果x,y两个参数是方位名词，则两个值的前后顺序无关，比如left top 和 top left 的效果一样
+如果只指定了一个方位名词，另一个值省略，则第二个默认居中对齐</li>
+<li><strong>2.参数是精确单位</strong>
+如果参数值是精确坐标，那么第一个肯定是x坐标，第二个肯定是y坐标
+如果只指定一个数值，那该数值一定是x坐标，另一个默认垂直居中</li>
+<li><strong>3.参数是混合单位</strong>
+如果指定的两个值是精确单位和方位名词混合使用，则第一个值是x坐标，第二个值是y坐标</li>
+</ul>
+<h2 id="%E8%83%8C%E6%99%AF%E5%9B%BE%E5%83%8F%E5%9B%BA%E5%AE%9A%E8%83%8C%E6%99%AF%E9%99%84%E7%9D%80">背景图像固定（背景附着）</h2>
+<p>background-attachment属性设置图像是否固定或者随着页面其余部分滚动</p>
+<p>语法：</p>
+<pre class="hljs"><code><div><span class="hljs-selector-tag">background-attachment</span>: <span class="hljs-selector-tag">scroll</span>|<span class="hljs-selector-tag">fixed</span>
+</div></code></pre>
+<h2 id="%E8%83%8C%E6%99%AF%E5%A4%8D%E5%90%88%E5%86%99%E6%B3%95">背景复合写法</h2>
+<p>5个背景属性简写在一个属性background中，节省代码量
+当简写属性时，没有特定的书写顺序，一般习惯约定顺序为：
+<strong>background:背景颜色 背景图片地址 背景平铺 背景图像滚动 背景图片位置</strong></p>
+<h2 id="%E8%83%8C%E6%99%AF%E8%89%B2%E5%8D%8A%E9%80%8F%E6%98%8E">背景色半透明</h2>
+<pre class="hljs"><code><div><span class="hljs-selector-tag">background</span> <span class="hljs-selector-tag">rgba</span>(0,0,0,0<span class="hljs-selector-class">.3</span>)
+</div></code></pre>
+<ul>
+<li>最后一个参数是alpha透明度，取值范围在0~1之间</li>
+<li>我们习惯把0.3的0省略掉，写为background:raba(0,0,0,.3);
+注意，背景色半透明是指盒子背景半透明，盒子里的内容不受影响</li>
+</ul>
+<p><em>竖向输入同一个内容：shift+alt不松开向下拖动，之后输入即可</em></p>
+
+</body>
+</html>

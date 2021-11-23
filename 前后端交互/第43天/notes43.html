@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>notes43.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="1-form%E8%A1%A8%E5%8D%95%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8">1. form表单的基本使用</h1>
+<h2 id="11-%E4%BB%80%E4%B9%88%E6%98%AF%E8%A1%A8%E5%8D%95">1.1 什么是表单</h2>
+<p>表单在网页中主要负责<strong>数据采集功能</strong>。HTML中的&lt;from&gt;标签，就是用于采集用户输入的信息，并通过&lt;form&gt;标签的提交操作，把采集到的信息提交到服务器端进行处理。</p>
+<h2 id="12-%E8%A1%A8%E5%8D%95%E7%9A%84%E7%BB%84%E6%88%90%E9%83%A8%E5%88%86">1.2 表单的组成部分</h2>
+<p>表单由三个基本部分组成：
+<strong>表单标签</strong>
+<strong>表单域</strong>
+表单域包含了文本框、密码框、隐藏框、多行文本框、复选框、单选框、下拉框和文件上传框等
+<strong>表单按钮</strong></p>
+<h2 id="13-form%E6%A0%87%E7%AD%BE%E7%9A%84%E5%B1%9E%E6%80%A7">1.3 &lt;form&gt;标签的属性</h2>
+<p>&lt;form&gt;标签用来采集数据，&lt;form&gt;标签的属性则是用来规定如何把收集到的数据发送到服务器
+<img src="Snipaste_2021-11-22_20-53-06.png" alt=""></p>
+<h3 id="1-action">1. action</h3>
+<p>action属性用来规定当提交表单时，向何处发送表单数据
+action的属性应该是后端提供的一个URL地址，这个URL地址专门负责接收表单提交过来的数据
+当 &lt;form&gt;表单为指定action属性值的情况下，action的默认值为当前页面的URL地址
+<strong>注意</strong>：当提交表单后，页面会立即跳转到action属性指定的URL页面</p>
+<h3 id="2-target">2. target</h3>
+<p>target属性用来规定在<strong>何处打开actionURL</strong>
+它的可选值有5个，默认情况下，target的值是_self,表示在相同框架打开action URL
+<img src="2021-11-22-21-12-54.png" alt=""></p>
+<h3 id="3-method">3. method</h3>
+<p>method属性用来规定以<strong>何种方式</strong>把表单数据提交到action URL
+它的可选值有两个：get和post
+默认情况下，method的值为get，表示通过URL地址的形式，把表单数据提交到action URL
+<strong>注意：</strong>
+get 方式适合用来提交少量的简单的数据
+post方式适合用来提交大量的，复杂的，或者包含文件上传的数据
+在实际开发中，&lt;form&gt;表单的post提交方式用的最多，很少用get，例如登陆、注册、添加数据等操作，都需要使用post方式来提交表单</p>
+<h3 id="4-enctype">4. enctype</h3>
+<p>enctype属性用来规定在发送表单数据之前如何对数据进行编码
+它的可选值有三个：
+默认：application/x-www-form-urlencoded 表示在发送前编码所有的字符
+<img src="2021-11-23-09-53-54.png" alt="">
+<strong>注意:</strong>
+在涉及到<strong>文件上传</strong>的操作时，必须将enctype的值设置为<strong>multipart/form-data</strong>
+不涉及文件上传，默认</p>
+<h2 id="14-%E8%A1%A8%E5%8D%95%E7%9A%84%E5%90%8C%E6%AD%A5%E6%8F%90%E4%BA%A4%E5%8F%8A%E7%BC%BA%E7%82%B9">1.4 表单的同步提交及缺点</h2>
+<h3 id="1-%E4%BB%80%E4%B9%88%E6%98%AF%E8%A1%A8%E5%8D%95%E7%9A%84%E5%90%8C%E6%AD%A5%E6%8F%90%E4%BA%A4">1. 什么是表单的同步提交</h3>
+<p>通过点击submit按钮，触发表单的提交操作，从而使页面跳转到action URL的行为，叫做表单的同步提交</p>
+<h3 id="2-%E8%A1%A8%E5%8D%95%E5%90%8C%E6%AD%A5%E6%8F%90%E4%BA%A4%E7%9A%84%E7%BC%BA%E7%82%B9">2. 表单同步提交的缺点</h3>
+<ul>
+<li>&lt;form&gt;表单同步提交之后，整个页面会发生跳转，跳转到action URL所指向的地址，用户体验很差</li>
+<li>&lt;form&gt;表单同步提交之后，页面之前状态和数据会消失</li>
+</ul>
+<h3 id="3-%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3%E8%A1%A8%E5%8D%95%E5%90%8C%E6%AD%A5%E6%8F%90%E4%BA%A4%E7%9A%84%E7%BC%BA%E7%82%B9">3. 如何解决表单同步提交的缺点</h3>
+<p>解决方案：<strong>表单只负责采集数据，Ajax负责将数据提交到服务器</strong></p>
+<h1 id="2-%E9%80%9A%E8%BF%87ajax%E6%8F%90%E4%BA%A4%E8%A1%A8%E5%8D%95%E6%95%B0%E6%8D%AE">2. 通过Ajax提交表单数据</h1>
+<h2 id="21-%E7%9B%91%E5%90%AC%E8%A1%A8%E5%8D%95%E6%8F%90%E4%BA%A4%E6%97%B6%E9%97%B4">2.1. 监听表单提交时间</h2>
+<p>在jQuery中，可以使用以下两种方式，监听到表单的提交事件：</p>
+<ul>
+<li>方法1：</li>
+</ul>
+<pre class="hljs"><code><div>$(<span class="hljs-string">'#form1'</span>).submit(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">e</span>)</span>{
+    alert(<span class="hljs-string">'监听到了表单的提交事件'</span>)
+})
+</div></code></pre>
+<ul>
+<li>方法2：</li>
+</ul>
+<pre class="hljs"><code><div>$(<span class="hljs-string">'#form1).on('</span>submit<span class="hljs-string">',function(e){
+    alert('</span>监听到了表单的提交事件<span class="hljs-string">')
+})
+</span></div></code></pre>
+<h2 id="22-%E9%98%BB%E6%AD%A2%E8%A1%A8%E5%8D%95%E9%BB%98%E8%AE%A4%E6%8F%90%E4%BA%A4%E8%A1%8C%E4%B8%BA">2.2. 阻止表单默认提交行为</h2>
+<p>当监听到表单的提交事件以后，可以调用事件对象的event.preventDefault()函数，来阻止表单的提交和页面的跳转，示例代码如下：</p>
+<ul>
+<li>方法1：</li>
+</ul>
+<pre class="hljs"><code><div>$(<span class="hljs-string">'#form1'</span>).submit(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">e</span>)</span>{
+    e.preventDefault()
+})
+</div></code></pre>
+<ul>
+<li>方法2：</li>
+</ul>
+<pre class="hljs"><code><div>$(<span class="hljs-string">'#form1).on('</span>submit<span class="hljs-string">',function(e){
+    e.preventDefault()
+})
+</span></div></code></pre>
+<h2 id="23-%E5%BF%AB%E9%80%9F%E8%8E%B7%E5%8F%96%E8%A1%A8%E5%8D%95%E4%B8%AD%E7%9A%84%E6%95%B0%E6%8D%AE">2.3. 快速获取表单中的数据</h2>
+<h3 id="1-serialize%E5%87%BD%E6%95%B0">1. serialize()函数</h3>
+<p>为了简化表单中的数据获取操作，jQuery提供了serialize()函数，其语法格式如下：</p>
+<pre class="hljs"><code><div>$(selector).serialize()
+</div></code></pre>
+<p>好处：<strong>可以一次性获取到表单中所有的数据</strong></p>
+<h3 id="2-serialize%E5%87%BD%E6%95%B0%E7%A4%BA%E4%BE%8B">2. serialize()函数示例</h3>
+<p>注意：在使用serialize()函数获取表单元素时，<strong>必须为每个表单元素添加name属性</strong></p>
+<h1 id="3-%E6%A1%88%E4%BE%8B-%E8%AF%84%E8%AE%BA%E5%88%97%E8%A1%A8">3. 案例-评论列表</h1>
+<h2 id="31-%E6%B8%B2%E6%9F%93ui%E7%BB%93%E6%9E%84">3.1. 渲染UI结构</h2>
+<pre class="hljs"><code><div><span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-meta-keyword">html</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">"en"</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">charset</span>=<span class="hljs-string">"UTF-8"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">http-equiv</span>=<span class="hljs-string">"X-UA-Compatible"</span> <span class="hljs-attr">content</span>=<span class="hljs-string">"IE=edge"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"viewport"</span> <span class="hljs-attr">content</span>=<span class="hljs-string">"width=device-width, initial-scale=1.0"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>Document<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">link</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">"stylesheet"</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"lib/bootstrap.css"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"lib/jquery.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"js/cmt.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">body</span> <span class="hljs-attr">style</span>=<span class="hljs-string">"padding:15px"</span>&gt;</span>
+    <span class="hljs-comment">&lt;!-- 评论面板 --&gt;</span>
+
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"panel panel-primary"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"panel-heading"</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">h3</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"panel-title"</span>&gt;</span>发表评论<span class="hljs-tag">&lt;/<span class="hljs-name">h3</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"panel-body"</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>评论人<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"form-control"</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>评论内容<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">textarea</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"form-control"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">textarea</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"submit"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"btn btn-primary"</span>&gt;</span>发表评论<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+
+    <span class="hljs-comment">&lt;!-- 评论列表 --&gt;</span>
+
+    <span class="hljs-tag">&lt;<span class="hljs-name">ul</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"list-group"</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"cmt-list"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"list-group-item"</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"badge"</span> <span class="hljs-attr">style</span>=<span class="hljs-string">"background-color: #f0ad4e;"</span>&gt;</span>评论时间<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"badge"</span> <span class="hljs-attr">style</span>=<span class="hljs-string">"background-color:#5bc0de"</span>&gt;</span>评论人<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+            Item 1
+        <span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">ul</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+
+<span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span>
+</div></code></pre>
+<h2 id="32-%E8%8E%B7%E5%8F%96%E8%AF%84%E8%AE%BA%E5%88%97%E8%A1%A8%E6%95%B0%E6%8D%AE">3.2. 获取评论列表数据</h2>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getCommentList</span>(<span class="hljs-params"></span>)</span>{
+    $.ajax({
+        <span class="hljs-attr">method</span>:<span class="hljs-string">'get'</span>,
+        <span class="hljs-attr">url</span>:<span class="hljs-string">'http://www.liulongbin.top:3006/api/cmtlist'</span>,
+        <span class="hljs-attr">success</span>:<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">res</span>)</span>{
+            <span class="hljs-comment">// console.log(res);</span>
+            <span class="hljs-keyword">if</span>(res.status!==<span class="hljs-number">200</span>) <span class="hljs-keyword">return</span> alert(<span class="hljs-string">'获取评论列表失败！'</span>)
+            <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'获取数据成功'</span>);
+
+           
+        }
+    })
+}
+
+getCommentList();
+</div></code></pre>
+<h2 id="33-%E6%B8%B2%E6%9F%93%E8%AF%84%E8%AE%BA%E5%88%97%E8%A1%A8">3.3. 渲染评论列表</h2>
+<pre class="hljs"><code><div>            <span class="hljs-keyword">var</span> rows = []
+            $.each(res.data, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">i, item</span>) </span>{
+                <span class="hljs-keyword">var</span> str = <span class="hljs-string">'&lt;li class="list-group-item"&gt;&lt;span class="badge" style="background-color: #f0ad4e;"&gt;评论时间：'</span>+item.time+<span class="hljs-string">'&lt;/span&gt;&lt;span class="badge" style="background-color:#5bc0de"&gt;评论人：'</span>+item.username+<span class="hljs-string">'&lt;/span&gt;'</span>+item.content+<span class="hljs-string">'&lt;/li&gt;'</span>
+                rows.push(str)
+            })
+            $(<span class="hljs-string">'#cmt-list'</span>).empty().append(rows.join(<span class="hljs-string">''</span>))
+</div></code></pre>
+<h2 id="34-%E6%94%B9%E9%80%A0form%E8%A1%A8%E5%8D%95">3.4. 改造form表单</h2>
+<ul>
+<li>将发表评论的div改为form</li>
+<li>为每一个input 和textarea添加name属性</li>
+<li>监听form表单submit事件，获取表单中填写的数据：</li>
+</ul>
+<pre class="hljs"><code><div>$(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+    $(<span class="hljs-string">'#formAddCmt'</span>).submit(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">e</span>) </span>{
+        e.preventDefault();
+        <span class="hljs-keyword">var</span> data=$(<span class="hljs-keyword">this</span>).serialize()
+        <span class="hljs-built_in">console</span>.log(data);
+    })
+})
+</div></code></pre>
+<h2 id="35-%E5%8F%91%E8%A1%A8%E8%AF%84%E8%AE%BA">3.5. 发表评论</h2>
+<pre class="hljs"><code><div>$.post(<span class="hljs-string">'http://www.liulongbin.top:3006/api/addcmt'</span>, data, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">res</span>) </span>{
+            <span class="hljs-keyword">if</span> (res.status !== <span class="hljs-number">201</span>) {
+                <span class="hljs-keyword">return</span> alert(<span class="hljs-string">'发表评论失败！'</span>)
+            }
+            getCommentList()
+            
+            <span class="hljs-comment">// 把jQuery对象转换为原生DOM对象+[0]</span>
+            $(<span class="hljs-string">'#formAddCmt'</span>)[<span class="hljs-number">0</span>].reset()
+        })
+</div></code></pre>
+<h1 id="4-%E6%A8%A1%E6%9D%BF%E5%BC%95%E6%93%8E%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5">4. 模板引擎的基本概念</h1>
+<h2 id="41-%E6%B8%B2%E6%9F%93ui%E7%BB%93%E6%9E%84%E6%97%B6%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98">4.1. 渲染UI结构时遇到的问题</h2>
+<p>如果UI结构比较复杂，则拼接字符串的时候需要格外注意<strong>引号之前的嵌套关系</strong>，且一旦需求发生变化，修改起来非常麻烦</p>
+<h2 id="42-%E4%BB%80%E4%B9%88%E6%98%AF%E6%A8%A1%E6%9D%BF%E5%BC%95%E6%93%8E">4.2. 什么是模板引擎</h2>
+<p>模板引擎，顾名思义，可以根据程序员指定的<strong>模板结构</strong>和<strong>数据</strong>，自动生成一个完整的HTML页面</p>
+<h2 id="43-%E6%A8%A1%E6%9D%BF%E5%BC%95%E6%93%8E%E7%9A%84%E5%A5%BD%E5%A4%84">4.3. 模板引擎的好处</h2>
+<ul>
+<li>减少了字符串的拼接操作</li>
+<li>使代码结构更加清晰</li>
+<li>使代码更容易阅读和后期维护</li>
+</ul>
+<h1 id="5-art-template%E6%A8%A1%E6%9D%BF%E5%BC%95%E6%93%8E">5. art-template模板引擎</h1>
+<h2 id="51-art-template%E7%AE%80%E4%BB%8B">5.1. art-template简介</h2>
+<p>art-template是一个简约，超快的模板引擎。<a href="https://aui.github.io/art-template/zh-cn/">官网</a></p>
+<h2 id="52-art-template%E4%B8%8B%E8%BD%BD">5.2. art-template下载</h2>
+<p>官网下载“在浏览器中实时编译：template-web.js”</p>
+<h2 id="53-art-template%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8">5.3. art-template基本使用</h2>
+<h3 id="1-%E4%BD%BF%E7%94%A8%E4%BC%A0%E7%BB%9F%E6%96%B9%E5%BC%8F%E6%B8%B2%E6%9F%93ui%E7%BB%93%E6%9E%84">1. 使用传统方式渲染UI结构</h3>
+<pre class="hljs"><code><div><span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-meta-keyword">html</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">"en"</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">charset</span>=<span class="hljs-string">"UTF-8"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">http-equiv</span>=<span class="hljs-string">"X-UA-Compatible"</span> <span class="hljs-attr">content</span>=<span class="hljs-string">"IE=edge"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"viewport"</span> <span class="hljs-attr">content</span>=<span class="hljs-string">"width=device-width, initial-scale=1.0"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>Document<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"lib/jquery.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"title"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>姓名：<span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"name"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>年龄：<span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"age"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>会员：<span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"isVIP"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>注册时间：<span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"regTime"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>爱好：
+        <span class="hljs-tag">&lt;<span class="hljs-name">ul</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"hobby"</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">li</span>&gt;</span>爱好1<span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">li</span>&gt;</span>爱好2<span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">ul</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+
+    <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript">
+        data = {
+            <span class="hljs-attr">title</span>: <span class="hljs-string">'&lt;h3&gt;用户信息&lt;/h3&gt;'</span>,
+            <span class="hljs-attr">name</span>: <span class="hljs-string">'zs'</span>,
+            <span class="hljs-attr">age</span>: <span class="hljs-number">20</span>,
+            <span class="hljs-attr">isVIP</span>: <span class="hljs-literal">true</span>,
+            <span class="hljs-attr">regTime</span>: <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>(),
+            <span class="hljs-attr">hobby</span>: [<span class="hljs-string">'吃饭'</span>, <span class="hljs-string">'睡觉'</span>, <span class="hljs-string">'打豆豆'</span>]
+        }
+
+        $(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+            $(<span class="hljs-string">'#name'</span>).html(data.name)
+            $(<span class="hljs-string">'#title'</span>).html(data.title)
+            $(<span class="hljs-string">'#age'</span>).html(data.age)
+            $(<span class="hljs-string">'#isVIP'</span>).html(data.isVIP)
+            $(<span class="hljs-string">'#regTime'</span>).html(data.regTime)
+
+            <span class="hljs-keyword">var</span> rows = []
+            $.each(data.hobby, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">i,item</span>) </span>{
+                rows.push(<span class="hljs-string">'&lt;li&gt;'</span> + item + <span class="hljs-string">'&lt;/li&gt;'</span>)
+            })
+            $(<span class="hljs-string">'#hobby'</span>).html(rows.join(<span class="hljs-string">''</span>))
+        })
+    </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+
+<span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span>
+</div></code></pre>
+<h3 id="2-art-template%E7%9A%84%E4%BD%BF%E7%94%A8%E6%AD%A5%E9%AA%A4">2. art-template的使用步骤</h3>
+<ul>
+<li>导入art-template</li>
+<li>定义数据</li>
+<li>定义模板调用template函数</li>
+<li>渲染HTML结构</li>
+</ul>
+<p>演示代码：</p>
+<pre class="hljs"><code><div><span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-meta-keyword">html</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">"en"</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">charset</span>=<span class="hljs-string">"UTF-8"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">http-equiv</span>=<span class="hljs-string">"X-UA-Compatible"</span> <span class="hljs-attr">content</span>=<span class="hljs-string">"IE=edge"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"viewport"</span> <span class="hljs-attr">content</span>=<span class="hljs-string">"width=device-width, initial-scale=1.0"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>Document<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
+    <span class="hljs-comment">&lt;!-- 1. 导入模板引擎 --&gt;</span>
+    <span class="hljs-comment">&lt;!-- 在window全局，多了一个函数，叫做template('模板的id',需要渲染的数据对象) --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"js/template-web.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"lib/jquery.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"container"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+
+    <span class="hljs-comment">&lt;!-- 3. 定义模板 --&gt;</span>
+    <span class="hljs-comment">&lt;!-- 3.1 模板的HTML结构，必须定义到script中 --&gt;</span>
+    <span class="hljs-comment">&lt;!-- 当script标签内什么都不写时，script默认的type是text/javascript，因为定义模板需要在script内写HTML结构，所以需要修改script的type属性 --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text/html"</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"tpl-user"</span>&gt;</span><span class="handlebars"><span class="xml">
+        <span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span></span><span class="hljs-template-variable">{{name}}</span><span class="xml">--------</span><span class="hljs-template-variable">{{age}}</span><span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span>
+    </span></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+
+    <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript">
+        <span class="hljs-comment">// 2. 定义需要渲染的数据</span>
+        <span class="hljs-keyword">var</span> data = {
+            <span class="hljs-attr">name</span>: <span class="hljs-string">'zs'</span>,
+            <span class="hljs-attr">age</span>:<span class="hljs-number">20</span>
+        }
+
+        <span class="hljs-comment">// 4. 调用template函数</span>
+        <span class="hljs-keyword">var</span> htmlStr = template(<span class="hljs-string">'tpl-user'</span>, data)
+        <span class="hljs-built_in">console</span>.log(htmlStr);
+
+        <span class="hljs-comment">// 5. 渲染HTML结构</span>
+        $(<span class="hljs-string">'#container'</span>).html(htmlStr)
+    </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+
+<span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span>
+</div></code></pre>
+<h2 id="54-art-template%E6%A0%87%E5%87%86%E8%AF%AD%E6%B3%95">5.4. art-template标准语法</h2>
+<h3 id="1-%E4%BB%80%E4%B9%88%E6%98%AF%E6%A0%87%E5%87%86%E8%AF%AD%E6%B3%95">1. 什么是标准语法</h3>
+<p>art-template提供了{{}}这种语法格式，在{{}}内可以进行<strong>变量输出</strong>，或<strong>循环数组</strong>等操作，这种{{}}语法在art-template中被称为标准语法。</p>
+<h3 id="2-%E6%A0%87%E5%87%86%E8%AF%AD%E6%B3%95-%E8%BE%93%E5%87%BA">2. 标准语法-输出</h3>
+<p>在标准语法中，可以进行变量的输出，对象属性的输出，三元表达式的输出，逻辑或输出，加减乘除等表达式输出。</p>
+<pre class="hljs"><code><div>{{value}}
+{{obj.key}}
+{{obj[<span class="hljs-string">'key'</span>]}}
+{{a?a:c}}
+{{a||b}}
+{{a+b}}
+</div></code></pre>
+<h3 id="3-%E6%A0%87%E5%87%86%E8%AF%AD%E6%B3%95-%E5%8E%9F%E6%96%87%E8%BE%93%E5%87%BA">3. 标准语法-原文输出</h3>
+<pre class="hljs"><code><div>{{@ value}}
+</div></code></pre>
+<p>如果要输出的value值中，包含了HTML结构标签，需要使用原文输出语法，才能保证HTML标签被正常渲染。</p>
+<h3 id="4-%E6%A0%87%E5%87%86%E8%AF%AD%E6%B3%95-%E6%9D%A1%E4%BB%B6%E8%BE%93%E5%87%BA">4. 标准语法-条件输出</h3>
+<p>如果要实现条件输出，则可以在{{}}中使用if...else if.../if的方式，进行按需输出</p>
+<pre class="hljs"><code><div>{{<span class="hljs-keyword">if</span> value}} 按需输出的内容{{/<span class="hljs-keyword">if</span>}}
+
+{{<span class="hljs-keyword">if</span> v1}} 按需输出的内容{{<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> v2}}按需输出的内容{{/<span class="hljs-keyword">if</span>}}
+</div></code></pre>
+<h3 id="5-%E6%A0%87%E5%87%86%E8%AF%AD%E6%B3%95-%E5%BE%AA%E7%8E%AF%E8%BE%93%E5%87%BA">5. 标准语法-循环输出</h3>
+<p>如果要实现循环输出，则可以在{{}}内，通过each语法循环数组，当前循环的索引使用$index进行访问，当前的循环项使用$value进行访问</p>
+<pre class="hljs"><code><div>{{each arr}}
+{{index}} {{value}}
+{{/each}}
+</div></code></pre>
+<h3 id="6-%E6%A0%87%E5%87%86%E8%AF%AD%E6%B3%95-%E8%BF%87%E6%BB%A4%E5%99%A8">6. 标准语法-过滤器</h3>
+<p><img src="2021-11-23-16-57-23.png" alt=""></p>
+<p>过滤器的本质就是一个function函数</p>
+<p>语法：</p>
+<pre class="hljs"><code><div>{{value | filterName}}
+</div></code></pre>
+<p>过滤器的语法类似 <strong>管道操作符</strong>，它的上一个输出作为下一个输入</p>
+<p>定义过滤器的基本语法：</p>
+<pre class="hljs"><code><div>template.default.imports.filterName=<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">value</span>)</span>{<span class="hljs-comment">/*return处理的结果*/</span>}
+</div></code></pre>
+<h2 id="55-%E6%A1%88%E4%BE%8B-%E6%96%B0%E9%97%BB%E5%88%97%E8%A1%A8">5.5 案例-新闻列表</h2>
+<h3 id="1-%E5%AE%9E%E7%8E%B0%E6%AD%A5%E9%AA%A4">1. 实现步骤</h3>
+<ul>
+<li>获取新闻数据</li>
+<li>定义template模板</li>
+<li>编译模板</li>
+<li>定义时间过滤器</li>
+<li>定义补零函数</li>
+</ul>
+<h1 id="6-%E6%A8%A1%E6%9D%BF%E5%BC%95%E6%93%8E%E7%9A%84%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86">6. 模板引擎的实现原理</h1>
+<h2 id="61-%E6%AD%A3%E5%88%99%E4%B8%8E%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%93%8D%E4%BD%9C">6.1. 正则与字符串操作</h2>
+<h3 id="1-%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95">1. 基本语法</h3>
+<p>exec()函数用于 <strong>检索字符串</strong>中的正则表达式的匹配
+如果字符串中有匹配的值，则返回该匹配值，否则返回null</p>
+<pre class="hljs"><code><div>RegExpObject.exec(string)
+</div></code></pre>
+<p>示例：</p>
+<pre class="hljs"><code><div>    &lt;script&gt;
+        <span class="hljs-keyword">var</span> str=<span class="hljs-string">'hello'</span>
+        <span class="hljs-keyword">var</span> pattern=<span class="hljs-regexp">/o/</span>
+       <span class="hljs-keyword">var</span> result=pattern.exec(str)
+       <span class="hljs-built_in">console</span>.log(result);
+    &lt;<span class="hljs-regexp">/script&gt;
+</span></div></code></pre>
+<h3 id="2-%E5%88%86%E7%BB%84">2. 分组</h3>
+<p>正则表达式中，()包起来的内容表示一个分组，可以通过分组来提取自己想要的内容</p>
+<p>示例：</p>
+<pre class="hljs"><code><div>    &lt;script&gt;
+        <span class="hljs-keyword">var</span> str=<span class="hljs-string">'&lt;div&gt;我是{{name}}&lt;/div&gt;'</span>
+        <span class="hljs-keyword">var</span> pattern=<span class="hljs-regexp">/{{([a-zA-Z]+)}}/</span>
+        <span class="hljs-keyword">var</span> result=pattern.exec(str)
+        <span class="hljs-built_in">console</span>.log(result);
+    &lt;<span class="hljs-regexp">/script&gt;
+</span></div></code></pre>
+<h3 id="3-%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%9A%84replace%E5%87%BD%E6%95%B0">3. 字符串的replace函数</h3>
+<p>replace()函数用于在字符串中用一些字符替换另一些字符</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">var</span> result=<span class="hljs-string">'123456'</span>.replace(<span class="hljs-string">'123'</span>,<span class="hljs-string">'abc'</span>)
+<span class="hljs-comment">//得到的字符串为'abc456'</span>
+</div></code></pre>
+<p>示例：</p>
+<pre class="hljs"><code><div>    &lt;script&gt;
+        <span class="hljs-keyword">var</span> str = <span class="hljs-string">'&lt;div&gt;我是{{name}}&lt;/div&gt;'</span>
+        <span class="hljs-keyword">var</span> pattern = <span class="hljs-regexp">/{{([a-zA-Z]+)}}/</span>
+        <span class="hljs-keyword">var</span> result = pattern.exec(str)
+        <span class="hljs-comment">// console.log(result);</span>
+        newStr = str.replace(result[<span class="hljs-number">0</span>], result[<span class="hljs-number">1</span>])
+        <span class="hljs-built_in">console</span>.log(newStr);
+    &lt;<span class="hljs-regexp">/script&gt;
+</span></div></code></pre>
+<h3 id="4-%E5%A4%9A%E6%AC%A1replace">4. 多次replace</h3>
+<pre class="hljs"><code><div>    &lt;script&gt;
+        <span class="hljs-keyword">var</span> str = <span class="hljs-string">'&lt;div&gt;{{name}}今年{{age}}岁了&lt;/div&gt;'</span>
+        <span class="hljs-keyword">var</span> pattern = <span class="hljs-regexp">/{{\s*([a-zA-Z]+)\s*}}/</span>
+
+        <span class="hljs-comment">// 第一次匹配</span>
+        <span class="hljs-keyword">var</span> res1 = pattern.exec(str)
+        <span class="hljs-comment">// console.log(res1);</span>
+        str = str.replace(res1[<span class="hljs-number">0</span>], res1[<span class="hljs-number">1</span>])
+        <span class="hljs-built_in">console</span>.log(str);
+
+        <span class="hljs-comment">// 第二次匹配</span>
+        <span class="hljs-keyword">var</span> res2 = pattern.exec(str)
+        <span class="hljs-built_in">console</span>.log(res2);
+        str = str.replace(res2[<span class="hljs-number">0</span>], res2[<span class="hljs-number">1</span>])
+        <span class="hljs-built_in">console</span>.log(str);
+    &lt;<span class="hljs-regexp">/script&gt;
+</span></div></code></pre>
+<h3 id="5-%E4%BD%BF%E7%94%A8while%E5%BE%AA%E7%8E%AFreplace">5. 使用while循环replace</h3>
+<pre class="hljs"><code><div>    &lt;script&gt;
+        <span class="hljs-keyword">var</span> str = <span class="hljs-string">'&lt;div&gt;{{name}}今年{{age}}岁了&lt;/div&gt;'</span>
+        <span class="hljs-keyword">var</span> pattern = <span class="hljs-regexp">/{{\s*([a-zA-Z]+)\s*}}/</span>
+
+        <span class="hljs-keyword">var</span> patternResult=<span class="hljs-literal">null</span>
+        <span class="hljs-keyword">while</span>(patternResult=pattern.exec(str)){
+            str=str.replace(patternResult[<span class="hljs-number">0</span>],patternResult[<span class="hljs-number">1</span>])
+        }
+
+        <span class="hljs-built_in">console</span>.log(str);
+    &lt;<span class="hljs-regexp">/script&gt;
+</span></div></code></pre>
+<h3 id="6-replace%E6%9B%BF%E6%8D%A2%E4%B8%BA%E7%9C%9F%E5%80%BC">6. replace替换为真值</h3>
+<pre class="hljs"><code><div>    &lt;script&gt;
+        <span class="hljs-keyword">var</span> data={
+            <span class="hljs-attr">name</span>:<span class="hljs-string">'zhangsan'</span>,
+            <span class="hljs-attr">age</span>:<span class="hljs-number">20</span>
+        }
+        <span class="hljs-keyword">var</span> str = <span class="hljs-string">'&lt;div&gt;{{name}}今年{{age}}岁了&lt;/div&gt;'</span>
+        <span class="hljs-keyword">var</span> pattern = <span class="hljs-regexp">/{{\s*([a-zA-Z]+)\s*}}/</span>
+
+        <span class="hljs-keyword">var</span> patternResult=<span class="hljs-literal">null</span>
+        <span class="hljs-keyword">while</span>(patternResult=pattern.exec(str)){
+            str=str.replace(patternResult[<span class="hljs-number">0</span>],data[patternResult[<span class="hljs-number">1</span>]])
+        }
+
+        <span class="hljs-built_in">console</span>.log(str);
+    &lt;<span class="hljs-regexp">/script&gt;
+</span></div></code></pre>
+<h2 id="62-%E5%AE%9E%E7%8E%B0%E7%AE%80%E6%98%93%E7%9A%84%E6%A8%A1%E6%9D%BF%E5%BC%95%E6%93%8E">6.2. 实现简易的模板引擎</h2>
+<h3 id="1-%E5%AE%9E%E7%8E%B0%E6%AD%A5%E9%AA%A4">1. 实现步骤</h3>
+<ul>
+<li>定义模板结构</li>
+<li>预调用模板引擎</li>
+<li>封装template函数</li>
+<li>导入并使用自定义的模板引擎</li>
+</ul>
+<h4 id="%E5%AE%9A%E4%B9%89%E6%A8%A1%E6%9D%BF%E7%BB%93%E6%9E%84">定义模板结构</h4>
+<pre class="hljs"><code><div>    &lt;script type=<span class="hljs-string">"text/html"</span> id=<span class="hljs-string">"tpl-user"</span>&gt;
+        <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>姓名：{{name}}<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
+        <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>年龄：{{ age }}<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
+        <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>性别：{{  gender}}<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
+        <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>住址：{{address  }}<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
+    &lt;<span class="hljs-regexp">/script&gt;
+</span></div></code></pre>
+<h4 id="%E9%A2%84%E8%B0%83%E7%94%A8%E6%A8%A1%E6%9D%BF%E5%BC%95%E6%93%8E">预调用模板引擎</h4>
+<pre class="hljs"><code><div>    &lt;script&gt;
+        <span class="hljs-comment">// 定义数据</span>
+        <span class="hljs-keyword">var</span> data={
+            <span class="hljs-attr">name</span>:<span class="hljs-string">'zs'</span>,
+            <span class="hljs-attr">age</span>:<span class="hljs-number">12</span>,
+            <span class="hljs-attr">gender</span>:<span class="hljs-string">'male'</span>,
+            <span class="hljs-attr">address</span>:<span class="hljs-string">'Beijing'</span>
+        }
+
+        <span class="hljs-comment">// 调用模板引擎</span>
+        <span class="hljs-keyword">var</span> htmlStr=template(<span class="hljs-string">'tpl-user'</span>,data)
+
+        <span class="hljs-comment">// 渲染HTML结构</span>
+        <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'user-box'</span>).innerHTML=htmlStr
+    &lt;<span class="hljs-regexp">/script&gt;
+</span></div></code></pre>
+<h4 id="%E5%B0%81%E8%A3%85template%E5%87%BD%E6%95%B0">封装template函数</h4>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">template</span>(<span class="hljs-params">id,data</span>)</span>{
+    <span class="hljs-keyword">var</span> str=<span class="hljs-built_in">document</span>.getElementById(id).innerHTML
+    <span class="hljs-keyword">var</span> pattern=<span class="hljs-regexp">/{{\s*([a-zA-Z]+)\s*}}/</span>
+
+    <span class="hljs-keyword">var</span> patternResult=<span class="hljs-literal">null</span>
+    <span class="hljs-keyword">while</span>(patternResult=pattern.exec(str)){
+        str=str.replace(patternResult[<span class="hljs-number">0</span>],data[patternResult[<span class="hljs-number">1</span>]])
+    }
+    <span class="hljs-keyword">return</span> str
+}
+</div></code></pre>
+<h4 id="%E5%AF%BC%E5%85%A5%E5%B9%B6%E4%BD%BF%E7%94%A8%E8%87%AA%E5%AE%9A%E4%B9%89%E7%9A%84%E6%A8%A1%E6%9D%BF%E5%BC%95%E6%93%8E">导入并使用自定义的模板引擎</h4>
+<pre class="hljs"><code><div>    &lt;script src=<span class="hljs-string">"js/template.js"</span>&gt;&lt;<span class="hljs-regexp">/script&gt;
+</span></div></code></pre>
+
+</body>
+</html>
