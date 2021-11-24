@@ -14,6 +14,6 @@ textarea表单元素
 	文本内容
 </textarea>
 
-css]
+css
 构成：选择器以及一条或多条声明
 h1 {color:red font-size:25px}
