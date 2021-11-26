@@ -48,16 +48,42 @@
   </script>
   <script>
     $(function () {
+
+      // 定义延时器的id
+      var timer = null
+
+      // 定义缓存对象
+      var cacheObj={}
+
+
+      // 定义防抖的函数
+      function debounceSearch(kw) {
+        timer = setTimeout(function () {
+          getSuggestList(kw)
+        }, 500)
+      }
+
+
+
       //为输入框绑定keyup事件
       $('#ipt').on('keyup', function () {
+        // 清空timer
+        clearTimeout(timer)
         var keywords = $(this).val().trim()
 
         if (keywords.length <= 0) {
           return $('#suggest-list').empty().hide()
         }
+
+        // 先判断缓存中是否有数据
+        if (cacheObj[keywords]){
+          return renderSuggestList(cacheObj[keywords])
+        }
         //获取搜索建议列表
         // console.log(keywords);
-        getSuggestList(keywords)
+        // getSuggestList(keywords)
+
+        debounceSearch(keywords)
       })
 
       function getSuggestList(kw) {
@@ -78,6 +104,13 @@
         }
         var htmlStr = template('tpl-suggestList', res)
         $('#suggest-list').html(htmlStr).show()
+
+        // 获取到用户输入的数据当做键
+        var k=$('#ipt').val().trim()
+
+        // 需要将数据作为值，进行缓存
+        cacheObj[k]=res
+
       }
     })
   </script>

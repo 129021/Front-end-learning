@@ -224,3 +224,107 @@ return $('#suggest-list').empty().hide()
 用户在输入框中连续输入一串字符时，可以通过防抖策略，在输入完后，才执行查询的请求，这样可以有效减少请求次数，节约请求资源
 
 ### 3. 实现输入框的防抖
+```javascript
+// 定义延时器的id
+var timer = null
+
+// 定义防抖的函数
+function debounceSearch(kw) {
+timer = setTimeout(function () {
+    getSuggestList(kw)
+}, 500)
+}
+...
+clearTimeout(timer)
+...
+debounceSearch(keywords)
+```
+## 3.6. 缓存搜索的建议列表
+### 1. 定义全局缓存对象
+```javascript
+// 定义缓存对象
+var cacheObj={}
+...
+// 在渲染UI结构时，获取到用户输入的数据当做键
+var k=$('#ipt').val().trim()
+
+// 在渲染UI结构时，需要将数据作为值，进行缓存
+cacheObj[k]=res
+...
+// 当触发keyup的时候，先判断缓存中是否有数据
+if (cacheObj[keywords]){
+    return renderSuggestList(cacheObj[keywords])
+}
+```
+# 4. 防抖和节流
+## 4.1. 什么是节流
+**节流策略**（throttle），顾名思义，可以减少一段时间内事件的触发频率
+## 4.2.节流的应用场景
+- 鼠标不断地触发某事件（比如点击），只在单位时间内触发一次
+- 懒加载时要监听计算滚动条的位置，但不必每次滑动都触发，可以降低计算的频率
+
+## 4.3. 节流案例-鼠标跟随效果
+### 1. 渲染UI结构并美化样式
+```html
+<style>
+    html,body{
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+    }
+
+    #angel{
+        position: absolute;
+    }
+</style>
+
+<img src="angel.gif" alt="" id="angel" />
+```
+### 2. 不使用节流实现鼠标跟随效果
+```html
+<script>
+    $(function () {
+        // 1. 获取到图片
+        var angel = $('#angel')
+
+        // 2. 绑定mousemove事件
+        $(document).on('mousemove', function (e) {
+            // console.log(e.pageX);
+            // console.log(e.pageY);
+
+            // 3. 设置图片的位置
+            $(angel).css('top', e.pageY + 'px').css('left', e.pageX + 'px')
+        })
+    })
+</script>
+```
+### 3. 节流阀的概念
+如果节流阀为空，表示可以执行下次操作；不为空，表示不能执行下次操作
+
+当前操作执行完毕，必须将节流阀重置为空，表示可以执行下次操作了
+
+每次执行操作前，必须先判断节流阀是否为空
+### 4. 使用节流阀优化鼠标跟随效果
+```javascript
+// a. 定义节流阀
+var timer = null
+
+// c. 判断节流阀是否为空
+if (timer) {
+    return
+}
+
+// b. 开启延时器
+timer = setTimeout(function () {
+    // 3. 设置图片的位置
+    $(angel).css('top', e.pageY + 'px').css('left', e.pageX + 'px')
+
+    timer = null
+}, 16)
+```
+### 4. 防抖和节流的区别
+- 防抖：如果事件被频繁触发，防抖能保证 **只有最后一次触发生效**，前面N多次的触发都会被忽略
+- 节流：如果事件被频繁触发，节流能够减少事件触发的频率，因此，节流是有选择性地执行一部分事件
+
+
+
