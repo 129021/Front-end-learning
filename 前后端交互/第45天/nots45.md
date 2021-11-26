@@ -72,3 +72,155 @@ $.ajax({
 
 ## 2.5. jQuery中的JSONP
 jQuery提供的\$.ajax()函数，除了可以发起真正的Ajax请求之外，还能够发起JSONP数据请求
+```html
+<script src="lib/jquery.js"></script>
+
+<script>
+    $(function () {
+        // 发起JSONP请求
+        $.ajax({
+            url: 'http://ajax.frontend.itheima.net:3006/api/jsonp?name=zs&age=20',
+
+            // 代表我们要发起JSONP的数据请求
+            dataType: 'jsonp',
+            success: function (res) {
+                console.log(res);
+            }
+        })
+    })
+</script>
+```
+默认情况下，使用jQuery发起JSONP请求，会自动携带一个callback=jQueryxxx的参数，jQueryxxx是随机生成的一个回调函数名称
+## 2.6. 自定义参数及回调函数名称
+在使用jQuery发起JSONP请求时，如果想要自定义JSONP的参数及回调函数名称，可以通过如下两个参数来指定：
+```javascript
+//发送到服务端的参数名称，默认值为callback
+jsonp:'cb',
+
+//自定义的回调函数名称，默认值为jQueryxxx格式
+jsonpCallback:'abc',
+```
+
+## 2.7. jQuery中JSONP的实现过程
+jQuery中的JSONP,也是通过&lt;script&gt;标签的src属性实现跨域数据访问的，只不过，jQuery采用的是动态创建和移除&lt;script&gt;标签的方式，来发起JSONP的数据请求
+
+- 在发起JSONP请求的时候，动态向&lt;header&gt;中append一个&lt;script&gt;标签；
+- 在JSONP请求成功之后，动态从&lt;header&gt;中移除刚才append进去的&lt;script&gt;标签
+
+```html
+<script src="lib/jquery.js"></script>
+
+<button id="btnJSONP">发起JSONP数据请求</button>
+<script>
+    $(function () {
+        $('#btnJSONP').on('click', function () {
+            $.ajax({
+                url: 'http://ajax.frontend.itheima.net:3006/api/jsonp?address=北京&location=顺义',
+                dataType: 'jsonp',
+                jsonpCallback: 'abc',
+                success: function (res) {
+                    console.log(res);
+                }
+
+            })
+        })
+    })
+</script>
+```
+# 3. 案例-淘宝搜索
+## 3.1. 要实现的UI效果
+![](2021-11-26-10-51-49.png)
+
+## 3.2.获取用户输入的搜索关键词
+为了获取到用户每次按下键盘输入的内容，需要监听输入框的keyup事件
+```javascript
+$(function () {
+    //为输入框绑定keyup事件
+    $('#ipt').on('keyup',function(){
+    var keywords=$(this).val().trim()
+
+    if (keywords.length<=0){
+        reutrn
+    }
+    TODO://获取搜索建议列表
+    console.log(keywords);
+    })
+})
+```
+
+## 3.3. 封装getSuggestList函数
+将获取搜索建议列表的代码，封装到getSuggestList函数中
+
+```javascript
+function getSuggestList(kw) {
+$.ajax({
+    url: 'http://suggest.taobao.com/sug?q=' + kw,
+    dataType: 'jsonp',
+    success: function (res) {
+    console.log(res);
+    }
+})
+}
+```
+## 3.4. 渲染建议列表的UI结构
+### 1. 定义搜索建议列表
+```html
+      <!-- 搜索建议列表 -->
+      <div id="suggest-list"></div>
+```
+### 2. 定义模板结构
+```html
+  <!-- 模板结构 -->
+
+  <script type="text/html" id="tpl-suggestList">
+    {{each}}
+    <!-- 搜索建议项 -->
+    <div class="suggest-item">{{$value[0]}}</div>
+    {{/each}}
+  </script>
+```
+
+### 3. 定义渲染模板结构的函数
+```javascript
+// 渲染UI结构
+function renderSuggestList(res) {
+if (res.result.length <= 0) {
+    return $('#suggest-list').empty().hide()
+}
+var htmlStr = template('tpl-suggestList', res)
+$('#suggest-list').html(htmlStr).show()
+}
+})
+```
+### 4. 搜索关键词为空时隐藏搜索建议列表
+在keyup事件中判断输入关键字符串长度是否为0中加入：
+```javascript
+return $('#suggest-list').empty().hide()
+```
+### 5. 搜索建议列表美化
+```css
+#suggest-list {
+  border:1px solid #ccc;
+  display: none;
+}
+
+.suggest-item{
+  line-height: 30px;
+  padding-left: 5px;
+}
+
+.suggest-item:hover{
+  cursor:pointer;
+  background-color: #eee;
+}
+```
+## 3.5. 输入框的防抖
+### 1. 什么是防抖
+**防抖策略**：（debounce）是当事件被触发后，**延迟n秒**后再执行回调，如果在这n秒内事件又被触发，则重新计时
+
+例子：王者荣耀游戏回城操作读条
+
+### 2. 防抖的应用场景
+用户在输入框中连续输入一串字符时，可以通过防抖策略，在输入完后，才执行查询的请求，这样可以有效减少请求次数，节约请求资源
+
+### 3. 实现输入框的防抖

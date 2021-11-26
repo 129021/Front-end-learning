@@ -14,7 +14,8 @@
 .tabs {
   display: flex;
 }
-.tabs > div {
+
+.tabs>div {
   width: 55px;
   height: 23px;
   line-height: 23px;
@@ -22,7 +23,7 @@
   cursor: pointer;
 }
 
-.tabs > div:hover {
+.tabs>div:hover {
   text-decoration: underline;
   color: #ff5700;
 }
@@ -33,7 +34,7 @@
   color: white;
 }
 
-.tabs > .tab-active:hover {
+.tabs>.tab-active:hover {
   color: white;
   text-decoration: none;
 }
@@ -71,4 +72,20 @@
 
 .btnSearch:hover {
   opacity: 0.9;
+}
+
+
+#suggest-list {
+  border:1px solid #ccc;
+  display: none;
+}
+
+.suggest-item{
+  line-height: 30px;
+  padding-left: 5px;
+}
+
+.suggest-item:hover{
+  cursor:pointer;
+  background-color: #eee;
 }
