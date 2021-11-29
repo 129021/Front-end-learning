@@ -103,7 +103,12 @@ fs.readfile(path[,options],callback)
 
 ### 2. fs.readFile()的示例代码
 以utf8的编码格式，读取指定文件的内容，并打印err和dataStr的值
-
-
+```node
+const fs=require('fs')
+fs.readFile('./files/11.txt','utf8',function(err,dataStr){
+    console.log(err)
+    console.log(dataStr)
+})
+```
 
 
