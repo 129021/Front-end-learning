@@ -99,3 +99,80 @@ server.listen(80, () => {
 ```
 ### 4. res响应对象
 在服务器的request事件处理函数中，如果想要访问与服务器相关的数据或者属性，可以使用如下的方式：
+```js
+ // 调用res.end()方法向客户端响应一些内容
+res.end(str)
+```
+### 5. 解决中文乱码的问题
+当调用res.end()方法，向客户端发送中文内容时，会出现乱码的问题，此时，需要手动设置内容的编码格式
+```js
+const http = require('http')
+const server = http.createServer()
+server.on('request', (req, res) => {
+    // 定义一个字符串，包含中文的内容
+    const str = `您请求的URL地址是${req.url}，请求的method类型为${req.method}`
+
+    // 调用res.setHeader()方法，设置Content-Type响应头，解决中文乱码的问题
+    res.setHeader('Content-Type', 'text/html;charset=utf-8')
+
+    // res.end()将内容响应给客户端
+    res.end(str)
+})
+
+server.listen(80, () => {
+    console.log('server running at http://127.0.0.1');
+})
+```
+
+## 4.5.根据不同的URL响应不同的HTML内容
+### 1. 核心实现步骤
+- 请求的URL地址
+- 设置默认的响应内容为404 Not found
+- 判断用户请求的是否为/或者、index.html首页
+- 判断用户请求的是否为/about.html关于页面
+- 设置Content-Type响应头，防止中文乱码
+- 使用res.end()把内容响应给客户端
+
+### 2. 动态响应内容
+```js
+const http = require('http')
+const server = http.createServer()
+server.on('request', (req, res) => {
+    // - 请求的URL地址
+    const url = req.url
+
+    // - 设置默认的响应内容为404 Not found
+    let content = '<h1>404 Not found</h1>'
+
+    // - 判断用户请求的是否为/或者、index.html首页
+    // - 判断用户请求的是否为/about.html关于页面
+    if (url === '/' || url === '/index.html') {
+        content = '<h1>首页</h1>'
+    } else if (url === '/about.html') {
+        content = '<h1>关于页面</h1>'
+    }
+
+    // - 设置Content-Type响应头，防止中文乱码
+    res.setHeader('Content-Type', 'text/html;charset=utf-8')
+
+
+    // - 使用res.end()把内容响应给客户端
+    res.end(content)
+})
+server.listen(80, () => {
+    console.log('server running at http://127.0.0.1');
+})
+```
+## 4.6. 案例-实现clock时钟的web服务器
+### 1. 核心思路
+把文件的实际存放路径，作为每个资源请求的URL地址
+
+![](2021-11-30-11-18-31.png)
+### 2. 实现步骤
+- 导入需要的模块
+- 创建基本的web服务器
+- 将资源请求的URL地址映射为文件的存放路径
+- 读取文件的内容并响应给客户端
+- 优化资源的请求路径
+
+### 3. 步骤1-导入需要的模块
