@@ -74,3 +74,28 @@ server.listen(80,()=>{
     console.log('http server running at http://127.0.0.1')
 })
 ```
+### 3. req请求对象
+只要服务器接收到了客户端的请求，就会调用通过`server.on()`为服务器绑定的request事件处理函数。
+如果想要在事件处理函数中，访问与客户端相关的数据或属性，可以使用如下的方式：
+```js
+const http = require('http')
+const server = http.createServer()
+
+// req是请求对象，包含了与客户端相关的数据和属性
+server.on('request', (req) => {
+    // req.url是客户端请求的URL地址
+    const url = req.url
+
+    // req.method是客户端请求的method类型
+    const method = req.method
+
+    const str='Your request url is ${url} ,and request method is ${method}'
+
+    console.log(str);
+})
+server.listen(80, () => {
+    console.log('server running at http://127.0.0.1');
+})
+```
+### 4. res响应对象
+在服务器的request事件处理函数中，如果想要访问与服务器相关的数据或者属性，可以使用如下的方式：
