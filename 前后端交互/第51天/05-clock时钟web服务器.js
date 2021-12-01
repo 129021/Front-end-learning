@@ -13,7 +13,14 @@ server.on('request',(req,res)=>{
     // 3.1 获取到客户端请求的URL地址
     const url=req.url
     // 3.2 把请求的URL地址映射为具体文件的存放路径
-    const fpath=path.join(__dirname,url)
+    // const fpath=path.join(__dirname,url)
+    // 5.1 预定义一个空白的文件存放路径
+    let fpath=''
+    if (url==='/'){
+        fpath=path.join(__dirname,'./clock/index.html')
+    }else{
+        fpath=path.join(__dirname,'./clock',url)
+    }
 
     // 4.1 根据映射过来的文件路径读取文件的内容
     fs.readFile(fpath,'utf8',(err,dataStr)=>{
