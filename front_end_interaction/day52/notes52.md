@@ -27,3 +27,19 @@ npm init -y
 - 运行`npm install`命令安装包的时候，npm包管理工具会自动把包的名称和版本号，记录到`package.json`中
 
 
+### 4. `dependencies`节点
+`package.json`文件中，有一个`dependencies`节点，专门用来记录使用`npm install`命令安装了哪些包
+
+### 5. 一次性的安装所有的包
+
+当我们拿到一个剔除了`node_moudles`的项目之后，需要先把所有的包下载到项目中，才能将项目运行起来
+否则会出现类似下面的错误：
+```
+Error:Cannot find moudle 'moment'
+```
+
+可以运行`npm install`命令（或者`npm i`）一次性安装所有的包：
+```
+npm install
+```
+
