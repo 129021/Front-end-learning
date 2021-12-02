@@ -42,4 +42,13 @@ Error:Cannot find moudle 'moment'
 ```
 npm install
 ```
+### 6. 卸载包
+可以运行`npm uninstall`命令，来卸载指定的包
+```js
+// 使用 npm uninstall 具体的包名  来卸载包
+npm uninstall moment
+```
+
+注意：`npm uninstall`命令执行成功之后，会把卸载的包，自动从`package.json`的`dependencies`中移除掉
+
 
