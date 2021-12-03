@@ -149,5 +149,11 @@ i5ting_toc -f 要转换的md文件路径 -o
 - 格式化日期
 - 转义HTML中的特殊字符
 - 还原HTML的特殊字符
+### 2. 初始化包的基本结构
+- 新建`itheima-tools`文件夹，作为包的根目录
+- 在`itheima-tools`文件夹中新建三个文件：
+  - `package.json`(包管理配置文件)
+  - `index.js`（包的入口文件）
+  - `README.md`(包的说明文档)
 
 
