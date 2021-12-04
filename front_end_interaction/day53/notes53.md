@@ -304,5 +304,140 @@ app.get('/',mw1,(req,res)=>{
 
 示例代码：
 ```js
+var app=express()
+var router=express.Router()
+
+// 路由级别的中间件
+router.use(function(res,req,next){
+    console.log('Time',Date.now())
+    next()
+})
+
+app.use('/'.router)
+```
+### 3. 错误级别的中间件
+> 错误级别的中间件的作用：专门用来捕获整个项目中发生的异常错误，从而防止项目异常崩溃的问题
+
+格式：错误级别中间件的function处理函数中，必须有4个形参，形参顺序从前到后，分别是`(err,req,res,next)`
+
+```js
+const express = require('express')
+const app = express()
 
 
+// 定义一个路由
+app.get('/',(req, res) => {
+    // 1.1 人为的制造错误
+    throw new Error('服务器内部发生了错误')
+
+    res.send('Home page')
+})
+
+// 2. 定义错误级别的中间件，捕获整个项目的异常错误，从而防止程序的崩溃
+app.use((err,req,res,next)=>{
+    console.log('发生了错误'+err.message);
+    res.send('Error'+err.message)
+})
+
+app.listen(80, () => {
+    console.log('http://1217.0.0.1');
+})
+```
+
+注意：错误级别的中间件必须注册在所有路由之后
+
+### 4. Express内置级别的中间件
+> 自Express4.16.0版本开始，Express内置了3个常用的中间件，极大地提高了Express项目的开发效率和体验
+
+他们分别是：
+- `express.static`快速托管静态资源的内置中间件，例如：html文件、图片、css样式等（无兼容性）
+- `express.json`解析JSON格式的请求体数据（有兼容性，仅在4.16.0+版本可用）
+- `express.urlencoded`解析URL-encoded格式的请求体数据（有兼容性，仅在4.16.0+版本中可用）
+
+```js
+const express = require('express')
+const app = express()
+
+
+// 除了错误级别的中间件，其他的中间件必须在错误之前
+
+//通过express.json()这个中间件，解析表单中json格式的数据
+app.use(express.json())
+
+// 通过express.urlencoded()这个中间件，来解析表单中的url-encoded格式的数据
+app.use(express.urlencoded({extended:false}))
+
+// 定义一个路由
+app.post('/user',(req, res) => {
+    // 在服务器可以使用req.body这个属性来接收客户端发送过来的请求体数据
+
+    //默认情况下如果不配置解析表单数据的中间件，则req.body默认等于undefined
+    console.log(req.body);
+
+    res.send('ok')
+})
+
+app.post('/book',(req,res)=>{
+    // 在服务器端，可以通过req.body来获取JSON格式的表单数据和url-encoded格式的数据
+    console.log(req.body);
+    res.send('ok')
+})
+
+app.listen(80, () => {
+    console.log('http://1217.0.0.1');
+})
+```
+### 5. 第三方的中间件
+> 非Express官方内置的，而是由第三方开发出来的中间件，叫做第三方中间件
+
+在项目中，可以按需下载并配置第三方中间件，从而提高项目的开发效率
+
+例如：在express@4.16.0之前的版本，经常使用body-parser这个第三方中间件，来解析请求体数据。使用步骤如下：
+- 运行`npm i body-parser`安装中间件
+- 使用require导入中间件
+- 调用`app.use()`注册并使用中间件
+
+```js
+const express = require('express')
+const app = express()
+
+// 如果没有配置任何解析表单数据的中间件，则req.body默认等于undefined
+
+// 1. 导入解析表单数据的中间件
+const parser=require('body-parser')
+
+// 2. 使用app.use()注册中间件
+app.use(parser.urlencoded({extended:false}))
+
+// 定义一个路由
+app.post('/user', (req, res) => {
+    console.log(req.body);
+    res.send('User page')
+})
+
+app.listen(80, () => {
+    console.log('http://1217.0.0.1');
+})
+```
+注意：Express内置的express.urlencoded中间件，就是基于body-parser这个第三方中间件进一步封装出来的
+## 2.4. 自定义中间件
+### 1. 需求描述与实现步骤
+自己手动模拟一个类似于`express.urlencoded`这样的中间件，来解析post提交到服务器的表单数据
+
+实现步骤：
+- 定义中间件
+- 监听req的data事件
+- 监听req的end事件
+- 使用querystring模块解析请求体数据
+- 将解析出来的数据挂载到req.body
+- 将自定义中间件封装为模块
+
+
+### 2. 定义中间件
+> 使用`app.use()`来定义全局生效的中间件
+
+代码：
+```js
+app.use(function(req,res,next){
+    //中间件的业务逻辑
+})
