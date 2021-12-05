@@ -786,5 +786,17 @@ app.get('/api/jsonp', (req, res) => {
 调用$.ajax()函数，提供JSONP的配置选项，从而发起JSONP的请求
 
 示例代码：
-
+```js
+// 为JSONP按钮绑定点击事件处理函数
+$('#btnJSONP').on('click', function () {
+    $.ajax({
+        type: 'GET',
+        url: 'http://127.0.0.1/api/jsonp',
+        dataType: 'jsonp',
+        success: function (res) {
+            console.log(res);
+        }
+    })
+})
+```
 
