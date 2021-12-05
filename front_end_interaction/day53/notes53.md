@@ -441,3 +441,118 @@ app.listen(80, () => {
 app.use(function(req,res,next){
     //中间件的业务逻辑
 })
+```
+
+### 3. 监听req的data事件
+> 在中间件中，需要监听req对象的data事件，来获取客户端发送到服务器的数据
+
+如果数据量比较大，无法一次性发送完毕，则客户端会把数据切割后，分批发送到服务器，所以data事件可能会触发多次，**每一次触发data事件时，获取到的数据只是完整数据的一部分**，需要手动对接收到的数据进行拼接
+```js
+// 1. 定义一个str字符串，专门用来存储客户端发送过来的请求体数据
+let str=''
+// 2. 监听req的data事件
+req.on('data',(chunk)=>{
+    str+=chunk
+})
+```
+### 4. 监听req的end事件
+> 当请求体数据接收完毕后，会自动触发req的end事件
+
+因此，我们可以在req的end事件中，拿到并处理完整的请求体数据
+
+示例代码如下：
+```js
+req.on('end',()=>{
+    // 在str中存放的是完整的请求体数据
+    console.log(str);
+
+    //TODO:把字符串格式的请求体数据，解析成对象格式
+})
+```
+### 5. 使用querystring模块解析请求体数据
+Node.js内置了一个querystring模块，专门用来处理查询字符串。通过这个模块提供的`post()`函数，可以轻松的把查询字符串，解析成对象的格式
+
+示例代码如下：
+```js
+// 导入Node.js内置的querystring模块
+const qs=require('querystring')
+const body=qs.parse(str)
+console.log(body);
+```
+### 6. 将解析出来的数据对象挂载为req.body
+上游的中间件和下游的中间件及路由之间，共享同一份req和res。因此，我们可以将解析出来的数据，挂载为req的自定义属性，命名为req.body，供下游使用
+
+示例代码如下：
+```js
+// 3. 监听req的end事件
+req.on('end',()=>{
+    // 在str中存放的是完整的请求体数据
+    console.log(str);
+
+    //TODO:把字符串格式的请求体数据，解析成对象格式
+    const body= qs.parse(str)
+    // console.log(body);
+    req.body=body
+    next()
+})
+})
+```
+### 7. 将自定义中间件封装为模块
+为了优化代码的结构，可以把自定义的中间件函数，封装为独立的模块
+
+示例代码：
+
+封装：
+```js
+// 导入Node.js内置的querystring模块
+const qs = require('querystring')
+
+
+// 解析表单数据的中间件
+const bodyParser = (req, res, next) => {
+    // 定义中间件具体的业务逻辑
+    // 1. 定义一个str字符串，专门用来存储客户端发送过来的请求体数据
+    let str = ''
+    // 2. 监听req的data事件
+    req.on('data', (chunk) => {
+        str += chunk
+    })
+
+    // 3. 监听req的end事件
+    req.on('end', () => {
+        // 在str中存放的是完整的请求体数据
+        console.log(str);
+
+        //TODO:把字符串格式的请求体数据，解析成对象格式
+        const body = qs.parse(str)
+        // console.log(body);
+        req.body = body
+        next()
+    })
+}
+
+module.exports=bodyParser
+```
+使用：
+```js
+const express = require('express')
+
+const app = express()
+
+// 1. 导入自己封装的中间件模块
+const customBodyParser=require('./14-custom-body-parse')
+
+// 2. 将自定义的中间件注册为全局可用的中间件
+app.use(customBodyParser)
+
+app.post('/user',(req,res)=>{
+    res.send(req.body)
+})
+
+
+app.listen(80, function () {
+    console.log('http://127.0.0.1');
+})
+```
+# 3. 使用Express写接口
+## 3.1. 创建基本的服务器
