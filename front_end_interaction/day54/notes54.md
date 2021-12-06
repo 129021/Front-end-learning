@@ -206,4 +206,266 @@ and和or可在where子句中把两个或者多个条件结合起来
 
 
 
+### 2. and 运算符示例
+使用and来显示所有status为0，并且id小于3的用户
+```sql
+-- 使用and显示所有装态为0且id小于3的用户
+select * from users where status=0 and id<3
+```
 
+### 3. or运算符示例
+使用or来显示所有status为1，或者username为zs的用户
+```sql
+-- 使用 or来显示所有状态为1或者username为zs的用户
+select * from users where status=1 or username='zs'
+```
+## 3.9. SQL的ORDER BY子句
+### 1. 语法
+> ORDER BY 语句用于根据指定的列对结果集进行排序
+
+order by 语句默认按照升序对记录进行排序
+
+如果希望按照 **降序**对记录进行排序，可以使用`DESC`关键字
+### 2. ORDER BY 子句-升序排序
+对users表中的数据，按照status字段进行升序排序
+
+```sql
+-- 对users表中的数据，按照status字段进行升序排序
+select * from users order by status
+```
+### 3. ORDER BY 子句-降序排序
+```sql
+-- 对users表中的数据，按照id字段进行降序排序  desc表示降序排序   asc表示升序排序
+select * from users order by id desc
+```
+### 4. ORDER BY 子句-多重排序
+对users表中的数据，先按照status字段进行降序排序，再按照username的字母顺序进行升序排序
+
+```sql
+-- 对users表中的数据，先按照status字段进行降序排序，再按照username的字母顺序进行升序排序
+select * from users order by status desc,username asc
+```
+## 3.10. SQL的COUNT(*)函数
+### 1. 语法
+> COUNT(*)函数用于返回查询结果的总数据条数
+
+```sql
+select count(*)  form 表名称
+```
+### 2. COUNT(*)示例
+查询users表中status为0的总数据条数
+```sql
+-- 查询users表中status为0的总数据条数
+select count(*) from users where status=0
+```
+### 3. 使用AS为列设置别名
+> 如果希望给查询出来的列名称设置别名，可以使用`AS`关键字
+
+示例：
+```sql
+-- 使用AS关键字给列起别名
+select count(*) as total from users where status=0
+```
+
+# 4. 在项目中操作MySQL
+## 4.1. 在项目中操作数据库的步骤
+- 安装操作MySQL数据库的第三方模块(mysql)
+- 通过mysql连接到MySQL数据库
+- 通过mysql模块执行SQL语句
+
+## 4.2. 安装与配置mysql模块
+### 1. 安装mysql模块
+> mysql模块是托管于npm上的第三方模块。它提供了Node.js项目中连接和操作MySQL数据库的能力
+
+想要在项目中使用它，需要先运行如下命令，将mysql 安装为项目依赖包：
+```
+npm i mysql
+```
+### 2. 配置mysql模块
+在使用mysql模块操作MySQL数据库之前，必须先对mysql模块进行必要的配置，主要配置如下：
+```js
+// 1. 导入mysql模块
+const mysql=require('mysql')
+
+// 2. 建立与MySQL数据库的连接关系
+const db=mysql.createPool({
+    host:'127.0.0.1',   //数据库的IP地址
+    user:'root',        //登录数据库的账号
+    password:'admin123', //登录数据库的密码
+    database:'my_db_01'   //指定要操作哪个数据库
+})
+```
+### 3. 测试mysql模块能否正常工作
+调用`db.query()`函数，指定要执行的SQL语句，通过回调函数拿到执行的结果：
+```js
+// 测试mysql模块能否正常工作
+db.query('select 1',(err,results)=>{
+
+    // mysql工作期间报错
+    if (err) return console.log(err.message)
+
+    // 能够成功的执行sql语句
+    console.log(results);
+
+})
+```
+## 4.3. 使用mysql模块操作MySQL数据库
+### 1. 查询数据
+查询users表中所有的数据
+```js
+// 查询users表中所有的数据
+const sqlStr='select * from users'
+db.query(sqlStr,(err,results)=>{
+    if (err) return console.log(err.message);
+
+    console.log(results);
+})
+```
+结果：是一个数组
+```
+[
+  RowDataPacket {      
+    id: 1,
+    username: 'zs',    
+    password: '123456',
+    status: 0
+  },
+  RowDataPacket {      
+    id: 2,
+    username: 'ls',
+    password: 'admin 123',
+    status: 1
+  },
+  RowDataPacket {
+    id: 3,
+    username: 'xh',
+    password: '654321',
+    status: 0
+  }
+]
+```
+### 2. 插入数据
+向users表中新增数据，其中`username`为`Spider-Man`，`password`为`pcc321`
+
+```js
+// 向users表中新增数据，其中`username`为`Spider-Man`，`password`为`pcc321`
+const user = {
+    username: 'Spider-Man',
+    password: 'pcc32'
+}
+
+//定义待执行的SQL语句
+const sqlStr = 'insert into users (username,password) values (?,?)'
+
+//执行SQL语句
+db.query(sqlStr, [user.username, user.password], (err, results) => {
+    if (err) return console.log(err.message);
+    
+    // 成功了
+    // 注意：如果执行的是insert into 插入语句，则results是一个对象，可以通过affectedRows属性，来判断是否插入数据成功
+    if (results.affectedRows===1){
+        console.log('插入数据成功');
+    }
+})
+```
+
+注意：新插入的数据的id可以看到是5：
+![](2021-12-06-17-25-34.png)
+这是因为id为4 的数据之前是有的，只不过被删除了，而id具有唯一性，已经使用过的id就不能在使用第二次了，所以新插入的数据的id从5开始
+### 3. 插入数据的便捷方式
+向表中新增数据时，如果数据对象的每个属性和数据表的字段**一一对应**，则可以通过如下的方式快速插入数据：
+```js
+// 演示插入数据的便捷方式
+// 向users表中新增数据，其中`username`为`Spider-Man2`，`password`为`pcc4321`
+const user = {
+    username: 'Spider-Man2',
+    password: 'pcc4321'
+}
+
+//定义待执行的SQL语句
+const sqlStr='insert into users set ?'
+
+//执行SQL语句
+db.query(sqlStr,user,(err,results)=>{
+    if (err) return console.log(err.message);
+
+    if (results.affectedRows===1){
+        console.log('插入数据成功');
+    }
+})
+```
+### 4. 更新数据
+可以通过如下的方式，更新表中的数据：
+```js
+// 演示如何更新用户的信息
+const user = {
+    id:6,
+    username: 'aaa',
+    password: '000'
+}
+
+// 定义SQL语句
+const sqlStr='update users set username=?,password=? where id=?'
+
+//执行SQL语句
+db.query(sqlStr,[user.username,user.password,user.id],(err,results)=>{
+    if (err) return console.log(err.message);
+
+    if (results.affectedRows===1){
+        console.log('更新成功啦！');
+    }
+})
+```
+### 5. 更新数据的便捷方式
+向表中更新数据时，如果数据对象的每个属性和数据表的字段**一一对应**，则可以通过如下的方式快速更新数据：
+```js
+// 演示更新数据的便捷方式
+const user = {
+    id: 6,
+    username: 'aaaa',
+    password: '0000'
+}
+
+const sqlStr = 'update users set ? where id=?'
+
+db.query(sqlStr, [user, user.id], (err, results) => {
+    if (err) return console.log(err.message);
+
+    if (results.affectedRows === 1) {
+        console.log('更新数据成功啦！');
+    }
+})
+```
+### 6. 删除数据
+在删除数据时，推荐根据id这样的唯一的标识，来删除对应的数据
+```js
+// 删除id为5的用户
+const sqlStr = 'delete from users where id=?'
+db.query(sqlStr, 5, (err, results) => {
+    if (err) return console.log(err.message);
+
+    if (results.affectedRows === 1) {
+        console.log('删除数据成功啦！');
+    }
+})
+```
+
+### 7. 标记删除
+使用DELETE语句，会真正的把数据从表中删除掉。为了保险起见，推荐使用标记删除的形式，来模拟删除动作
+
+> 所谓的标记删除，就是在表中设置类似于status这样的状态字段，来标记当前这条数据是否被删除
+
+当用户执行了删除的动作时，我们并没有执行DELETE语句把数据删除掉，而是执行了UPDATE语句，将这条数据对应的status字段标记为删除即可
+
+```js
+// 标记删除
+const sqlStr = 'update users set status=? where id=?'
+
+db.query(sqlStr, [1, 6], (err, results) => {
+    if (err) return console.log(err.message);
+
+    if (results.affectedRows === 1) {
+        console.log('标记删除数据成功啦！');
+    }
+})
+```
