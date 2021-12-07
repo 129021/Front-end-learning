@@ -215,3 +215,36 @@ app.use(expressJWT({secret:secretKey}).unless({path: [/^\/api\//]}))
 ### 6. 使用req.user获取用户信息
 当express-jwt这个中间件配置成功后，即可在哪些有权限的接口中，使用req.user对象，来访问JWT字符串中解析出来的那些用户信息了，示例代码如下：
 
+```js
+app.get('/admin/getinfo', function (req, res) {
+  // TODO_05：使用 req.user 获取用户信息，并使用 data 属性将用户信息发送给客户端
+console.log(req.user);
+  res.send({
+    status: 200,
+    message: '获取用户信息成功！',
+    data: req.user // 要发送给客户端的用户信息
+  })
+})
+```
+### 7. 捕获解析JWT失败后产生的错误
+当使用express-jwt解析Token字符串时，如果客户端发送过来的Token字符串过期或者不合法，会产生一个解析失败的错误，影响项目的正常运行。我们可以通过Express的错误中间件，捕获这个错误并进行相关的处理
+
+示例代码如下：
+```js
+// TODO_06：使用全局错误处理中间件，捕获解析 JWT 失败后产生的错误、
+app.use((err,req,res,next)=>{
+  //这次错误是由token解析失败导致的
+  if (err.name==='UnauthorizedError'){
+    return res.send({
+      status:401,
+      message:'无效的token'
+    })
+
+  }
+  res.send({
+    status:500,
+    message:'未知的错误'
+  })
+
+})
+```
