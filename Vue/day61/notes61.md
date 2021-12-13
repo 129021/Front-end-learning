@@ -111,7 +111,7 @@ Vue编程范式：声明式编程
 - 新的属性：`methods`，该属性用于在Vue对象中定义方法
 - 新的指令：`@click`,该指令用于监听某个元素的点击事件，并且需要指定当点击发生时，执行的方法（方法通常是methods中定义的方法）
 
-# Vue中的MVVM
+# 4. Vue中的MVVM
 什么是MVVM？
 
 ![](2021-12-13-09-37-23.png)
@@ -130,7 +130,188 @@ Vue编程范式：声明式编程
   - 另一方面它实现了DOM Listener，也就是DOM监听，当DOM发生一些事件（点击、滚动等）时，可以监听到，并在需要的情况下改变对应的Data
 
 
+# 5. 创建Vue实例传入的options
 
+目前掌握这些选项：
+- el:
+   - 类型：string/HMTLElement
+   - 作用：决定之后Vue实例会管理哪一个DOM
+- data:
+   - 类型：Object/Function
+   - 作用：Vue实例对应的数据对象
+- methods:
+   - 类型：{[key:string]:Function}
+   - 作用：定义属于Vue的一些方法，可以在其他地方调用，也可以在指令中使用
+
+
+
+# 6. Vue的生命周期
+当自己写了一个 `new Vue()`时，看起来很简单，但是Vue在内部做了一系列的事情，在它做这一系列事情的时候，如果你自己写了对应的函数，它会通过回调函数告诉你它做到哪一步了
+
+# 7. 插值的操作
+## 7.1. Mustache语法
+
+```js
+<div id="app">
+    <h2>{{message}}</h2>
+    <!-- mustache语法中，不仅仅可以直接写变量，也可以写简单的表达式 -->
+    <h2>{{firstName+' '+lastName}}</h2>
+    <h2>{{firstName}} {{lastName}}</h2>
+    <h2>{{counter*2}}</h2>
+</div>
+
+<script src="../js/vue.js"></script>
+
+<script>
+    const app = new Vue({
+        el: '#app',
+        data: {
+            message: 'Hello',
+            firstName: 'Jiaqin',
+            lastName: 'Wang',
+            counter:100
+        },
+        // methods: {}
+    });
+</script>
+```
+
+
+## 7.2. 一些常用指令
+### 7.2.1. v-once
+`v-once`指令使得数据不会在后续的改变中改变
+
+```js
+<div id="app">
+    <h2>{{message}}</h2>    
+    <h2 v-once>{{message}}</h2>
+</div>
+
+<script src="../js/vue.js"></script>
+
+<script>
+    const app = new Vue({
+        el: '#app',
+        data: {
+            message: 'Hello'
+        },
+        methods: {}
+    })
+</script>
+```
+
+### 7.2.2. v-html
+```js
+<div id="app">
+
+    <h2 v-html="url"></h2>
+</div>
+
+<script src="../js/vue.js"></script>
+
+<script>
+    const app = new Vue({
+        el: '#app',
+        data: {
+            url:'<a href="http://www.baidu.com/">百度一下</a>',
+        },
+        methods: {}
+    });
+</script>
+```
+
+### 7.2.3. v-text
+`v-text`的作用和`Mustache`比较相似：都是将数据显示在界面中
+
+`v-text`通常情况下，接受一个string类型
+
+```js
+<div id="app">
+    <h2>{{message}},World!</h2>   //Hello,World!
+    <h2 v-text="message">,World!</h2>  //Hello
+</div>
+
+<script src="../js/vue.js"></script>
+
+<script>
+    const app = new Vue({
+        el: '#app',
+        data: {
+            message: 'Hello'
+        },
+        methods: {}
+    });
+</script>
+```
+
+在开发中一般不用，因为不够灵活
+
+### 7.2.4. v-pie
+
+`v-pre`可以把{{}}里面的内容原封不动的显示出来，不要做解析
+
+```js
+<div id="app">
+    <h2>{{message}}</h2>
+    <h2 v-pre>{{message}}</h2>
+</div>
+
+<script src="../js/vue.js"></script>
+
+<script>
+    const app = new Vue({
+        el: '#app',
+        data: {
+            message: 'Hello',
+        },
+        methods: {}
+    });
+</script>
+```
+结果是：
+Hello
+{{message}}
+
+### 7.2.5. v-cloak
+cloak:斗篷
+
+浏览器解析HTML代码的时候是从上往下解析的，这就意味着先执行div中的代码，{{message}}。当出现执行下面的script代码卡住的时候，就会出现用户先看到“{{message}}”这些文字，过一会才看到它所代表的Hello文字出现，从而形成了一个闪动的效果，`cloak`指令可以很好的消除这样的闪动效果
+
+```js
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <h2 v-cloak>{{message}}</h2>
+    </div>
+
+    <script src="../js/vue.js"></script>
+
+    <script>
+        // 在vue解析之前，div中有一个属性v-cloak
+        // 在vue解析之后，div中没有一个属性v-cloak
+        setTimeout(function () {
+            const app = new Vue({
+                el: '#app',
+                data: {
+                    message: 'Hello'
+                },
+                methods: {}
+            });
+        }, 1000)
+    </script>
+</body>
+```
 
 
 
