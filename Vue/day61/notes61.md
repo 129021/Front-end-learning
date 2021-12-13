@@ -313,7 +313,320 @@ cloak:斗篷
 </body>
 ```
 
+## 7.3. 动态绑定属性
+### 7.3.1. v-bind介绍
+前面我们学习的指令主要作用是将值插入到模板的内容当中
+但是，处理内容需要动态来决定外，某些属性我们也希望动态来绑定
+- 比如动态绑定`a`元素的`href`属性
+- 比如动态绑定img元素的`src`属性
+这个时候，我们可以使用`v-bind`命令
+- 作用：动态绑定属性
+- 缩写:`:`
+- 预期：any(with argument)|Object(without argument)
+- 参数：attrOrProp(optional)
 
+```js
+<div id="app">
+    <img v-bind:src="imgURL" alt="">
+    <a v-bind:href="aHref">百度一下</a>
+</div>
+
+<script src="../js/vue.js"></script>
+
+<script>
+    const app = new Vue({
+        el: '#app',
+        data: {
+            imgURL: 'https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png',
+            aHref: 'https://www.baidu.com/',
+        },
+
+        methods: {}
+    });
+</script>
+```
+v-bind有一个对应的语法糖，也就是简写形式：
+
+```js
+<!-- 语法糖的写法 -->
+<img :src="imgURL" alt="">
+<a :href="aHref">百度一下</a>
+```
+
+### 7.3.2. v-bind动态绑定class
+
+
+#### 动态绑定class的对象语法
+
+对象语法有下面这些用法：
+
+用法一：直接通过{}绑定一个类
+```js
+<h2: class="{'active':isActive}">Hello World</h2>
+```
+
+用法二：可以通过判断，传入多个值
+```js
+<h2 :class="{active:isActive,line:isLine}">Hello World</h2>
+
+```
+
+用法三：和普通的类同时存在，并不冲突
+```js
+<h2 class="title" v-bind:class="{active:isActive,line:isLine}">{{message}}</h2>
+```
+
+用法四：如果过于复杂，可以放在一个methods或者computed中
+```js
+<h2 class="title" :class="classes">Hello World</h2>
+```
+
+
+```js
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .active {
+            color: red;
+        }
+    </style>
+
+<body>
+    <div id="app">
+        <h2 class="title" v-bind:class="{active:isActive,line:isLine}">{{message}}</h2>
+        <button v-on:click="btnClick">click me</button>
+    </div>
+
+    <script src="../js/vue.js"></script>
+
+    <script>
+        const app = new Vue({
+            el: '#app',
+            data: {
+                message: 'Hello',
+                isActive: true,
+                isLine: true
+
+            },
+            methods: {
+                btnClick: function () {
+                    this.isActive = !this.isActive
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
+```
+
+
+#### 动态绑定class的数组语法
+
+
+中括号内的元素加上单引号就是字符串
+```js
+<div id="app">
+<!-- 中括号内的元素加上单引号就是字符串，不加单引号就是变量 -->
+<h2 class="title" :class="['active','line']">{{message}}</h2>
+<!-- <h2 class="title" :class="[active,line]">{{message}}</h2> -->
+</div>
+
+<script src="../js/vue.js"></script>
+
+<script>
+    const app = new Vue({
+    el:'#app',
+    data:{
+        message:'Hello',
+        active:'abc',
+        line:'123'
+    },
+    methods:{}
+    }) ;
+    </script>
+```
+![](2021-12-13-16-30-56.png)
+
+中括号内的元素不加单引号就是变量
+```js
+<div id="app">
+<!-- 中括号内的元素加上单引号就是字符串，不加单引号就是变量 -->
+<!-- <h2 class="title" :class="['active','line']">{{message}}</h2> -->
+<h2 class="title" :class="[active,line]">{{message}}</h2>
+</div>
+
+<script src="../js/vue.js"></script>
+
+<script>
+    const app = new Vue({
+    el:'#app',
+    data:{
+        message:'Hello',
+        active:'abc',
+        line:'123'
+    },
+    methods:{}
+    }) ;
+    </script>
+```
+![](2021-12-13-16-32-07.png)
+
+
+### 7.3.3 v-bind绑定style
+
+我们可以使用`v-bind:style`来绑定一些CSS内联样式
+
+在写CSS属性的时候，比如：font-size
+- 我们可以使用驼峰式： fontSize
+- 或者短横线分隔(记得用单引号括起来) ： 'font-size'
+
+绑定class有两种方式：
+- 对象语法
+- 数组语法
+
+#### 绑定方式一：对象语法
+```js
+<div id="app">
+    <!-- 50px 必须加上单引号，否则是当做一个变量去解析的 -->
+<!-- <h2 :style="{fontSize:'50px'}">{{message}}</h2> -->
+
+<h2 :style="{fontSize:finalSize+'px',color:finalColor}">{{message}}</h2>
+
+
+</div>
+
+<script src="../js/vue.js"></script>
+
+<script>
+    const app = new Vue({
+    el:'#app',
+    data:{
+        message:'Hello',
+        finalSize:100,
+        finalColor:'red',
+    },
+    methods:{}
+    }) ;
+    </script>
+```
+
+#### 绑定方式二：数组语法
+```js
+<div id="app">
+    <!-- 多个值之间以逗号进行分割即可 -->
+    <h2 :style="[baseStyle,baseStyle1]">{{message}}</h2>
+</div>
+
+<script src="../js/vue.js"></script>
+
+<script>
+    const app = new Vue({
+        el: '#app',
+        data: {
+            message: 'Hello',
+            baseStyle: {
+                backgroundColor: 'red'
+            },
+            baseStyle1: {
+                fontSize: '100px'
+            },
+        },
+        methods: {}
+    });
+</script>
+```
+
+# 8. 计算属性
+在模板中可以直接通过插值语法显示一些data中的数据
+
+但是在某些情况，我们可能需要对数据进行一些转化后再进行显示，或者需要将多个数据结合起来进行显示
+
+比如我们有`firstName`和`lastName`两个变量，我们需要显示完整额名称
+但是如果在多个地方都需要显示完整的名称，我们就需要写多个`{{firstName}} {{lastName}}`
+
+
+## 8.1. 计算属性最基本的使用
+```js
+<div id="app">
+    <h2>{{getFullName()}}</h2>
+    
+    <h2>{{fullName}}</h2>
+</div>
+
+<script src="../js/vue.js"></script>
+
+<script>
+    const app = new Vue({
+        el: '#app',
+        data: {
+            firstName: 'Jianqin',
+            lastName: 'Wang',
+        },
+        methods: {
+            getFullName() {
+                return this.firstName + ' ' + this.lastName
+            }
+        },
+
+        // computed:计算属性
+        computed:{
+            fullName:function(){
+                return this.firstName+' '+this.lastName
+            }
+        }
+    });
+</script>
+```
+## 8.2. 计算属性的复杂操作
+```js
+    <div id="app">
+        <h2>总价格：{{totalPrice}}</h2>
+    </div>
+
+    <script src="../js/vue.js"></script>
+
+    <script>
+        const app = new Vue({
+            el: '#app',
+            data: {
+                books: [{
+                    id: 001,
+                    name: '斗破苍穹',
+                    price: 9
+                }, {
+                    id: 002,
+                    name: '斗罗大陆',
+                    price: 199
+                }, {
+                    id: 003,
+                    name: '盘龙',
+                    price: 299
+                }, {
+                    id: 004,
+                    name: '遮天',
+                    price: 19
+                }, ]
+            },
+            methods: {},
+            computed: {
+                totalPrice: function () {
+                    let result = 0
+                    for (let i = 0; i < this.books.length; i++) {
+                        result += this.books[i].price
+                    }
+                    return result
+                }
+            }
+        });
+    </script>
+```
 
 
 
