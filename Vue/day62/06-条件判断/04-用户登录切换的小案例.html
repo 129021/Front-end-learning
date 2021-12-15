@@ -10,7 +10,15 @@
 
 <body>
     <div id="app">
-        <h2 v-if="isShow">{{message}}</h2>
+        <span v-if="isUser">
+            <label for="username">用户账号</label>
+            <input type="text" id="username" placeholder="用户账号">
+        </span>
+
+        <span v-else> <label for="email">用户邮箱</label>
+            <input type="text" id="email" placeholder="用户邮箱"></span>
+        </span>
+        <button @click="isUser=!isUser">切换类型</button>
     </div>
 
     <script src="../js/vue.js"></script>
@@ -19,8 +27,7 @@
         const app = new Vue({
             el: '#app',
             data: {
-                message: 'Hello',
-                isShow: true
+                isUser: true
             },
             methods: {}
         });

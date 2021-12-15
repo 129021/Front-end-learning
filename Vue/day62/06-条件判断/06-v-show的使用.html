@@ -10,7 +10,11 @@
 
 <body>
     <div id="app">
+        <!-- 当条件为false时，包含v-if指令的元素，根本就不会存在DOM中，当条件改为true时，它又会在DOM中重新创建一个新的h2标签 -->
         <h2 v-if="isShow">{{message}}</h2>
+
+        <!-- 当条件为false时，v-show只是给我们的元素添加一个行内样式：display:none -->
+        <h2 v-show="isShow">{{message}}</h2>
     </div>
 
     <script src="../js/vue.js"></script>
@@ -19,8 +23,8 @@
         const app = new Vue({
             el: '#app',
             data: {
-                message: 'Hello',
-                isShow: true
+                message: "Hello",
+                isShow: true,
             },
             methods: {}
         });

@@ -10,7 +10,16 @@
 
 <body>
     <div id="app">
-        <h2 v-if="isShow">{{message}}</h2>
+        <!-- 1. 在遍历过程中没有使用索引值（下标值） -->
+        <ul>
+            <li v-for="item in names">{{item}}</li>
+        </ul>
+
+
+        <!-- 2. 在遍历的过程中获取索引值 -->
+        <ul>
+            <li v-for="(item,index) in names">{{index+1}}.{{item}}</li>
+        </ul>
     </div>
 
     <script src="../js/vue.js"></script>
@@ -19,8 +28,7 @@
         const app = new Vue({
             el: '#app',
             data: {
-                message: 'Hello',
-                isShow: true
+                names: ['a', 'b', 'c', 'd', 'e', 'f']
             },
             methods: {}
         });

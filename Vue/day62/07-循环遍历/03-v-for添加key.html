@@ -10,7 +10,9 @@
 
 <body>
     <div id="app">
-        <h2 v-if="isShow">{{message}}</h2>
+        <ul>
+            <li v-for="item in letters" :key="item">{{item}}</li>
+        </ul>
     </div>
 
     <script src="../js/vue.js"></script>
@@ -19,8 +21,7 @@
         const app = new Vue({
             el: '#app',
             data: {
-                message: 'Hello',
-                isShow: true
+                letters: ['a', 'b', 'c', 'd', 'e']
             },
             methods: {}
         });
