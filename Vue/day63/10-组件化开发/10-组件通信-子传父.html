@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- 父组件模板 -->
+    <div id="app">
+
+        <cpn v-on:item-click="cpnClick"></cpn>
+    </div>
+
+
+    <!-- 子组件模板 -->
+    <template id="cpn">
+        <div>
+            <button v-for="item in catagories" @click="btnClick(item)">{{item.name}}</button>
+        </div>
+    </template>
+
+    <script src="../js/vue.js"></script>
+
+    <script>
+        // 子组件
+        const cpn = {
+            template: '#cpn',
+            data() {
+                return {
+                    catagories: [{
+                            id: 'a',
+                            name: '热门推荐'
+                        },
+                        {
+                            id: 'b',
+                            name: '手机数码'
+                        },
+                        {
+                            id: 'c',
+                            name: '家用电器'
+                        },
+                        {
+                            id: 'd',
+                            name: '电脑办公'
+                        },
+                    ]
+                }
+            },
+            methods: {
+                btnClick(item) {
+                    // console.log(item);
+
+                    // 子组件通过$emit发射了一个事件,这是一个自定义事件,同时把item也传过去
+                    this.$emit('item-click',item)
+                }
+            }
+        }
+
+        // 父组件
+        const app = new Vue({
+            el: '#app',
+            data: {
+                info: {
+                    name: 'spongebob',
+                    age: 3,
+                    address: 'pineapple house'
+                }
+            },
+            methods: {
+                cpnClick(item){
+                    console.log('cpnClick',item);
+                }
+            },
+            components: {
+                cpn
+            }
+        });
+    </script>
+</body>
+
+</html>

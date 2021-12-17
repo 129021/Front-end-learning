@@ -444,6 +444,352 @@ v-model结合radio（单选按钮）可以实现在选择的同时进行内容�
     });
 </script>
 ```
+## 3.7. 组件模板的分离写法
+上面我们通过语法糖简化了Vue组件的注册过程，另外还有一个地方的写法比较麻烦，就是template模板写法
+
+如果我们能将其中的HTML分离出来写，然后挂载到对应的组件上，必然结构会变得非常清晰
+
+Vue提供了两种方案来定义HTML模块内容：
+- 使用&lt;script&gt;标签
+- 使用&lt;template&gt;标签
+
+```html
+<div id="app">
+    <cpn></cpn>
+    <cpn></cpn>
+    <cpn></cpn>
+
+    <cpn1></cpn1>
+</div>
+
+<!-- 1. 通过script标签，type必须是x-template -->
+<script type="text/x-template" id="cpn">
+    <div>
+        <h2>我是标题</h2>
+        <p>我是内容</p>
+    </div>
+</script>
+
+<!-- 2. template标签 -->
+<template id="cpn1">
+    <div>
+        <h2>我是标题template</h2>
+        <p>我是内容template</p>
+    </div>
+</template>
+
+<script src="../js/vue.js"></script>
+
+<script>
+    // 1. 注册一个全局组件
+    Vue.component('cpn', {
+        template: '#cpn'
+    })
+
+    Vue.component('cpn1', {
+        template: '#cpn1'
+    })
 
 
+
+    const app = new Vue({
+        el: '#app',
+        data: {},
+        methods: {},
+        components:{
+            // cpn1:
+        }
+    });
+</script>
+```
+## 3.8. 组件可以访问Vue实例数据吗？
+组件是一个单独功能模块的封装，这个模块有属于自己的HTML模板，也应该有属于自己的数据data
+
+组件中不能直接访问Vue实例中的data，而且即使可以访问，如果将所有的数据都放在Vue实例中，Vue实例就会变得非常臃肿
+
+Vue组件应该有自己保存数据的地方
+
+## 3.9. 组件数据的存放
+组件的数据的存放：
+- 组件对象也有一个data属性（也可以有methods等属性）
+- 这个data属性必须是一个函数
+- 这个函数返回一个对象，对象内部保存着数据
+
+```js
+Vue.component('cpn1', {
+    template: '#cpn1',
+    // 这个data不能是一个对象类型,必须是一个函数，函数内部带返回值
+    data(){
+        return {title:'this is a title in Vue.component'}
+    }
+})
+```
+## 3.10. 父子组件的通信
+上一节中，我们提到了子组件是不能引用父组件或者Vue实例的数据的
+
+但是在开发中，往往一些数据确实需要从上层传递到下层：
+
+比如在一个页面中，我们从服务器请求到了很多的数据，其中一部分数据，并非是我们整个页面的大组件来展示的，而是需要下面的子组件来进行展示
+
+这个时候，并不会让子组件再次发送一个网络请求，而是直接让大组件（父组件）将数据传递给小组件（子组件）
+
+
+如何进行父子组件的通信：
+- 通过`props`向子组件传递数据
+- 通过事件向父组件发送消息
+
+真实开发中**Vue实例与子组件的通信**和**父组件与子组件的通信**过程是一样的
+
+## 3.11. props基本用法
+> 在组件中，使用选项props来声明需要从父级接收到的数据
+
+props的值有两种方式：
+- 字符串数组，数组中的字符串就是传递时的名称
+- 对象，对象可以设置传递时的类型，也可以设置默认值等
+
+字符串数组：
+```html
+<div id="app">
+    <cpn v-bind:cletters="letters" :cmessage="message"></cpn>
+</div>
+<template id="cpn">
+    <div>
+        <ul>
+            <li v-for="item in cletters">{{item}}</li>
+        </ul>
+        <h2>{{cmessage}}</h2>
+    </div>
+</template>
+
+<script src="../js/vue.js"></script>
+
+<script>
+    // 父传子:props
+    const cpn = {
+        template: '#cpn',
+        props: ['cletters', 'cmessage'],
+    }
+
+    const app = new Vue({
+        el: '#app',
+        data: {
+            message: 'Hello',
+            letters: ['a', 'b', 'c', 'd', 'e', 'f']
+        },
+        methods: {},
+        components: {
+            cpn
+        }
+    });
+</script>
+```
+
+## 3.12. props数据验证
+props选项除了是一个数组之外，还可以使用对象，当需要对props进行类型等验证时，就需要对象写法了
+
+验证支持的数据类型：
+- String
+- Number
+- Boolean
+- Array
+- Object
+- Date
+- Function
+- Symbol
+
+当有自定义构造函数时，验证也支持自定义的类型
+
+```html
+<div id="app">
+    <!-- <cpn v-bind:cletters="letters" :cmessage="message"></cpn> -->
+    <cpn :cmessage="message" :cletters="letters"></cpn>
+    <!-- <cpn v-bind:cletters="letters"></cpn> -->
+</div>
+
+<template id="cpn">
+    <div>
+        <ul>
+            <li v-for="item in cletters">{{item}}</li>
+        </ul>
+        <h2>{{cmessage}}</h2>
+    </div>
+</template>
+
+<script src="../js/vue.js"></script>
+
+<script>
+    // 父传子:props
+    const cpn = {
+        template: '#cpn',
+
+        // 值为数组：
+        // props: ['cletters', 'cmessage'],
+
+        // 值为对象：
+        props: {
+            // 1.类型限制
+            // cletters:Array,
+            // cmessage:String,
+
+            // 2. 提供一些默认值
+            cmessage: {
+                type: String,
+                default: 'morenzhi',
+
+                // required设置为true必须传值
+                required: true
+            },
+
+            // 类型是对象或者数组时，默认值必须是一个函数
+            cletters: {
+                type: Array,
+                default () {
+                    return []
+                }
+            }
+        }
+    }
+
+    const app = new Vue({
+        el: '#app',
+        data: {
+            message: 'Hello',
+            letters: ['a', 'b', 'c', 'd', 'e', 'f']
+        },
+        methods: {},
+        components: {
+            cpn
+        }
+    });
+</script>
+```
+## 3.13. props中的驼峰标识
+```html
+<div id="app">
+    <!-- 在HTML中使用驼峰命名法必须使用-来转换驼峰命名 c-info就是其他标签中的cInfo -->
+    <cpn :c-info="info"></cpn>
+</div>
+
+<template id="cpn">
+    <div>
+        <h2>{{cInfo}}</h2>
+    </div>
+</template>
+
+<script src="../js/vue.js"></script>
+
+<script>
+    const cpn = {
+        template: '#cpn',
+        props: {
+            cInfo: {
+                type: Object,
+                default () {
+                    return {}
+                }
+            }
+        }
+    }
+    const app = new Vue({
+        el: '#app',
+        data: {
+            info: {
+                name: 'spongebob',
+                age: 3,
+                address: 'pineapple house'
+            }
+        },
+        methods: {},
+        components: {
+            cpn
+        }
+    });
+</script>
+```
+
+## 3.14. 子级向父级传递
+props用于父组件向子组件传递数据，还有一种比较常见的是子组件传递数据或者事件到父组件中
+
+> 子组件向父组件传递数据或者事件需要使用**自定义事件**来完成
+
+自定义事件的使用场景：
+- 当子组件需要向父组件传递数据时，就要用到自定义事件
+- v-on不仅仅可以用于监听DOM事件，也可以用于组件间的自定义事件
+
+自定义事件的流程：
+-在子组件中，通过$emit()来触发事件
+在父组件中，通过v-on来监听子组件事件
+```html
+<!-- 父组件模板 -->
+<div id="app">
+
+    <cpn v-on:item-click="cpnClick"></cpn>
+</div>
+
+
+<!-- 子组件模板 -->
+<template id="cpn">
+    <div>
+        <button v-for="item in catagories" @click="btnClick(item)">{{item.name}}</button>
+    </div>
+</template>
+
+<script src="../js/vue.js"></script>
+
+<script>
+    // 子组件
+    const cpn = {
+        template: '#cpn',
+        data() {
+            return {
+                catagories: [{
+                        id: 'a',
+                        name: '热门推荐'
+                    },
+                    {
+                        id: 'b',
+                        name: '手机数码'
+                    },
+                    {
+                        id: 'c',
+                        name: '家用电器'
+                    },
+                    {
+                        id: 'd',
+                        name: '电脑办公'
+                    },
+                ]
+            }
+        },
+        methods: {
+            btnClick(item) {
+                // console.log(item);
+
+                // 子组件通过$emit发射了一个事件,这是一个自定义事件,同时把item也传过去
+                this.$emit('item-click',item)
+            }
+        }
+    }
+
+    // 父组件
+    const app = new Vue({
+        el: '#app',
+        data: {
+            info: {
+                name: 'spongebob',
+                age: 3,
+                address: 'pineapple house'
+            }
+        },
+        methods: {
+            cpnClick(item){
+                console.log('cpnClick',item);
+            }
+        },
+        components: {
+            cpn
+        }
+    });
+</script>
+```
 

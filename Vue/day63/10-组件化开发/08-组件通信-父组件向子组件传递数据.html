@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <!-- <cpn v-bind:cletters="letters" :cmessage="message"></cpn> -->
+        <cpn :cmessage="message" :cletters="letters"></cpn>
+        <!-- <cpn v-bind:cletters="letters"></cpn> -->
+    </div>
+
+    <template id="cpn">
+        <div>
+            <ul>
+                <li v-for="item in cletters">{{item}}</li>
+            </ul>
+            <h2>{{cmessage}}</h2>
+        </div>
+    </template>
+
+    <script src="../js/vue.js"></script>
+
+    <script>
+        // 父传子:props
+        const cpn = {
+            template: '#cpn',
+
+            // 值为数组：
+            // props: ['cletters', 'cmessage'],
+
+            // 值为对象：
+            props: {
+                // 1.类型限制
+                // cletters:Array,
+                // cmessage:String,
+
+                // 2. 提供一些默认值
+                cmessage: {
+                    type: String,
+                    default: 'morenzhi',
+
+                    // required设置为true必须传值
+                    required: true
+                },
+
+                // 类型是对象或者数组时，默认值必须是一个函数
+                cletters: {
+                    type: Array,
+                    default () {
+                        return []
+                    }
+                }
+            }
+        }
+
+        const app = new Vue({
+            el: '#app',
+            data: {
+                message: 'Hello',
+                letters: ['a', 'b', 'c', 'd', 'e', 'f']
+            },
+            methods: {},
+            components: {
+                cpn
+            }
+        });
+    </script>
+</body>
+
+</html>
