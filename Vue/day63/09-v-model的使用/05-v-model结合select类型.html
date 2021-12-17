@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <!-- 1. 选择一个 -->
+        <select name="abc" v-model="abcd">
+            <option value="a">a</option>
+            <option value="b">b</option>
+            <option value="c">c</option>
+            <option value="d">d</option>
+            <option value="e">e</option>
+            <option value="f">f</option>
+            <option value="g">g</option>
+        </select>
+        <h2>您选择的字母是：{{abcd}}</h2>
+
+        <!-- 2. 选择多个 -->
+        <select name="abc" v-model="abcde" multiple>
+            <option value="a">a</option>
+            <option value="b">b</option>
+            <option value="c">c</option>
+            <option value="d">d</option>
+            <option value="e">e</option>
+            <option value="f">f</option>
+            <option value="g">g</option>
+        </select>
+        <h2>您选择的字母是：{{abcde}}</h2>
+
+    </div>
+
+    <script src="../js/vue.js"></script>
+
+    <script>
+        const app = new Vue({
+            el: '#app',
+            data: {
+                abcd: 'e',
+                abcde:'d',
+            },
+            methods: {}
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // 1. filter函数的使用
+        const nums = [1, 2, 3, 4, 5, 6, 7, 8]
+        let newNums = nums.filter(function (n) {
+            // return true
+            return n < 5
+        })
+
+        // console.log(newNums);
+
+
+        // 2. map函数的使用
+        let new2Nums = newNums.map(function (n) {
+            return n * 2
+        })
+        console.log(new2Nums);
+
+        
+        // 3. reduce函数的使用
+        // reduce作用就是对数组中所用的内容进行汇总
+
+        let total = new2Nums.reduce(function (preValue, n) {
+            return preValue + n
+        }, 0)
+
+        console.log(total);
+    </script>
+</body>
+
+</html>
