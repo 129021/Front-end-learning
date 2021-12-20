@@ -380,3 +380,18 @@ grunt/gulp的核心是Task，我们可以配置一系列的Task，并且定义ta
 - webpack更加强调模块化开发管理，而文件压缩，预处理等功能，是他附带的功能
 
 
+## 5.4. 什么是loader
+loader是webpack中一个非常核心的概念
+
+在之前的实例中，主要是用webpack来处理我们写的js代码，并且webpack会自动处理js之间相关的依赖
+
+但是在开发中，不仅仅有基本的js代码处理，我们也需要加载css、图片，也包括一些高级的将ES6转成ES5代码，将scss、less转成css等等
+
+那对于webpack本身的能力来说，对于这些转化是不支持的
+
+这时候给webpack扩展对应的loader就可以了
+
+loader使用过程：
+- 步骤一：通过npm安装需要使用的loader
+- 步骤二：在webpack.config.js中的modules关键字下进行配置
+
