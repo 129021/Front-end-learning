@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+       
+        <cpn></cpn>
+        <cpn>
+            <!-- 目的：获取子组件的pLanguage，但是这是在Vue实例中，由于编译作用域的原因拿不到子组件中的pLanguage数据 -->
+            <template slot-scope="slot">
+            <!-- <span v-for="item in slot.data">{{item}} - </span>-->
+            <span>{{slot.data.join(' - ')}}</span>
+                    
+                
+            </template>
+        </cpn>
+    </div>
+
+
+    <template id="cpn">
+        <div>
+            <!-- :data不是固定写法，也可以写:abc等等 -->
+            <slot :data="pLanguage">
+                <ul>
+                    <li v-for="item in pLanguage">{{item}}</li>
+                </ul>
+            </slot>
+        </div>
+    </template>
+
+    <script src="../js/vue.js"></script>
+
+    <script>
+        const app = new Vue({
+            el: '#app',
+            data: {},
+            methods: {},
+            components: {
+                cpn: {
+                    template: '#cpn',
+                    data() {
+                        return {
+                            pLanguage: ['JavaScript', 'C++', 'Java', 'C#', 'Python']
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

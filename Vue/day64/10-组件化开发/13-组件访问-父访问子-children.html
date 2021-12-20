@@ -10,8 +10,17 @@
 
 <body>
     <div id="app">
+        <cpn></cpn>
+        <cpn></cpn>
+        <cpn ref="abc"></cpn>
+        <button @click="btnClick">button</button>
 
     </div>
+
+
+    <templat id="cpn">
+        <div>我是子组件</div>
+    </templat>
 
     <script src="../js/vue.js"></script>
 
@@ -19,13 +28,31 @@
         const app = new Vue({
             el: '#app',
             data: {},
-            methods: {}
+            methods: {
+                btnClick() {
+                    // console.log(this.$children);
+                    // this.$children[0].showMessage()
+                    // ref是一个对象类型，默认是一个空对象，
+                    console.log(this.refs.abc);
+                }
+            },
+            components: {
+                cpn: {
+                    template: '#cpn',
+                    data(){
+                        return {
+                            name:'我是子组件的Name'
+                        }
+                    },
+                    methods: {
+                        showMessage() {
+                            console.log("hello");
+                        }
+                    }
+                }
+            }
         });
-    </script> 
+    </script>
 </body>
 
 </html>
-
-
-
-                                                 
