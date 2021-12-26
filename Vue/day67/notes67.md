@@ -160,7 +160,28 @@ router.afterEach((to,from)=>{
 ## 1.7. keep-alive
 
 > keep-alive是Vue内置的一个组件，可以使被包含的组价保留状态，或者避免重新渲染
+
+它有两个非常重要的属性：
+- include:字符串或者正则表达，只有匹配的组件会被缓存
+- exclude：字符串或者正则表达式，任何匹配的组件都不会被缓存
+
+
  
 
 router-view是一个组件，如果直接被包在keep-alive里面，所有路径匹配到的视图组件都会被缓存
+
+
+## 1.8. tabbar案例
+
+### 1.8.1. TabBar实现思路
+- 封装tabbar
+  - 自定义tabbar组件，在APP中使用
+  - 让tabbar出于底部，并且设置相关的样式
+- TabBar中显示的内容由外界决定
+  - 定义插槽
+  - flex布局平分TabBar
+- 自定义TabBarItem,可以传入图片和文字
+  - 定义TabBarItem,并且定义两个插槽：图片、文字
+  - 给两个插槽包装div，用于设置样式
+  - 填充插槽，实现底部TabBar的效果
 

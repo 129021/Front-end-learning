@@ -3,14 +3,18 @@
     <div id="nav">
       <router-link to="/home">首页</router-link> |
       <router-link to="/about">关于</router-link>|
-      <router-link v-bind:to="'/user/'+userId">用户</router-link>|   
-      <router-link :to="{path:'/profile',query:{name:'spongebob',age:3}}">档案</router-link> 
-
+      <router-link v-bind:to="'/user/' + userId">用户</router-link>|
+      <router-link
+        :to="{ path: '/profile', query: { name: 'spongebob', age: 3 } }"
+        >档案</router-link
+      >
 
       <!-- <button @click="userClick">用户</button>
       <button @click="profileClick">档案</button> -->
     </div>
-    <router-view/>
+    <!-- <keep-alive> -->
+      <router-view />
+    <!-- </keep-alive>  -->
   </div>
 </template>
 
@@ -39,25 +43,25 @@
 
 <script>
 export default {
-  name:'App',
-  data(){
+  name: "App",
+  data() {
     return {
-      userId:'abc'
-    }
+      userId: "abc",
+    };
   },
-  methods:{
-    userClick(){
-      this.$router.push('/user/'+this.userId)
+  methods: {
+    userClick() {
+      this.$router.push("/user/" + this.userId);
     },
-    profileClick(){
+    profileClick() {
       this.$router.push({
-        path:'/profile',
-        query:{
-          name:'name',
-          age:3
-        }
-      })
-    }
-  }
-}
+        path: "/profile",
+        query: {
+          name: "name",
+          age: 3,
+        },
+      });
+    },
+  },
+};
 </script>
