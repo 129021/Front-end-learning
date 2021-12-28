@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        let isResult1 = false
+        let isResult2 = false
+
+
+
+
+
+        // 请求1：
+        $ajax({
+            url: '',
+            success: function () {
+                console.log('结果1');
+                isResult1 = true
+                handlerResult()
+            }
+        })
+
+        // 请求2：
+        $ajax({
+            url: '',
+            success: function () {
+                console.log('结果2');
+                isResult2 = true
+                handlerResult()
+            }
+        })
+
+        function handlerResult() {
+            if (isResult1 && isResult2) {
+                //
+            }
+        }
+    </script>
+</body>
+
+</html>
