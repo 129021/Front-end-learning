@@ -322,5 +322,168 @@ Vuex就是为了提供这样一个在多个组件间共享状态的插件
 这些状态信息，我们可以都放在统一的地方，对他们进行保存和管理，而且他们还是响应式的
 
  
-## 2.3. 单界面的状态管理
- 
+## 2.3. 多界面的状态管理
+Vue已经帮我们做好了单个页面的状态管理，但是如果是多个界面呢？
+多个视图都依赖同一个状态（一个状态改了，多个界面需要进行更新）
+不同界面的Action都想修改同一个状态（Home.vue需要修改，Profile.vue也需要修改这个状态）
+
+也就是说对于某些状态（状态1/状态2/状态3）来说只属于我们某一个视图，但是也有状态（状态a/状态b/状态c）属于多个视图共同想要维护的
+状态1/状态2/状态3放在自己的房间中，自己管理自己用，没问题
+但是状态a/状态b/状态c我们希望交给一个大管家来统一帮助我们管理
+Vuex就是我们提供这个大管家的工具
+
+
+全局单例模式（大管家）
+我们现在要做的就是将共享的状态抽取出来，交给我们的大管家，统一进行管理
+之后，每个视图，按照规定，进行访问和修改等操作
+这就是Vuex背后的基本思想
+
+## 2.4. Vuex核心概念
+Vuex有几个比较核心的概念：
+- State
+- Getters
+- Mutation
+- Action
+- Module
+
+### 2.4.1. State单一状态树
+Vuex提出使用单一状态树：英文名称是Single Source Truth,可以翻译成单一数据源
+
+如果状态信息是保存到多个Store对象中的，那么之后的管理和维护等等都会变得非常困难
+所以vuex使用了单一状态树来管理应用层级的全部状态
+单一状态树能够让我们以最直接的方式找到某个状态的片段，而且在之后的维护和调试过程中，也可以非常方便的管理和维护
+
+### 2.4.2. Getters基本使用
+```js
+getters: {
+powerCounter(state) {
+    return state.counter * state.counter
+},
+more20stu(state) {
+    return state.students.filter(s => s.age > 15)
+},
+more20stuLength(state, getters) {
+    return getters.more20stu.length
+},
+moreAgeStu(state) {
+    return function (age) {
+    return state.students.filter(s => s.age > age)
+    }
+}
+},
+```
+### 2.4.3. Mutation状态更新
+Vuex的store状态的更新唯一方式:**提交Mutation**
+
+Mutation主要包含两部分：
+- 字符串的**事件类型**（type)
+- 一个**回调函数**（handler），该回调函数的第一个参数就是state
+
+##### Mutation定义方式：
+```js
+  mutations: {
+    // 方法
+    increment(state) {
+      state.counter++
+    },
+    decrement(state) {
+      state.counter--
+    }
+  },
+    incrementCount(state,count){
+      state.counter+=count
+```
+
+##### 通过Mutation更新：
+```js
+    addition() {
+      this.$store.commit("increment");
+    },
+    substraction() {
+      this.$store.commit("decrement");
+    },
+    addCount(count){
+      this.$store.commit("incrementCount",count)
+    }
+```
+
+##### Mutation传递参数
+在通过Mutation更新数据的时候，有可能我们希望携带一些额外的参数
+参数被称为是Mutation的载荷(Payload)
+
+Mutation中的代码：
+```js
+  addStudent(state,stu){
+      state.students.push(stu)
+    }
+```
+
+通过Mutation更新：
+```js
+    addStudent(){
+      const stu={id:105,name:'e',age:18}
+      this.$store.commit('addStudent',stu)
+    }
+```
+
+如果参数不是一个，这个时候，我么通常会以对象的形式传递参数，也就是payload是一个对象
+这个时候可以再从对象中取出相关的信息
+
+##### Mutation提交风格
+上面的通过commit进行提交的是一种普通的方式
+Vue还提供了另外一种风格，它是包含type属性的对象
+
+```js
+  addCount(count){
+      // 普通的提交
+      // this.$store.commit("incrementCount",count)
+      
+
+      // 特殊的提交风格
+      this.$store.commit({
+        type:'incrementCount',
+        count
+      })
+    },
+```
+**注意**：这里的特殊提交风格中的count就不是一个数字了，而是变成了一个payload，这个payload是以对象的形式进行传值的
+Mutation中最好写成以下形式：
+```js
+    incrementCount(state,payload){
+      state.counter+=payload.count
+    },
+```
+
+##### Mutation响应规则
+
+Vuex的store的state是响应式的，当state内的数据发生改变时，vue组件会自动更新
+这就要求我们必须遵守一些Vuex对应的规则：
+- 提前在store中初始化好所需的属性
+- 当给state中的对象添加新属性时，使用下面的方式：
+  - 方式1：使用Vue.set(obj,'newProp',123)
+  - 方式2：用新对象给旧对象重新赋值
+
+##### Mutation类型常量
+在Mutation中，我么定义了很多的事件类型（也就是其中的方法名称）
+当我们的项目增大时，Vuex管理的状态越来越多，需要更新状态的情况越来越多，那么意味着Mutation中的方法越来越多
+方法过多，使用者需要花大量的精力去记住这些方法，甚至是多个文件间来回切换，查看方法名称，甚至如果不是复制的时候，可能还会出现写错的情况
+
+
+##### Mutation同步函数
+通常情况下，Vuex要求我们Mutation的方法必须是同步方法
+- 主要的原因是当我们使用devtools时，devtools可以帮助我们捕捉mutation的快照
+- 但是如果是异步操作，那么devtools将不能很好的跟踪这个操作什么时候会被完成
+
+通常情况下，不要在mutation中进行异步的操作
+
+### 2.4.4. Action
+我们强调，不要用Mutation进行异步操作
+但是某些情况下，我们确实希望Vuex中进行一些异步操作，比如网络请求，必然是异步的，这个时候应该怎么办呢？
+这时候可以用Action来替代Mutation进行异步操作
+
+
+### 2.4.5. Module
+vue使用单一状态树，那么也意味着很多状态都会交给Vuex来管理
+当应用变得非常复杂时，store对象就有可能变得相当臃肿
+为了解决这个问题，Vuex允许我们将store分割成模块，而 每个模块拥有自己的state，mutation，action，getters等
+
