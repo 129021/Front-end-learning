@@ -31,3 +31,28 @@ module.exports = {
     }
 }
 ```
+
+### 统一代码格式
+创建.editorconfig文件(vscode在项目文件夹右键选择Generate .editorconfig)
+
+在文件中写入：
+```js
+# EditorConfig is awesome: https://EditorConfig.org
+
+# top-most EditorConfig file
+root = true
+
+[*]
+indent_style = space
+indent_size = 2
+end_of_line = lf
+charset = utf-8
+trim_trailing_whitespace = true
+insert_final_newline = true
+```
+
+### 项目的模块化划分
+tabbar和路由的映射关系
+
+更换标签页中的favicon图标：
+在public文件夹下的favicon.ico文件，用新的图标覆盖掉原来的就可以
